@@ -110,6 +110,15 @@ source .venv/bin/activate
 pytest
 ```
 
+## CI baseline
+
+GitHub Actions now runs a minimal monorepo CI baseline on pull requests and pushes to `main`:
+
+- `apps/api`: install dev dependencies and run `pytest -q`
+- `apps/web`: run `npm ci`, `npm test`, `npm run typecheck`, and `npm run build`
+
+This baseline intentionally skips lint as a required gate for now because linting is not consistently configured across the repo yet. Branch protection / required-status rules still need to be configured in GitHub settings.
+
 ### PostgreSQL-backed local dev
 
 Run the API against a local Postgres instance:
