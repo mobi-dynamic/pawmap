@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { PlaceCacheMissPanel } from '@/components/place-cache-miss-panel';
 import { RuleRow } from '@/components/rule-row';
 import { ShellCard } from '@/components/shell-card';
-import { StatePanel } from '@/components/state-panel';
 import { StatusBadge } from '@/components/status-badge';
 import { getPlacePageData } from '@/lib/place-repository';
 import {
@@ -19,22 +19,7 @@ export default async function PlaceDetailPage({ params }: { params: { placeSlug:
   const { resolveState, place, source } = await getPlacePageData(params.placeSlug);
 
   if (resolveState === 'cache_miss') {
-    return (
-      <StatePanel
-        tone="warning"
-        title="This place is not in PawMap yet"
-        description="We found the provider reference, but PawMap has not cached this place yet, so we cannot show a trusted policy page."
-        action={{ label: 'Back to results', href: '/' }}
-      >
-        <div className="space-y-3 rounded-2xl bg-white/70 p-4 text-sm text-slate-700">
-          <p className="font-medium text-slate-900">This is different from “Policy unknown.”</p>
-          <p>Unknown means the place exists in PawMap, but its dog policy is still unverified.</p>
-          <Link href="/" className="inline-flex items-center font-medium text-slate-900 underline underline-offset-4">
-            Search again
-          </Link>
-        </div>
-      </StatePanel>
-    );
+    return <PlaceCacheMissPanel />;
   }
 
   if (!place) {
