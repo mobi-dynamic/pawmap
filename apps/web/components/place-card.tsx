@@ -1,14 +1,13 @@
 import Link from 'next/link';
 
 import { StatusBadge } from '@/components/status-badge';
-import { getConfidenceLabel, getVerifiedAtLabel } from '@/lib/mock-data';
 import { PlaceSummary } from '@/lib/types';
 
 export function PlaceCard({ place }: { place: PlaceSummary }) {
   return (
     <Link
       href={`/place/${place.placeSlug}`}
-      className="block rounded-3xl border border-slate-200 bg-white p-5 shadow-panel transition hover:-translate-y-0.5 hover:border-slate-300"
+      className="block rounded-3xl border border-slate-200 bg-white p-5 shadow-panel transition hover:-translate-y-0.5 hover:border-slate-300 focus-visible:ring-2 focus-visible:ring-slate-900"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -23,8 +22,6 @@ export function PlaceCard({ place }: { place: PlaceSummary }) {
 
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-500">
         <span className="rounded-full bg-slate-100 px-3 py-1">{place.distanceLabel}</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">{getConfidenceLabel(place.confidenceScore)}</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">{getVerifiedAtLabel(place.verifiedAt)}</span>
       </div>
     </Link>
   );

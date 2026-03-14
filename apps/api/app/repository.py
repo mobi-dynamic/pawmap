@@ -62,38 +62,126 @@ class InMemoryRepository:
         self._report_counter = 1
 
     def _seed_places(self) -> dict[str, PlaceDetail]:
-        place = PlaceDetail(
-            id="plc_puppy_cafe",
-            googlePlaceId="ChIJ-puppy-cafe",
-            name="Puppy Cafe",
-            formattedAddress="123 Smith St, Fitzroy VIC",
-            lat=-37.798,
-            lng=144.978,
-            category="cafe",
-            dogPolicyStatus=DogPolicyStatus.RESTRICTED,
-            confidenceScore=82,
-            verifiedAt="2026-03-10T09:00:00Z",
-            websiteUrl="https://example.com",
-            petRules=PetRules(
+        places = [
+            PlaceDetail(
+                id="plc_puppy_cafe",
+                googlePlaceId="ChIJ-puppy-cafe",
+                name="Puppy Cafe",
+                formattedAddress="123 Smith St, Fitzroy VIC",
+                lat=-37.798,
+                lng=144.978,
+                category="cafe",
                 dogPolicyStatus=DogPolicyStatus.RESTRICTED,
-                indoorAllowed=False,
-                outdoorAllowed=True,
-                leashRequired=True,
-                sizeRestriction="Small dogs preferred",
-                breedRestriction=None,
-                serviceDogOnly=False,
-                notes="Dogs allowed in courtyard only.",
                 confidenceScore=82,
-                verificationSourceType=VerificationSourceType.OFFICIAL_WEBSITE,
-                verificationSourceUrl="https://example.com/policy",
                 verifiedAt="2026-03-10T09:00:00Z",
+                websiteUrl="https://example.com",
+                petRules=PetRules(
+                    dogPolicyStatus=DogPolicyStatus.RESTRICTED,
+                    indoorAllowed=False,
+                    outdoorAllowed=True,
+                    leashRequired=True,
+                    sizeRestriction="Small dogs preferred",
+                    breedRestriction=None,
+                    serviceDogOnly=False,
+                    notes="Dogs allowed in courtyard only.",
+                    confidenceScore=82,
+                    verificationSourceType=VerificationSourceType.OFFICIAL_WEBSITE,
+                    verificationSourceUrl="https://example.com/policy",
+                    verifiedAt="2026-03-10T09:00:00Z",
+                ),
             ),
-        )
-        return {place.id: place}
+            PlaceDetail(
+                id="plc_royal-bark",
+                googlePlaceId="ChIJ-royal-bark",
+                name="Royal Bark Cafe",
+                formattedAddress="12 Napier St, Fitzroy VIC",
+                lat=-37.7988,
+                lng=144.9794,
+                category="cafe",
+                dogPolicyStatus=DogPolicyStatus.RESTRICTED,
+                confidenceScore=92,
+                verifiedAt="2026-03-12T09:00:00Z",
+                websiteUrl="https://example.com/royal-bark",
+                petRules=PetRules(
+                    dogPolicyStatus=DogPolicyStatus.RESTRICTED,
+                    indoorAllowed=False,
+                    outdoorAllowed=True,
+                    leashRequired=True,
+                    sizeRestriction=None,
+                    breedRestriction=None,
+                    serviceDogOnly=False,
+                    notes="Dogs are welcome in the courtyard. Staff may pause access during busy brunch periods.",
+                    confidenceScore=92,
+                    verificationSourceType=VerificationSourceType.OFFICIAL_WEBSITE,
+                    verificationSourceUrl="https://example.com/royal-bark/policy",
+                    verifiedAt="2026-03-12T09:00:00Z",
+                ),
+            ),
+            PlaceDetail(
+                id="plc_pawsome-park",
+                googlePlaceId="ChIJ-pawsome-park",
+                name="Pawsome Park",
+                formattedAddress="88 River Walk, Richmond VIC",
+                lat=-37.8232,
+                lng=144.9971,
+                category="park",
+                dogPolicyStatus=DogPolicyStatus.ALLOWED,
+                confidenceScore=84,
+                verifiedAt="2026-03-14T09:00:00Z",
+                websiteUrl="https://example.com/pawsome-park",
+                petRules=PetRules(
+                    dogPolicyStatus=DogPolicyStatus.ALLOWED,
+                    indoorAllowed=None,
+                    outdoorAllowed=True,
+                    leashRequired=False,
+                    sizeRestriction=None,
+                    breedRestriction=None,
+                    serviceDogOnly=False,
+                    notes="Off-leash allowed inside the signed exercise area. Leash required on shared paths.",
+                    confidenceScore=84,
+                    verificationSourceType=VerificationSourceType.ONSITE_SIGNAGE,
+                    verificationSourceUrl=None,
+                    verifiedAt="2026-03-14T09:00:00Z",
+                ),
+            ),
+            PlaceDetail(
+                id="plc_market-hall",
+                googlePlaceId="ChIJ-market-hall",
+                name="Market Hall Grocer",
+                formattedAddress="40 Smith St, Collingwood VIC",
+                lat=-37.8021,
+                lng=144.9833,
+                category="retail",
+                dogPolicyStatus=DogPolicyStatus.UNKNOWN,
+                confidenceScore=None,
+                verifiedAt=None,
+                websiteUrl=None,
+                petRules=PetRules(
+                    dogPolicyStatus=DogPolicyStatus.UNKNOWN,
+                    indoorAllowed=None,
+                    outdoorAllowed=None,
+                    leashRequired=None,
+                    sizeRestriction=None,
+                    breedRestriction=None,
+                    serviceDogOnly=None,
+                    notes="We need a stronger source before showing a dog policy.",
+                    confidenceScore=None,
+                    verificationSourceType=None,
+                    verificationSourceUrl=None,
+                    verifiedAt=None,
+                ),
+            ),
+        ]
+        return {place.id: place for place in places}
 
     def search_places(self, query: str, limit: int) -> list[PlaceSummary]:
-        lowered = query.lower()
-        items = [self._to_summary(place) for place in self._places.values() if lowered in place.name.lower()]
+        lowered = query.strip().lower()
+        items = [
+            self._to_summary(place)
+            for place in self._places.values()
+            if self._matches_search(place, lowered)
+        ]
+        items.sort(key=self._search_sort_key)
         return items[:limit]
 
     def nearby_places(
@@ -182,6 +270,29 @@ class InMemoryRepository:
         return None
 
     @staticmethod
+    def _matches_search(place: PlaceDetail, lowered_query: str) -> bool:
+        if not lowered_query:
+            return True
+        haystacks = [
+            place.name,
+            place.formattedAddress,
+            place.category or "",
+            place.petRules.notes or "",
+        ]
+        return any(lowered_query in value.lower() for value in haystacks)
+
+    @staticmethod
+    def _search_sort_key(item: PlaceSummary) -> tuple[int, int, str]:
+        priority = {
+            DogPolicyStatus.RESTRICTED: 0,
+            DogPolicyStatus.ALLOWED: 1,
+            DogPolicyStatus.NOT_ALLOWED: 2,
+            DogPolicyStatus.UNKNOWN: 3,
+        }
+        verified_at_sort = int(item.verifiedAt.timestamp()) if item.verifiedAt is not None else 0
+        return (priority[item.dogPolicyStatus], -verified_at_sort, item.name.lower())
+
+    @staticmethod
     def _to_summary(place: PlaceDetail) -> PlaceSummary:
         return PlaceSummary(
             id=place.id,
@@ -223,8 +334,13 @@ class PostgresRepository:
             join pet_rules pr on pr.place_id = p.id
             left join place_provider_refs ppr
               on ppr.place_id = p.id and ppr.provider = 'google_places'
-            where p.name ilike %(query)s or p.formatted_address ilike %(query)s
-            order by p.updated_at desc nulls last, p.created_at desc
+            where (
+              p.name ilike %(query)s
+              or p.formatted_address ilike %(query)s
+              or coalesce(p.category, '') ilike %(query)s
+              or coalesce(pr.notes, '') ilike %(query)s
+            )
+            order by pr.verified_at desc nulls last, p.updated_at desc nulls last, p.created_at desc
             limit %(limit)s
         """
         with self._connect() as conn, conn.cursor() as cur:

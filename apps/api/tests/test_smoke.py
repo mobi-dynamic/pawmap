@@ -16,6 +16,34 @@ def teardown_function() -> None:
     app.dependency_overrides.clear()
 
 
+def test_search_returns_integration_ready_cards_for_frontend_wiring() -> None:
+    client, _ = make_client()
+
+    response = client.get("/places/search", params={"q": "fitzroy", "limit": 10})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert [item["id"] for item in payload["items"]] == ["plc_royal-bark", "plc_puppy_cafe"]
+    assert payload["items"][0]["googlePlaceId"] == "ChIJ-royal-bark"
+    assert payload["items"][0]["dogPolicyStatus"] == "restricted"
+    assert payload["items"][0]["confidenceScore"] == 92
+
+
+def test_place_detail_supports_unknown_policy_state_for_frontend() -> None:
+    client, _ = make_client()
+
+    response = client.get("/places/plc_market-hall")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["id"] == "plc_market-hall"
+    assert payload["dogPolicyStatus"] == "unknown"
+    assert payload["petRules"]["dogPolicyStatus"] == "unknown"
+    assert payload["petRules"]["confidenceScore"] is None
+    assert payload["petRules"]["verificationSourceType"] is None
+    assert payload["petRules"]["verifiedAt"] is None
+
+
 def test_report_submission_requires_authentication() -> None:
     client, _ = make_client()
 

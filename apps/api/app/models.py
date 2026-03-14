@@ -47,8 +47,8 @@ class PetRules(BaseModel):
     breedRestriction: str | None = None
     serviceDogOnly: bool | None = None
     notes: str | None = None
-    confidenceScore: int = Field(ge=0, le=100)
-    verificationSourceType: VerificationSourceType
+    confidenceScore: int | None = Field(default=None, ge=0, le=100)
+    verificationSourceType: VerificationSourceType | None = None
     verificationSourceUrl: HttpUrl | None = None
     verifiedAt: datetime | None = None
 
@@ -62,7 +62,7 @@ class PlaceSummary(BaseModel):
     lng: float
     category: str | None = None
     dogPolicyStatus: DogPolicyStatus
-    confidenceScore: int = Field(ge=0, le=100)
+    confidenceScore: int | None = Field(default=None, ge=0, le=100)
     verifiedAt: datetime | None = None
 
 
