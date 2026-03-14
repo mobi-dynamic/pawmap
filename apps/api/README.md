@@ -29,7 +29,7 @@ Then open:
 - Web: <http://127.0.0.1:3000>
 - API docs: <http://127.0.0.1:8000/docs>
 
-The API container runs `python -m app.db bootstrap` on startup, and migrations are tracked in `schema_migrations` so repeated starts stay safe.
+The API container runs `python -m app.db bootstrap` on startup, exposes a Compose healthcheck on `/health`, and migrations are tracked in `schema_migrations` so repeated starts stay safe.
 
 ### In-memory fallback
 

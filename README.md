@@ -72,6 +72,7 @@ What the stack does for you:
 
 - starts Postgres
 - bootstraps API migrations safely on startup
+- waits for the API health endpoint before starting the web app
 - seeds one stable local-dev place
 - points the web app at the API automatically inside Compose
 
