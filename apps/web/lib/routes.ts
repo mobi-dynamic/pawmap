@@ -16,13 +16,14 @@ export function buildGoogleResolvePath(googlePlaceId: string) {
 }
 
 export function parsePlaceSlug(placeSlug: string) {
-  const separatorIndex = placeSlug.lastIndexOf('--plc_');
+  const separatorIndex = placeSlug.lastIndexOf('--');
   if (separatorIndex === -1) {
     return { baseSlug: placeSlug, placeId: null };
   }
 
+  const placeId = placeSlug.slice(separatorIndex + 2);
   return {
     baseSlug: placeSlug.slice(0, separatorIndex),
-    placeId: placeSlug.slice(separatorIndex + 2),
+    placeId: placeId || null,
   };
 }

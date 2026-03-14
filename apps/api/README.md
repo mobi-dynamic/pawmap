@@ -15,6 +15,22 @@ Minimal FastAPI scaffold for the PawMap MVP.
 
 ## Run locally
 
+### Full local stack with Docker Compose
+
+From the repo root:
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+Then open:
+
+- Web: <http://127.0.0.1:3000>
+- API docs: <http://127.0.0.1:8000/docs>
+
+The API container runs `python -m app.db bootstrap` on startup, and migrations are tracked in `schema_migrations` so repeated starts stay safe.
+
 ### In-memory fallback
 
 ```bash

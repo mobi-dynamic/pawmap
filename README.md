@@ -51,6 +51,42 @@ Answer one question fast:
 - Maps/places: Google Maps Platform / Google Places
 - Hosting: Vercel + Railway/Render + managed Postgres
 
+## Local MVP stack quick start
+
+### One command with Docker Compose
+
+This is the easiest way to run the current MVP as a coherent `web + api + postgres` stack.
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+Then open:
+
+- Web: <http://127.0.0.1:3000>
+- API docs: <http://127.0.0.1:8000/docs>
+- API health: <http://127.0.0.1:8000/health>
+
+What the stack does for you:
+
+- starts Postgres
+- bootstraps API migrations safely on startup
+- seeds one stable local-dev place
+- points the web app at the API automatically inside Compose
+
+To stop it:
+
+```bash
+docker compose down
+```
+
+To reset the local database too:
+
+```bash
+docker compose down -v
+```
+
 ## API quick start
 
 ### In-memory mode
