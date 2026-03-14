@@ -5,15 +5,15 @@ import { RuleRow } from '@/components/rule-row';
 import { ShellCard } from '@/components/shell-card';
 import { StatePanel } from '@/components/state-panel';
 import { StatusBadge } from '@/components/status-badge';
-import { getPlaceBySlug, resolveStateBySlug } from '@/lib/mock-data';
+import { getConfidenceLabel, getPlaceBySlug, getSourceLabel, getVerifiedAtLabel, resolveStateByPlaceSlug } from '@/lib/mock-data';
 
 function formatBoolean(value: boolean | null, unknownLabel = 'Unknown') {
   if (value === null) return unknownLabel;
   return value ? 'Yes' : 'No';
 }
 
-export default function PlaceDetailPage({ params }: { params: { placeId: string } }) {
-  const resolveState = resolveStateBySlug[params.placeId];
+export default function PlaceDetailPage({ params }: { params: { placeSlug: string } }) {
+  const resolveState = resolveStateByPlaceSlug[params.placeSlug];
 
   if (!resolveState) {
     notFound();
@@ -35,7 +35,7 @@ export default function PlaceDetailPage({ params }: { params: { placeId: string 
     );
   }
 
-  const place = getPlaceBySlug(params.placeId);
+  const place = getPlaceBySlug(params.placeSlug);
 
   if (!place) {
     notFound();
@@ -75,15 +75,15 @@ export default function PlaceDetailPage({ params }: { params: { placeId: string 
           <div className="space-y-3">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Confidence</p>
-              <p className="mt-1 text-base font-medium text-slate-900">{place.petRules.confidenceLabel}</p>
+              <p className="mt-1 text-base font-medium text-slate-900">{getConfidenceLabel(place.petRules.confidenceScore)}</p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Source</p>
-              <p className="mt-1 text-base font-medium text-slate-900">{place.petRules.verificationSourceLabel}</p>
+              <p className="mt-1 text-base font-medium text-slate-900">{getSourceLabel(place.petRules.verificationSourceType)}</p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Last checked</p>
-              <p className="mt-1 text-base font-medium text-slate-900">{place.petRules.verifiedAtLabel}</p>
+              <p className="mt-1 text-base font-medium text-slate-900">{getVerifiedAtLabel(place.petRules.verifiedAt)}</p>
             </div>
             {place.petRules.verificationSourceUrl ? (
               <a

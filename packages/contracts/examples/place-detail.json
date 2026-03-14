@@ -1,0 +1,24 @@
+{
+  "id": "plc_123",
+  "googlePlaceId": "ChIJ123example",
+  "name": "Puppy Cafe",
+  "formattedAddress": "123 Smith St, Fitzroy VIC",
+  "lat": -37.798,
+  "lng": 144.978,
+  "category": "cafe",
+  "websiteUrl": "https://example.com",
+  "petRules": {
+    "dogPolicyStatus": "restricted",
+    "indoorAllowed": false,
+    "outdoorAllowed": true,
+    "leashRequired": true,
+    "sizeRestriction": "Small dogs preferred",
+    "breedRestriction": null,
+    "serviceDogOnly": false,
+    "notes": "Dogs allowed in courtyard only.",
+    "confidenceScore": 82,
+    "verificationSourceType": "official_website",
+    "verificationSourceUrl": "https://example.com/policy",
+    "verifiedAt": "2026-03-10T09:00:00Z"
+  }
+}

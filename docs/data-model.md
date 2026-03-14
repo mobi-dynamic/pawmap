@@ -9,7 +9,7 @@ This document refines the architecture outline into an MVP-ready relational sche
 - Standardize provider references on Google Places for MVP
 - Store the currently published dog-rule truth separately from user-submitted changes
 - Make moderation explicit instead of burying it in ad hoc fields
-- Keep report submission authenticated-only
+- Keep report submission authenticated-only, while full user account features remain deferred
 
 ## Core entities
 
@@ -63,7 +63,7 @@ Current published rule state for a place.
 | `service_dog_only` | boolean null | |
 | `notes` | text null | Human-readable nuance |
 | `confidence_score` | integer | 0-100 |
-| `verification_source_type` | text | `official_website`, `google_places`, `user_report`, `staff_confirmation`, `onsite_signage`, `other` |
+| `verification_source_type` | text | `official_website`, `direct_contact`, `user_report`, `onsite_signage`, `third_party_listing`, `other` |
 | `verification_source_url` | text null | |
 | `verified_at` | timestamptz null | When evidence was last checked |
 | `published_at` | timestamptz | When this rule state became live |
@@ -80,7 +80,7 @@ Authenticated user-submitted proposed changes awaiting moderation or preserved a
 | `id` | UUID PK | |
 | `place_id` | UUID FK -> `places.id` | |
 | `reporter_user_id` | UUID | Required because reports are auth-only in MVP |
-| `status` | text | `submitted`, `under_review`, `approved`, `rejected` |
+| `status` | text | `pending`, `approved`, `rejected` |
 | `proposed_dog_policy_status` | text null | |
 | `proposed_indoor_allowed` | boolean null | |
 | `proposed_outdoor_allowed` | boolean null | |

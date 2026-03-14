@@ -82,7 +82,7 @@ def test_report_submission_and_moderation_flow_updates_place_rules() -> None:
     )
     assert list_response.status_code == 200
     assert list_response.json()["items"][0]["id"] == report_id
-    assert list_response.json()["items"][0]["status"] == "submitted"
+    assert list_response.json()["items"][0]["status"] == "pending"
 
     approve_response = client.post(
         f"/admin/reports/{report_id}/approve",

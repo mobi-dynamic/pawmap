@@ -362,7 +362,7 @@ class PostgresRepository:
             "id": report_id,
             "place_id": payload.placeId,
             "reporter_user_id": reporter_user_id,
-            "status": ReportStatus.SUBMITTED.value,
+            "status": ReportStatus.PENDING.value,
             "proposed_dog_policy_status": payload.proposedDogPolicyStatus.value if payload.proposedDogPolicyStatus else None,
             "proposed_indoor_allowed": payload.proposedIndoorAllowed,
             "proposed_outdoor_allowed": payload.proposedOutdoorAllowed,

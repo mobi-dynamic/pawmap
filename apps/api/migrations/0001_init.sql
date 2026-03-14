@@ -39,7 +39,7 @@ create table pet_rules (
   notes text,
   confidence_score integer not null check (confidence_score between 0 and 100),
   verification_source_type text not null check (
-    verification_source_type in ('official_website', 'google_places', 'user_report', 'staff_confirmation', 'onsite_signage', 'other')
+    verification_source_type in ('official_website', 'direct_contact', 'user_report', 'onsite_signage', 'third_party_listing', 'other')
   ),
   verification_source_url text,
   verified_at timestamptz,
@@ -51,7 +51,7 @@ create table user_reports (
   id uuid primary key default gen_random_uuid(),
   place_id uuid not null references places(id) on delete cascade,
   reporter_user_id uuid not null,
-  status text not null check (status in ('submitted', 'under_review', 'approved', 'rejected')),
+  status text not null check (status in ('pending', 'approved', 'rejected')),
   proposed_dog_policy_status text check (proposed_dog_policy_status in ('allowed', 'restricted', 'not_allowed', 'unknown')),
   proposed_indoor_allowed boolean,
   proposed_outdoor_allowed boolean,

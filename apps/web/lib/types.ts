@@ -8,42 +8,46 @@ export type VerificationSourceType =
   | 'third_party_listing'
   | 'other';
 
-export type PlaceSummary = {
-  id: string;
-  slug: string;
+export type ReportStatus = 'pending' | 'approved' | 'rejected';
+
+export type ResolveState = 'ready' | 'cache_miss' | 'unknown';
+
+export type PlaceRouteRef = {
+  placeId: string;
+  placeSlug: string;
+};
+
+export type PlaceSummary = PlaceRouteRef & {
   name: string;
   formattedAddress: string;
   category: string;
   distanceLabel: string;
   dogPolicyStatus: DogPolicyStatus;
-  confidenceLabel: string;
-  verifiedAtLabel: string;
+  confidenceScore: number | null;
+  verifiedAt: string | null;
   summary: string;
 };
 
-export type PlaceDetail = {
-  id: string;
-  slug: string;
+export type PlacePetRules = {
+  dogPolicyStatus: DogPolicyStatus;
+  indoorAllowed: boolean | null;
+  outdoorAllowed: boolean | null;
+  leashRequired: boolean | null;
+  sizeRestriction: string | null;
+  breedRestriction: string | null;
+  serviceDogOnly: boolean | null;
+  notes: string | null;
+  confidenceScore: number | null;
+  verificationSourceType: VerificationSourceType | null;
+  verificationSourceUrl: string | null;
+  verifiedAt: string | null;
+};
+
+export type PlaceDetail = PlaceRouteRef & {
   name: string;
   formattedAddress: string;
   category: string;
   summary: string;
   websiteUrl?: string;
-  petRules: {
-    dogPolicyStatus: DogPolicyStatus;
-    indoorAllowed: boolean | null;
-    outdoorAllowed: boolean | null;
-    leashRequired: boolean | null;
-    sizeRestriction: string | null;
-    breedRestriction: string | null;
-    serviceDogOnly: boolean | null;
-    notes: string | null;
-    confidenceLabel: string;
-    verificationSourceType: VerificationSourceType | null;
-    verificationSourceLabel: string;
-    verificationSourceUrl: string | null;
-    verifiedAtLabel: string;
-  };
+  petRules: PlacePetRules;
 };
-
-export type ResolveState = 'ready' | 'cache_miss' | 'unknown';

@@ -17,7 +17,7 @@ Optimize for **speed to first usable MVP**, not flexibility for hypothetical sca
 - Backend API: FastAPI
 - Database: PostgreSQL
 - Geospatial: plain lat/lng first; add PostGIS only if nearby/map queries become limiting
-- Auth: defer end-user auth for initial MVP
+- Auth: keep full end-user account flows out of MVP, but require authenticated identity for `POST /reports`
 - Hosting:
   - Vercel for `apps/web`
   - Railway or Render for `apps/api`
@@ -60,7 +60,7 @@ Optimize for **speed to first usable MVP**, not flexibility for hypothetical sca
 - User reports
 - Admin moderation
 
-Favorites are deferred until end-user auth exists.
+Favorites are deferred from MVP even though report submission requires authenticated identity.
 
 ## 6. App boundaries
 
@@ -149,13 +149,22 @@ Unique constraint:
 ### user_reports
 - id
 - place_id
-- proposed_changes
+- reporter_user_id
+- proposed_dog_policy_status
+- proposed_indoor_allowed
+- proposed_outdoor_allowed
+- proposed_leash_required
+- proposed_size_restriction
+- proposed_breed_restriction
+- proposed_service_dog_only
+- proposed_notes
 - evidence_url
-- contact_email
+- reporter_comment
 - status
+- review_notes
+- reviewed_by_user_id
 - created_at
 - reviewed_at
-- reviewer_note
 
 ## 9. API priorities
 
@@ -173,6 +182,9 @@ Priority order:
   - `verificationSourceType`: `official_website | direct_contact | user_report | onsite_signage | third_party_listing | other`
   - `reportStatus`: `pending | approved | rejected`
 
+Contract source of truth lives in `packages/contracts/`, with docs and mocks expected to follow those shared values.
+- `POST /reports` is auth-required in MVP; read endpoints remain public
+
 ## 10. Search and identity flow
 
 1. User searches by keyword or map area
@@ -183,8 +195,9 @@ Priority order:
 6. API returns a merged app-level response
 
 Canonical identity rules:
-- internal `place.id` is the app-level ID
+- internal `place.id` is the app-level API ID
 - external identity is stored as `provider + provider_place_id`
+- web detail routes may use a human-readable slug, but slug is not the canonical API identity
 - do not use provider IDs as the public domain model
 
 ## 11. Deployment baseline
@@ -223,4 +236,4 @@ Do not add yet:
 - Redis unless rate limiting forces it
 - Kubernetes
 - complex plugin/provider marketplaces
-- full end-user auth flows
+- full end-user auth/account management flows beyond the minimal authenticated identity required for `POST /reports`

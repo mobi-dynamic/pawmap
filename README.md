@@ -29,6 +29,8 @@ Answer one question fast:
 ## Initial repo structure
 
 - `apps/api` — FastAPI backend scaffold and SQL migrations
+- `apps/web` — Next.js MVP shell with slug-based place routes
+- `packages/contracts` — shared enums and example payloads; source of truth for contract decisions
 - `docs/` — PRD, architecture, API contract, data model, ADRs
 - `tasks/` — task logs, backlog, release checklist
 - `.github/` — PR and issue templates
@@ -62,6 +64,14 @@ uvicorn app.main:app --reload
 ```
 
 Then open <http://127.0.0.1:8000/docs>.
+
+Run the backend verification suite with:
+
+```bash
+cd apps/api
+source .venv/bin/activate
+pytest
+```
 
 ### PostgreSQL-backed local dev
 

@@ -36,7 +36,7 @@ export default function HomePage() {
           <ShellCard title="What this shell proves" eyebrow="MVP slice">
             <ul className="space-y-2">
               <li>• Search landing page structure</li>
-              <li>• Clean domain-safe place cards</li>
+              <li>• Canonical API IDs with slug-based web routes</li>
               <li>• Detail shells for known, unknown, and cache-miss states</li>
             </ul>
           </ShellCard>
@@ -50,7 +50,7 @@ export default function HomePage() {
 
       <section className="grid gap-4 lg:grid-cols-3">
         {featuredPlaces.map((place) => (
-          <PlaceCard key={place.id} place={place} />
+          <PlaceCard key={place.placeId} place={place} />
         ))}
       </section>
 

@@ -2,6 +2,8 @@
 
 This document defines the first reviewable HTTP contract for the modular-monolith MVP.
 
+Shared enum values and example payloads live under `packages/contracts/` and should be treated as the source of truth for docs, frontend mocks, and backend models.
+
 ## Principles
 
 - Public read endpoints should be fast and cacheable
@@ -174,7 +176,7 @@ List pending and recent reports for moderators.
 
 #### Query params
 
-- `status` (optional)
+- `status` (optional: `pending` | `approved` | `rejected`)
 - `limit` (optional, default 20, max 100)
 - `cursor` (optional)
 

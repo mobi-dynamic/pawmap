@@ -16,16 +16,15 @@ class DogPolicyStatus(str, Enum):
 
 class VerificationSourceType(str, Enum):
     OFFICIAL_WEBSITE = "official_website"
-    GOOGLE_PLACES = "google_places"
+    DIRECT_CONTACT = "direct_contact"
     USER_REPORT = "user_report"
-    STAFF_CONFIRMATION = "staff_confirmation"
     ONSITE_SIGNAGE = "onsite_signage"
+    THIRD_PARTY_LISTING = "third_party_listing"
     OTHER = "other"
 
 
 class ReportStatus(str, Enum):
-    SUBMITTED = "submitted"
-    UNDER_REVIEW = "under_review"
+    PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
 
@@ -171,7 +170,7 @@ def serialize_report_payload(payload: ReportCreateRequest, report_id: str, repor
     return {
         "id": report_id,
         "placeId": payload.placeId,
-        "status": ReportStatus.SUBMITTED,
+        "status": ReportStatus.PENDING,
         "reporterUserId": reporter_user_id,
         "createdAt": utcnow(),
         **data,
