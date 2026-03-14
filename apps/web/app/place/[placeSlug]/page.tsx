@@ -5,86 +5,116 @@ import { RuleRow } from '@/components/rule-row';
 import { ShellCard } from '@/components/shell-card';
 import { StatePanel } from '@/components/state-panel';
 import { StatusBadge } from '@/components/status-badge';
-import { getConfidenceLabel, getPlaceBySlug, getSourceLabel, getVerifiedAtLabel, resolveStateByPlaceSlug } from '@/lib/mock-data';
+import { getPlacePageData } from '@/lib/place-repository';
+import {
+  formatRuleValue,
+  getRuleBullets,
+  getSourceLabel,
+  getTrustSummary,
+  getVerdictSentence,
+  getVerifiedAtLabel,
+} from '@/lib/view-models';
 
-function formatBoolean(value: boolean | null, unknownLabel = 'Unknown') {
-  if (value === null) return unknownLabel;
-  return value ? 'Yes' : 'No';
-}
-
-export default function PlaceDetailPage({ params }: { params: { placeSlug: string } }) {
-  const resolveState = resolveStateByPlaceSlug[params.placeSlug];
-
-  if (!resolveState) {
-    notFound();
-  }
+export default async function PlaceDetailPage({ params }: { params: { placeSlug: string } }) {
+  const { resolveState, place, source } = await getPlacePageData(params.placeSlug);
 
   if (resolveState === 'cache_miss') {
     return (
       <StatePanel
         tone="warning"
-        title="Place not cached yet"
-        description="PawMap found this provider reference, but we do not have a canonical place record cached yet. Show a dedicated cache-miss screen rather than pretending the place is unknown."
-        action={{ label: 'Back to search', href: '/' }}
+        title="This place is not in PawMap yet"
+        description="We found the provider reference, but PawMap has not cached this place yet, so we cannot show a trusted policy page."
+        action={{ label: 'Back to results', href: '/' }}
       >
-        <div className="rounded-2xl bg-white/70 p-4 text-sm text-slate-700">
-          <p className="font-medium text-slate-900">Suggested API mapping</p>
-          <p className="mt-2">`GET /places/resolve/google/:googlePlaceId` → `404 PLACE_CACHE_MISS`</p>
+        <div className="space-y-3 rounded-2xl bg-white/70 p-4 text-sm text-slate-700">
+          <p className="font-medium text-slate-900">This is different from “Policy unknown.”</p>
+          <p>Unknown means the place exists in PawMap, but its dog policy is still unverified.</p>
+          <Link href="/" className="inline-flex items-center font-medium text-slate-900 underline underline-offset-4">
+            Search again
+          </Link>
         </div>
       </StatePanel>
     );
   }
-
-  const place = getPlaceBySlug(params.placeSlug);
 
   if (!place) {
     notFound();
   }
 
   const isUnknown = place.petRules.dogPolicyStatus === 'unknown';
+  const verdictSentence = getVerdictSentence(place.petRules);
+  const trustSummary = getTrustSummary(place.petRules);
+  const ruleBullets = getRuleBullets(place.petRules);
 
   return (
     <div className="space-y-6">
-      <Link href="/" className="inline-flex items-center text-sm font-medium text-slate-500">
-        ← Back to search
+      <Link href="/" className="inline-flex items-center text-sm font-medium text-slate-500 transition hover:text-slate-900">
+        ← Back to results
       </Link>
 
-      <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-panel">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
-              <p className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">{place.category}</p>
-              <h1 className="mt-3 text-4xl font-semibold text-slate-900">{place.name}</h1>
-              <p className="mt-3 text-base text-slate-600">{place.formattedAddress}</p>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-700">{place.summary}</p>
-            </div>
-            <StatusBadge status={place.petRules.dogPolicyStatus} />
+      <section className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-panel">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div>
+            <h1 className="text-4xl font-semibold text-slate-900">{place.name}</h1>
+            <p className="mt-3 text-base text-slate-600">{place.formattedAddress}</p>
+            <p className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">{place.category}</p>
           </div>
-
-          {isUnknown ? (
-            <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-slate-900">No trustworthy public answer yet</p>
-              <p className="mt-2 text-sm text-slate-600">
-                PawMap keeps this place in an explicit unknown state until a reliable source is confirmed.
-              </p>
-            </div>
-          ) : null}
+          <StatusBadge status={place.petRules.dogPolicyStatus} />
         </div>
+      </section>
 
-        <ShellCard title="Verification snapshot" eyebrow="Trust">
+      <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <ShellCard title={isUnknown ? 'No trustworthy public answer yet' : verdictSentence} eyebrow="Primary decision">
+          {isUnknown ? (
+            <div className="space-y-4">
+              <p className="text-sm leading-6 text-slate-700">
+                PawMap has not verified this place with a reliable source. Treat dog access as unconfirmed before visiting.
+              </p>
+              {place.websiteUrl ? (
+                <a
+                  href={place.websiteUrl}
+                  className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+                >
+                  Check venue website
+                </a>
+              ) : null}
+              <p className="text-sm text-slate-500">User reports may exist but are not published until reviewed.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <p className="text-base font-medium text-slate-900">{trustSummary}</p>
+              {ruleBullets.length > 0 ? (
+                <ul className="space-y-2 text-sm text-slate-700">
+                  {ruleBullets.map((bullet) => (
+                    <li key={bullet}>• {bullet}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          )}
+        </ShellCard>
+
+        <ShellCard title={isUnknown ? 'Verification snapshot' : 'Verification'} eyebrow="Trust">
           <div className="space-y-3">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Confidence</p>
-              <p className="mt-1 text-base font-medium text-slate-900">{getConfidenceLabel(place.petRules.confidenceScore)}</p>
-            </div>
-            <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Source</p>
-              <p className="mt-1 text-base font-medium text-slate-900">{getSourceLabel(place.petRules.verificationSourceType)}</p>
+              <p className="mt-1 text-base font-medium text-slate-900">
+                {isUnknown ? 'No reliable evidence yet' : getSourceLabel(place.petRules.verificationSourceType)}
+              </p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Last checked</p>
               <p className="mt-1 text-base font-medium text-slate-900">{getVerifiedAtLabel(place.petRules.verifiedAt)}</p>
             </div>
+            {!isUnknown ? (
+              <p className="text-sm text-slate-600">
+                {place.petRules.verificationSourceType === 'user_report'
+                  ? 'Based on user-submitted evidence.'
+                  : 'Shown near the verdict so trust is visible before the detailed rules.'}
+              </p>
+            ) : (
+              <p className="text-sm text-slate-600">Treat this as unconfirmed before visiting.</p>
+            )}
             {place.petRules.verificationSourceUrl ? (
               <a
                 href={place.petRules.verificationSourceUrl}
@@ -93,27 +123,29 @@ export default function PlaceDetailPage({ params }: { params: { placeSlug: strin
                 View source
               </a>
             ) : null}
+            <p className="text-xs text-slate-500">Data source: {source === 'api' ? 'Live API' : 'Mock fallback'}</p>
           </div>
         </ShellCard>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-        <ShellCard title="Dog rules" eyebrow="Published policy">
+        <ShellCard title="Rule breakdown" eyebrow="Published policy">
           <dl>
             <RuleRow label="Dog policy" value={place.petRules.dogPolicyStatus.replace('_', ' ')} />
-            <RuleRow label="Indoor allowed" value={formatBoolean(place.petRules.indoorAllowed)} />
-            <RuleRow label="Outdoor allowed" value={formatBoolean(place.petRules.outdoorAllowed)} />
-            <RuleRow label="Leash required" value={formatBoolean(place.petRules.leashRequired)} />
-            <RuleRow label="Service dog only" value={formatBoolean(place.petRules.serviceDogOnly)} />
-            <RuleRow label="Size restriction" value={place.petRules.sizeRestriction ?? 'None published'} />
-            <RuleRow label="Breed restriction" value={place.petRules.breedRestriction ?? 'None published'} />
+            <RuleRow label="Indoor allowed" value={formatRuleValue(place.petRules.indoorAllowed)} />
+            <RuleRow label="Outdoor allowed" value={formatRuleValue(place.petRules.outdoorAllowed)} />
+            <RuleRow label="Leash required" value={formatRuleValue(place.petRules.leashRequired)} />
+            <RuleRow label="Service dog only" value={formatRuleValue(place.petRules.serviceDogOnly)} />
+            <RuleRow label="Size restriction" value={formatRuleValue(place.petRules.sizeRestriction, { nullLabel: 'Not published' })} />
+            <RuleRow label="Breed restriction" value={formatRuleValue(place.petRules.breedRestriction, { nullLabel: 'Not published' })} />
+            <RuleRow label="Notes" value={formatRuleValue(place.petRules.notes, { nullLabel: 'Not published' })} />
           </dl>
         </ShellCard>
 
-        <ShellCard title="Notes" eyebrow="Operational detail">
+        <ShellCard title="Notes / caveats" eyebrow="Operational detail">
           <p className="leading-6 text-slate-700">{place.petRules.notes ?? 'No additional notes published yet.'}</p>
           <div className="mt-5 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-500">
-            Report submission stays out of this slice because MVP reports require auth.
+            MVP stays read-only here. Auth-gated reports can layer in later without changing the decision hierarchy.
           </div>
         </ShellCard>
       </section>

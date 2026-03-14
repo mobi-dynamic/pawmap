@@ -18,6 +18,7 @@ export type PlaceRouteRef = {
 };
 
 export type PlaceSummary = PlaceRouteRef & {
+  googlePlaceId?: string;
   name: string;
   formattedAddress: string;
   category: string;

@@ -6,6 +6,9 @@
   "lat": -37.798,
   "lng": 144.978,
   "category": "cafe",
+  "dogPolicyStatus": "restricted",
+  "confidenceScore": 82,
+  "verifiedAt": "2026-03-10T09:00:00Z",
   "websiteUrl": "https://example.com",
   "petRules": {
     "dogPolicyStatus": "restricted",

@@ -17,7 +17,7 @@ Shared enum values and example payloads live under `packages/contracts/` and sho
 ## Resource summary
 
 - `PlaceSummary` — compact search result for map/listing
-- `PlaceDetail` — place metadata + current dog rule state
+- `PlaceDetail` — place metadata + current dog rule state, including top-level summary fields for list/detail consistency (`dogPolicyStatus`, `confidenceScore`, `verifiedAt`) plus the nested `petRules` object
 - `UserReportSubmission` — authenticated user-proposed rule update payload
 - `ModerationDecision` — admin approve/reject action
 - `ApiError` — structured error payload for not-found/auth/validation states
@@ -117,6 +117,9 @@ Returns canonical place metadata and the current published dog-rule record.
   "lat": -37.798,
   "lng": 144.978,
   "category": "cafe",
+  "dogPolicyStatus": "restricted",
+  "confidenceScore": 82,
+  "verifiedAt": "2026-03-10T09:00:00Z",
   "websiteUrl": "https://example.com",
   "petRules": {
     "dogPolicyStatus": "restricted",
