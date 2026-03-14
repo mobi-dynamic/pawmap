@@ -30,6 +30,7 @@ export function adaptSearchItem(item: ApiSearchItem): PlaceSummary {
   return {
     placeId: item.id,
     placeSlug: buildPlaceSlug(item.name, item.id),
+    googlePlaceId: item.googlePlaceId,
     name: item.name,
     formattedAddress: item.formattedAddress,
     category: normalizeCategory(item.category),

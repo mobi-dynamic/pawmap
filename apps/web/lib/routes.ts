@@ -11,6 +11,10 @@ export function buildPlaceSlug(name: string, placeId: string, preferredSlug?: st
   return `${baseSlug}--${placeId}`;
 }
 
+export function buildGoogleResolvePath(googlePlaceId: string) {
+  return `/place/google/${encodeURIComponent(googlePlaceId)}`;
+}
+
 export function parsePlaceSlug(placeSlug: string) {
   const separatorIndex = placeSlug.lastIndexOf('--plc_');
   if (separatorIndex === -1) {

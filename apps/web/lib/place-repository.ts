@@ -20,6 +20,12 @@ type SearchResult = {
   }>;
 };
 
+type ResolveGooglePlaceResult = {
+  placeId: string;
+  googlePlaceId: string;
+  status: 'resolved';
+};
+
 export async function searchPlaces(query: string) {
   const trimmedQuery = query.trim();
   const apiEnabled = Boolean(getApiBaseUrl());
@@ -46,6 +52,40 @@ export async function searchPlaces(query: string) {
     query: trimmedQuery,
     source: 'mock' as const,
     items,
+  };
+}
+
+export async function resolveGooglePlacePage(googlePlaceId: string): Promise<
+  | { resolveState: 'ready'; canonicalPlaceSlug: string; source: 'api' | 'mock' }
+  | { resolveState: 'cache_miss'; canonicalPlaceSlug: null; source: 'api' | 'mock' }
+> {
+  if (getApiBaseUrl()) {
+    try {
+      const resolved = await apiGet<ResolveGooglePlaceResult>(`/places/resolve/google/${encodeURIComponent(googlePlaceId)}`);
+      const place = adaptPlaceDetail(await apiGet(`/places/${resolved.placeId}`));
+      return {
+        resolveState: 'ready',
+        canonicalPlaceSlug: place.placeSlug,
+        source: 'api',
+      };
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 404 && error.code === 'PLACE_CACHE_MISS') {
+        return { resolveState: 'cache_miss', canonicalPlaceSlug: null, source: 'api' };
+      }
+
+      throw error;
+    }
+  }
+
+  if (googlePlaceId === 'google-cache-miss-demo') {
+    return { resolveState: 'cache_miss', canonicalPlaceSlug: null, source: 'mock' };
+  }
+
+  const mockPlace = Object.values(placeDetailsById).find((place) => place.placeSlug === googlePlaceId || place.placeId === googlePlaceId);
+  return {
+    resolveState: 'ready',
+    canonicalPlaceSlug: mockPlace?.placeSlug ?? placeDetailsById['plc_royal-bark'].placeSlug,
+    source: 'mock',
   };
 }
 

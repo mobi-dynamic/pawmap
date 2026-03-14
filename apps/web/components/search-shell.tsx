@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { StatusBadge } from '@/components/status-badge';
 import { placeDetailsById } from '@/lib/mock-data';
+import { buildGoogleResolvePath } from '@/lib/routes';
 import { PlaceSummary } from '@/lib/types';
 import { getResultSummary, getTrustSummary } from '@/lib/view-models';
 
@@ -22,6 +23,7 @@ function SearchResultCard({
 }) {
   const detail = placeDetailsById[place.placeId];
   const trustSummary = detail ? getTrustSummary(detail.petRules) : place.dogPolicyStatus === 'unknown' ? 'No reliable evidence yet' : 'Trust details unavailable';
+  const detailHref = place.googlePlaceId ? buildGoogleResolvePath(place.googlePlaceId) : `/place/${place.placeSlug}`;
 
   return (
     <article
@@ -56,7 +58,7 @@ function SearchResultCard({
           {selected ? 'Selected on map' : 'Preview on map'}
         </button>
         <Link
-          href={`/place/${place.placeSlug}`}
+          href={detailHref}
           className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white outline-none transition hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-900"
         >
           Open details
@@ -283,7 +285,7 @@ export function SearchShell({
           <p className="mt-2 text-sm text-slate-700">
             Cache miss means the upstream place reference exists, but PawMap has not cached a canonical place page yet.
           </p>
-          <Link href="/place/google-cache-miss-demo" className="mt-5 inline-flex rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white">
+          <Link href={buildGoogleResolvePath('google-cache-miss-demo')} className="mt-5 inline-flex rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white">
             Open cache-miss example
           </Link>
         </div>
