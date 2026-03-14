@@ -7,11 +7,13 @@
 }
 
 html {
-  background: #f8fbff;
+  background: linear-gradient(180deg, #fff9f2 0%, #f7fbff 28%, #f5f8fc 100%);
 }
 
 body {
   @apply bg-slate-50 text-slate-900 antialiased;
+  background: radial-gradient(circle at top, rgba(255, 232, 207, 0.45), transparent 28%),
+    linear-gradient(180deg, #fffdf9 0%, #f7fafc 22%, #f3f7fb 100%);
 }
 
 a {
@@ -23,5 +25,5 @@ a {
 }
 
 ::selection {
-  background: #cfe4ff;
+  background: #fde2bf;
 }

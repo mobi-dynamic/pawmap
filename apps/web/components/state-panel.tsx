@@ -16,8 +16,8 @@ export function StatePanel({
 }) {
   const toneClasses =
     tone === 'warning'
-      ? 'border-amber-200 bg-amber-50/70'
-      : 'border-slate-200 bg-white';
+      ? 'border-amber-200/90 bg-[linear-gradient(180deg,rgba(255,251,235,0.98),rgba(255,244,214,0.82))]'
+      : 'border-[#e8ddd0] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))]';
 
   return (
     <section className={`rounded-3xl border p-6 shadow-panel ${toneClasses}`}>
@@ -27,7 +27,7 @@ export function StatePanel({
       {action ? (
         <Link
           href={action.href}
-          className="mt-5 inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+          className="mt-5 inline-flex items-center rounded-full bg-[#6b4f36] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#5d442f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6b4f36]/25"
         >
           {action.label}
         </Link>

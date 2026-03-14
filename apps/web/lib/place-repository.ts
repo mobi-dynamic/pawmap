@@ -40,7 +40,7 @@ export async function searchPlaces(query: string) {
         items: response.items.map(adaptSearchItem),
       };
     } catch {
-      // Safe fallback to local mocks during transition.
+      // Fall back to local mock data when the API is unavailable.
     }
   }
 
