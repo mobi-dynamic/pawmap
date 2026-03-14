@@ -1,10 +1,10 @@
 import { DogPolicyStatus } from '@/lib/types';
 
 const statusStyles: Record<DogPolicyStatus, string> = {
-  allowed: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
-  restricted: 'bg-amber-50 text-amber-700 ring-amber-200',
-  not_allowed: 'bg-rose-50 text-rose-700 ring-rose-200',
-  unknown: 'bg-slate-100 text-slate-600 ring-slate-200',
+  allowed: 'border border-emerald-200/80 bg-emerald-50/90 text-emerald-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]',
+  restricted: 'border border-amber-200/80 bg-amber-50/90 text-amber-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]',
+  not_allowed: 'border border-rose-200/80 bg-rose-50/90 text-rose-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]',
+  unknown: 'border border-[#e5d9ca] bg-[#fbf5ee] text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]',
 };
 
 const statusLabels: Record<DogPolicyStatus, string> = {
@@ -16,7 +16,7 @@ const statusLabels: Record<DogPolicyStatus, string> = {
 
 export function StatusBadge({ status }: { status: DogPolicyStatus }) {
   return (
-    <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1 ring-inset ${statusStyles[status]}`}>
+    <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${statusStyles[status]}`}>
       {statusLabels[status]}
     </span>
   );
