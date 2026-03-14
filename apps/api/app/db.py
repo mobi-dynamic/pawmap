@@ -30,8 +30,22 @@ def apply_migrations(database_url: str) -> list[str]:
     applied: list[str] = []
     with psycopg.connect(database_url) as conn:
         with conn.cursor() as cur:
+            cur.execute(
+                """
+                create table if not exists schema_migrations (
+                  filename text primary key,
+                  applied_at timestamptz not null default now()
+                )
+                """
+            )
+            cur.execute("select filename from schema_migrations")
+            already_applied = {row[0] for row in cur.fetchall()}
+
             for path in migration_files():
+                if path.name in already_applied:
+                    continue
                 cur.execute(path.read_text())
+                cur.execute("insert into schema_migrations (filename) values (%s)", (path.name,))
                 applied.append(path.name)
         conn.commit()
     return applied
