@@ -17,3 +17,6 @@ __pycache__/
 
 # Logs
 *.log
+# Generated artifacts
+*.tsbuildinfo
+*.egg-info/
