@@ -8,6 +8,12 @@ from textwrap import dedent
 
 import psycopg
 
+from .google_collection import (
+    build_google_places_collector,
+    collect_google_launch_snapshot,
+    default_collection_output_path,
+    write_google_collection_snapshot,
+)
 from .google_ingestion import build_geography_seed_manifest, normalize_google_places_payload
 from .repository import PostgresRepository
 
@@ -200,6 +206,41 @@ def ingest_google_seed_file(database_url: str, seed_file: Path, geography_slug: 
     }
 
 
+def collect_google_places(
+    *,
+    geography_slug: str,
+    out_file: Path | None = None,
+    fixture_dir: Path | None = None,
+) -> dict[str, object]:
+    mode, collector = build_google_places_collector(fixture_dir=fixture_dir)
+    snapshot = collect_google_launch_snapshot(geography_slug, collector)
+    output_path = out_file or default_collection_output_path(geography_slug)
+    write_google_collection_snapshot(output_path, snapshot)
+    return {
+        "mode": mode,
+        "geographySlug": geography_slug,
+        "outFile": str(output_path),
+        "summary": snapshot["summary"],
+        "queries": snapshot["queries"],
+    }
+
+
+def collect_and_ingest_google_places(
+    database_url: str,
+    *,
+    geography_slug: str,
+    out_file: Path | None = None,
+    fixture_dir: Path | None = None,
+) -> dict[str, object]:
+    collected = collect_google_places(geography_slug=geography_slug, out_file=out_file, fixture_dir=fixture_dir)
+    ingest_summary = ingest_google_seed_file(database_url, Path(str(collected["outFile"])), geography_slug)
+    return {
+        **collected,
+        "ingest": ingest_summary["ingest"],
+        "manifest": ingest_summary["manifest"],
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="PawMap local database helpers")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -214,11 +255,43 @@ def build_parser() -> argparse.ArgumentParser:
     ingest.add_argument("seed_file", type=Path, help="Path to a JSON file containing Google place payloads")
     ingest.add_argument("--geography-slug", required=True, help="Stable metro/area slug for task tracking, e.g. melbourne-fitzroy")
 
+    collect = subparsers.add_parser(
+        "collect-google",
+        help="Collect Google Places candidates for a launch geography and optionally feed them into canonical ingest",
+    )
+    collect.add_argument("--geography-slug", required=True, help="Stable metro/area slug for collection, e.g. melbourne-fitzroy")
+    collect.add_argument("--out-file", type=Path, help="Where to write the collected Google payload snapshot")
+    collect.add_argument(
+        "--fixture-dir",
+        type=Path,
+        help="Optional fixture root for deterministic collection tests, e.g. data/google/collection-fixtures",
+    )
+    collect.add_argument("--ingest", action="store_true", help="Immediately feed the collected snapshot into canonical upsert")
+
     return parser
 
 
 def main() -> None:
     args = build_parser().parse_args()
+
+    if args.command == "collect-google":
+        if args.ingest:
+            database_url = require_database_url()
+            summary = collect_and_ingest_google_places(
+                database_url,
+                geography_slug=args.geography_slug,
+                out_file=args.out_file,
+                fixture_dir=args.fixture_dir,
+            )
+        else:
+            summary = collect_google_places(
+                geography_slug=args.geography_slug,
+                out_file=args.out_file,
+                fixture_dir=args.fixture_dir,
+            )
+        print(json.dumps(summary, indent=2))
+        return
+
     database_url = require_database_url()
 
     if args.command == "migrate":

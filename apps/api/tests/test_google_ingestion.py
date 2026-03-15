@@ -66,7 +66,7 @@ def test_inmemory_repository_upserts_google_places_with_unknown_pet_rules() -> N
 
 
 def test_load_google_seed_file_reads_google_places_array() -> None:
-    seed_file = Path("data/google/melbourne-fitzroy-sample.json")
+    seed_file = Path(__file__).resolve().parents[1] / "data/google/melbourne-fitzroy-sample.json"
 
     loaded = load_google_seed_file(seed_file)
 

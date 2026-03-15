@@ -1,0 +1,12 @@
+{
+  "places": [
+    {
+      "id": "ChIJ-fitzroy-gardens",
+      "displayName": {"text": "Fitzroy Gardens Dog Corner"},
+      "formattedAddress": "230 Wellington Parade, East Melbourne VIC 3002",
+      "location": {"latitude": -37.8136, "longitude": 144.9834},
+      "primaryType": "park",
+      "googleMapsUri": "https://maps.google.com/?cid=fitzroy-gardens"
+    }
+  ]
+}
