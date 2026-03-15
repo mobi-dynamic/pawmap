@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 from pathlib import Path
 from textwrap import dedent
 
 import psycopg
+
+from .google_ingestion import build_geography_seed_manifest, normalize_google_places_payload
+from .repository import PostgresRepository
 
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
 
@@ -169,6 +173,33 @@ def seed_dev_data(database_url: str) -> None:
         conn.commit()
 
 
+def load_google_seed_file(path: Path) -> list[dict]:
+    payload = json.loads(path.read_text())
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict) and isinstance(payload.get("places"), list):
+        return payload["places"]
+    raise SystemExit(f"Unsupported Google seed file format: {path}")
+
+
+def ingest_google_seed_file(database_url: str, seed_file: Path, geography_slug: str) -> dict[str, object]:
+    repository = PostgresRepository(database_url)
+    records = normalize_google_places_payload(load_google_seed_file(seed_file))
+    result = repository.upsert_google_places(records)
+    manifest = build_geography_seed_manifest(slug=geography_slug, source_file=str(seed_file), records=records)
+    return {
+        "seedFile": str(seed_file),
+        "geographySlug": geography_slug,
+        "ingest": {
+            "total": result.total,
+            "inserted": result.inserted,
+            "updated": result.updated,
+            "placeIds": result.place_ids,
+        },
+        "manifest": manifest,
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="PawMap local database helpers")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -178,6 +209,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     bootstrap = subparsers.add_parser("bootstrap", help="Apply migrations, then seed dev data")
     bootstrap.add_argument("--skip-seed", action="store_true", help="Only apply migrations")
+
+    ingest = subparsers.add_parser("ingest-google", help="Normalize a Google places JSON file and upsert canonical places")
+    ingest.add_argument("seed_file", type=Path, help="Path to a JSON file containing Google place payloads")
+    ingest.add_argument("--geography-slug", required=True, help="Stable metro/area slug for task tracking, e.g. melbourne-fitzroy")
 
     return parser
 
@@ -202,6 +237,11 @@ def main() -> None:
         if not args.skip_seed:
             seed_dev_data(database_url)
             print(f"Seeded local dev data for place {DEV_PLACE_ID} ({DEV_GOOGLE_PLACE_ID})")
+        return
+
+    if args.command == "ingest-google":
+        summary = ingest_google_seed_file(database_url, args.seed_file, args.geography_slug)
+        print(json.dumps(summary, indent=2))
         return
 
     raise SystemExit(f"Unknown command: {args.command}")

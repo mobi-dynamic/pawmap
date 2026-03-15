@@ -9,7 +9,7 @@ Minimal FastAPI scaffold for the PawMap MVP.
 - Admin moderation endpoints
 - Google place resolve endpoint with explicit cache-miss handling
 - First PostgreSQL migration under `migrations/0001_init.sql`
-- Tiny DB helper CLI for migrate/seed/bootstrap flows: `python -m app.db ...`
+- Tiny DB helper CLI for migrate/seed/bootstrap/google-ingest flows: `python -m app.db ...`
 - Repository abstraction with PostgreSQL-backed persistence when `DATABASE_URL` is set
 - In-memory fallback repository for local scaffold work and fast smoke tests
 
@@ -57,6 +57,7 @@ The bootstrap helper keeps local setup intentionally small:
 - `python -m app.db migrate` applies every SQL file in `migrations/`
 - `python -m app.db seed` inserts one stable local-dev place
 - `python -m app.db bootstrap --skip-seed` is useful when you want schema only
+- `python -m app.db ingest-google apps/api/data/google/melbourne-fitzroy-sample.json --geography-slug melbourne-fitzroy` normalizes a geography-scoped Google payload file and upserts canonical `places` + `place_provider_refs` rows
 
 Seeded local-dev identifiers:
 
