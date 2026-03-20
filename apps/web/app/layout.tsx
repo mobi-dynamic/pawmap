@@ -24,7 +24,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   <p className="text-sm text-slate-500">Dog policy before you go</p>
                 </div>
               </Link>
-              <div className="hidden rounded-full border border-[#e9decf] bg-[#faf4eb] px-4 py-2 text-sm text-slate-600 md:block">Melbourne</div>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/admin/moderation"
+                  className="hidden rounded-full border border-[#dfd2c4] bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-[#ccb8a3] hover:bg-[#fdf8f1] md:inline-flex"
+                >
+                  Admin moderation
+                </Link>
+                <div className="hidden rounded-full border border-[#e9decf] bg-[#faf4eb] px-4 py-2 text-sm text-slate-600 md:block">Melbourne</div>
+              </div>
             </div>
           </header>
           <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>

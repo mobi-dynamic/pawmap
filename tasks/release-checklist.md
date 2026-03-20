@@ -6,7 +6,7 @@
 - [ ] Core flows tested
 - [ ] Error states handled
 - [ ] Analytics baseline added
-- [ ] Moderation flow works
+- [x] Moderation flow works
 - [ ] Data verification fields displayed
 - [ ] Performance reviewed
 - [ ] Security review completed
