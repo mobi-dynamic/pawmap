@@ -42,6 +42,7 @@ Answer one question fast:
 - `docs/api-contract.md` — initial HTTP contract for MVP endpoints
 - `docs/data-model.md` — canonical relational schema baseline
 - `docs/adr-001-repo-and-workflow.md` — repo/process decisions
+- `docs/deployment-netlify-render-neon.md` — recommended free-tier deployment baseline
 
 ## Planned stack
 
@@ -49,7 +50,7 @@ Answer one question fast:
 - Backend: FastAPI
 - Database: PostgreSQL
 - Maps/places: Google Maps Platform / Google Places
-- Hosting: Vercel + Railway/Render + managed Postgres
+- Hosting: Netlify + Render + Neon (recommended free-tier baseline)
 
 ## Local MVP stack quick start
 
@@ -138,3 +139,13 @@ uvicorn app.main:app --reload
 ## Status
 
 Project bootstrap complete enough to start the first backend slice.
+
+## Deployment baseline
+
+Recommended free-tier deployment split for the MVP:
+
+- Web: Netlify
+- API: Render
+- Database: Neon
+
+See `docs/deployment-netlify-render-neon.md` for the concrete baseline.

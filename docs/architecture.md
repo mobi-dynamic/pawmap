@@ -19,9 +19,9 @@ Optimize for **speed to first usable MVP**, not flexibility for hypothetical sca
 - Geospatial: plain lat/lng first; add PostGIS only if nearby/map queries become limiting
 - Auth: keep full end-user account flows out of MVP, but require authenticated identity for `POST /reports`
 - Hosting:
-  - Vercel for `apps/web`
-  - Railway or Render for `apps/api`
-  - managed PostgreSQL for data storage
+  - Netlify for `apps/web`
+  - Render for `apps/api`
+  - Neon-managed PostgreSQL for data storage
 - Place provider: Google Places for MVP, wrapped behind an API provider adapter
 
 ## 3. System overview
@@ -203,21 +203,21 @@ Canonical identity rules:
 ## 11. Deployment baseline
 
 ### Web
-- Deploy `apps/web` to Vercel
+- Deploy `apps/web` to Netlify
 - Required env:
-  - `NEXT_PUBLIC_API_BASE_URL`
+  - `PAWMAP_API_BASE_URL`
   - frontend map key if needed
 
 ### API
-- Deploy `apps/api` to Railway or Render
+- Deploy `apps/api` to Render
 - Required env:
-  - provider API key
-  - database URL
-  - admin secret
-  - allowed origins
+  - `DATABASE_URL`
+  - provider API key when live integrations land
+  - admin secret when real auth/admin protection lands
+  - allowed origins when cross-origin controls are added
 
 ### Database
-- Managed PostgreSQL
+- Neon-managed PostgreSQL
 - plain Postgres first
 - DB migrations from day one
 
