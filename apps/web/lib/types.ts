@@ -53,6 +53,28 @@ export type PlaceDetail = PlaceRouteRef & {
   petRules: PlacePetRules;
 };
 
+export type UserReportSubmission = {
+  placeId: string;
+  proposedDogPolicyStatus: DogPolicyStatus | null;
+  proposedIndoorAllowed: boolean | null;
+  proposedOutdoorAllowed: boolean | null;
+  proposedLeashRequired: boolean | null;
+  proposedSizeRestriction: string | null;
+  proposedBreedRestriction: string | null;
+  proposedServiceDogOnly: boolean | null;
+  proposedNotes: string | null;
+  evidenceUrl: string | null;
+  reporterComment: string | null;
+};
+
+export type ReportSubmissionResult = {
+  id: string;
+  placeId: string;
+  status: ReportStatus;
+  reporterUserId: string;
+  createdAt: string;
+};
+
 export type AdminReport = {
   id: string;
   placeId: string;
