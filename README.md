@@ -120,6 +120,8 @@ GitHub Actions now runs a minimal monorepo CI baseline on pull requests and push
 
 This baseline intentionally skips lint as a required gate for now because linting is not consistently configured across the repo yet. Branch protection / required-status rules still need to be configured in GitHub settings.
 
+Note: if a PR shows a failing `Vercel` status, that status comes from the external GitHub ↔ Vercel integration, not from repo workflows under `.github/workflows/`. See `docs/deployment-netlify-render-neon.md` for the current deployment baseline and the recommended fix path.
+
 ### PostgreSQL-backed local dev
 
 Run the API against a local Postgres instance:
