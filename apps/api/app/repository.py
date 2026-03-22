@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from functools import lru_cache
+from math import acos, cos, radians, sin
 from typing import Protocol
 from uuid import uuid4
 
@@ -32,7 +33,14 @@ from .models import (
 
 
 class Repository(Protocol):
-    def search_places(self, query: str, limit: int) -> list[PlaceSummary]: ...
+    def search_places(
+        self,
+        query: str,
+        limit: int,
+        lat: float | None = None,
+        lng: float | None = None,
+        radius_meters: int | None = None,
+    ) -> list[PlaceSummary]: ...
 
     def nearby_places(
         self,
@@ -177,14 +185,29 @@ class InMemoryRepository:
         ]
         return {place.id: place for place in places}
 
-    def search_places(self, query: str, limit: int) -> list[PlaceSummary]:
+    def search_places(
+        self,
+        query: str,
+        limit: int,
+        lat: float | None = None,
+        lng: float | None = None,
+        radius_meters: int | None = None,
+    ) -> list[PlaceSummary]:
         lowered = query.strip().lower()
         items = [
             self._to_summary(place)
             for place in self._places.values()
             if self._matches_search(place, lowered)
         ]
-        items.sort(key=self._search_sort_key)
+        if lat is not None and lng is not None and radius_meters is not None:
+            items = [
+                item
+                for item in items
+                if self._distance_meters(lat, lng, item.lat, item.lng) <= radius_meters
+            ]
+            items.sort(key=lambda item: (self._distance_meters(lat, lng, item.lat, item.lng), item.name.lower()))
+        else:
+            items.sort(key=self._search_sort_key)
         return items[:limit]
 
     def nearby_places(
@@ -360,6 +383,15 @@ class InMemoryRepository:
             verifiedAt=place.verifiedAt,
         )
 
+    @staticmethod
+    def _distance_meters(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
+        cosine = (
+            cos(radians(lat1)) * cos(radians(lat2)) * cos(radians(lng2) - radians(lng1))
+            + sin(radians(lat1)) * sin(radians(lat2))
+        )
+        bounded = max(-1.0, min(1.0, cosine))
+        return 6371000 * acos(bounded)
+
 
 class PostgresRepository:
     def __init__(self, dsn: str) -> None:
@@ -370,8 +402,33 @@ class PostgresRepository:
     def _connect(self):
         return psycopg.connect(self._dsn, row_factory=dict_row)
 
-    def search_places(self, query: str, limit: int) -> list[PlaceSummary]:
-        sql = """
+    def search_places(
+        self,
+        query: str,
+        limit: int,
+        lat: float | None = None,
+        lng: float | None = None,
+        radius_meters: int | None = None,
+    ) -> list[PlaceSummary]:
+        params: dict[str, object] = {"query": f"%{query}%", "limit": limit}
+        distance_select = ""
+        distance_where = ""
+        order_by = "pr.verified_at desc nulls last, p.updated_at desc nulls last, p.created_at desc"
+        if lat is not None and lng is not None and radius_meters is not None:
+            params.update({"lat": lat, "lng": lng, "radius_meters": radius_meters})
+            distance_expr = """
+              6371000 * acos(
+                least(1.0, greatest(-1.0,
+                  cos(radians(%(lat)s)) * cos(radians(p.lat::float8)) * cos(radians(p.lng::float8) - radians(%(lng)s)) +
+                  sin(radians(%(lat)s)) * sin(radians(p.lat::float8))
+                ))
+              )
+            """
+            distance_select = f",\n              ({distance_expr}) as distance_meters"
+            distance_where = f"and ({distance_expr}) <= %(radius_meters)s"
+            order_by = "distance_meters asc, pr.verified_at desc nulls last, p.updated_at desc nulls last, p.created_at desc"
+
+        sql = f"""
             select
               p.id::text as id,
               p.name,
@@ -383,6 +440,7 @@ class PostgresRepository:
               pr.confidence_score,
               pr.verified_at,
               ppr.provider_place_id as google_place_id
+              {distance_select}
             from places p
             join pet_rules pr on pr.place_id = p.id
             left join place_provider_refs ppr
@@ -393,11 +451,12 @@ class PostgresRepository:
               or coalesce(p.category, '') ilike %(query)s
               or coalesce(pr.notes, '') ilike %(query)s
             )
-            order by pr.verified_at desc nulls last, p.updated_at desc nulls last, p.created_at desc
+            {distance_where}
+            order by {order_by}
             limit %(limit)s
         """
         with self._connect() as conn, conn.cursor() as cur:
-            cur.execute(sql, {"query": f"%{query}%", "limit": limit})
+            cur.execute(sql, params)
             return [self._row_to_summary(row) for row in cur.fetchall()]
 
     def nearby_places(
