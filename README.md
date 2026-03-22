@@ -1,6 +1,6 @@
 # PawMap
 
-PawMap is a web app for dog owners to search places on a map and quickly understand pet rules before they go.
+PawMap is a mobile-first app for dog owners to search places on a map and quickly understand pet rules before they go.
 
 ## Product goal
 
@@ -29,7 +29,8 @@ Answer one question fast:
 ## Initial repo structure
 
 - `apps/api` — FastAPI backend scaffold and SQL migrations
-- `apps/web` — Next.js MVP shell with slug-based place routes
+- `apps/mobile` — Expo + React Native mobile app shell (primary user product)
+- `apps/web` — Next.js MVP shell for internal/admin/demo/fallback
 - `packages/contracts` — shared enums and example payloads; source of truth for contract decisions
 - `docs/` — PRD, architecture, API contract, data model, ADRs
 - `tasks/` — task logs, backlog, release checklist
@@ -88,6 +89,23 @@ To reset the local database too:
 ```bash
 docker compose down -v
 ```
+
+## Mobile quick start
+
+```bash
+cd apps/mobile
+cp .env.example .env
+npm install
+npm run dev
+```
+
+The first mobile shell currently covers the initial navigation spine only:
+
+- search shell
+- place detail shell
+- report draft shell
+
+See `apps/mobile/README.md` for details.
 
 ## API quick start
 
