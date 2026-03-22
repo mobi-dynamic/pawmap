@@ -13,6 +13,7 @@ except ImportError:  # pragma: no cover - optional until dependencies are instal
     dict_row = None
 
 from .config import get_settings
+from .google_ingestion import CanonicalPlaceUpsert, GoogleIngestResult
 from .models import (
     AdminReportRecord,
     DogPolicyStatus,
@@ -45,6 +46,8 @@ class Repository(Protocol):
     def resolve_google_place(self, google_place_id: str) -> ResolveGooglePlaceResponse | None: ...
 
     def get_place(self, place_id: str) -> PlaceDetail | None: ...
+
+    def upsert_google_places(self, places: list[CanonicalPlaceUpsert]) -> GoogleIngestResult: ...
 
     def create_report(self, payload: ReportCreateRequest, reporter_user_id: str) -> ReportResponse: ...
 
@@ -207,6 +210,56 @@ class InMemoryRepository:
     def get_place(self, place_id: str) -> PlaceDetail | None:
         place = self._places.get(place_id)
         return deepcopy(place) if place else None
+
+    def upsert_google_places(self, places: list[CanonicalPlaceUpsert]) -> GoogleIngestResult:
+        inserted = 0
+        updated = 0
+        place_ids: list[str] = []
+        for record in places:
+            existing = next((place for place in self._places.values() if place.googlePlaceId == record.googlePlaceId), None)
+            if existing is None:
+                detail = PlaceDetail(
+                    id=record.placeId,
+                    googlePlaceId=record.googlePlaceId,
+                    name=record.name,
+                    formattedAddress=record.formattedAddress,
+                    lat=record.lat,
+                    lng=record.lng,
+                    category=record.category,
+                    dogPolicyStatus=DogPolicyStatus.UNKNOWN,
+                    confidenceScore=None,
+                    verifiedAt=None,
+                    websiteUrl=record.websiteUrl,
+                    petRules=PetRules(
+                        dogPolicyStatus=DogPolicyStatus.UNKNOWN,
+                        indoorAllowed=None,
+                        outdoorAllowed=None,
+                        leashRequired=None,
+                        sizeRestriction=None,
+                        breedRestriction=None,
+                        serviceDogOnly=None,
+                        notes=None,
+                        confidenceScore=None,
+                        verificationSourceType=None,
+                        verificationSourceUrl=None,
+                        verifiedAt=None,
+                    ),
+                )
+                self._places[detail.id] = detail
+                place_ids.append(detail.id)
+                inserted += 1
+                continue
+
+            existing.name = record.name
+            existing.formattedAddress = record.formattedAddress
+            existing.lat = record.lat
+            existing.lng = record.lng
+            existing.category = record.category
+            existing.websiteUrl = record.websiteUrl
+            place_ids.append(existing.id)
+            updated += 1
+
+        return GoogleIngestResult(total=len(places), inserted=inserted, updated=updated, place_ids=place_ids)
 
     def create_report(self, payload: ReportCreateRequest, reporter_user_id: str) -> ReportResponse:
         report_id = f"rpt_{self._report_counter:04d}"
@@ -457,6 +510,96 @@ class PostgresRepository:
             if row is None:
                 return None
             return self._row_to_place_detail(row)
+
+    def upsert_google_places(self, places: list[CanonicalPlaceUpsert]) -> GoogleIngestResult:
+        inserted = 0
+        updated = 0
+        place_ids: list[str] = []
+        with self._connect() as conn, conn.cursor() as cur:
+            for record in places:
+                cur.execute(
+                    """
+                    select p.id::text as place_id
+                    from place_provider_refs ppr
+                    join places p on p.id = ppr.place_id
+                    where ppr.provider = 'google_places' and ppr.provider_place_id = %(google_place_id)s
+                    limit 1
+                    """,
+                    {"google_place_id": record.googlePlaceId},
+                )
+                existing = cur.fetchone()
+                if existing is None:
+                    cur.execute(
+                        """
+                        insert into places (id, name, formatted_address, lat, lng, category, website_url)
+                        values (%(place_id)s, %(name)s, %(formatted_address)s, %(lat)s, %(lng)s, %(category)s, %(website_url)s)
+                        """,
+                        {
+                            "place_id": record.placeId,
+                            "name": record.name,
+                            "formatted_address": record.formattedAddress,
+                            "lat": record.lat,
+                            "lng": record.lng,
+                            "category": record.category,
+                            "website_url": record.websiteUrl,
+                        },
+                    )
+                    cur.execute(
+                        """
+                        insert into place_provider_refs (place_id, provider, provider_place_id, provider_url, last_synced_at)
+                        values (%(place_id)s, 'google_places', %(google_place_id)s, %(provider_url)s, now())
+                        """,
+                        {
+                            "place_id": record.placeId,
+                            "google_place_id": record.googlePlaceId,
+                            "provider_url": record.providerUrl,
+                        },
+                    )
+                    cur.execute(
+                        """
+                        insert into pet_rules (
+                          place_id, dog_policy_status, confidence_score, verification_source_type, published_at, updated_at
+                        ) values (
+                          %(place_id)s, 'unknown', 0, 'other', now(), now()
+                        )
+                        on conflict (place_id) do nothing
+                        """,
+                        {"place_id": record.placeId},
+                    )
+                    place_ids.append(record.placeId)
+                    inserted += 1
+                    continue
+
+                place_id = existing['place_id']
+                cur.execute(
+                    """
+                    update places
+                    set name = %(name)s, formatted_address = %(formatted_address)s, lat = %(lat)s, lng = %(lng)s,
+                        category = %(category)s, website_url = %(website_url)s, updated_at = now()
+                    where id::text = %(place_id)s
+                    """,
+                    {
+                        "place_id": place_id,
+                        "name": record.name,
+                        "formatted_address": record.formattedAddress,
+                        "lat": record.lat,
+                        "lng": record.lng,
+                        "category": record.category,
+                        "website_url": record.websiteUrl,
+                    },
+                )
+                cur.execute(
+                    """
+                    update place_provider_refs
+                    set provider_url = %(provider_url)s, last_synced_at = now()
+                    where provider = 'google_places' and provider_place_id = %(google_place_id)s
+                    """,
+                    {"provider_url": record.providerUrl, "google_place_id": record.googlePlaceId},
+                )
+                place_ids.append(place_id)
+                updated += 1
+            conn.commit()
+        return GoogleIngestResult(total=len(places), inserted=inserted, updated=updated, place_ids=place_ids)
 
     def create_report(self, payload: ReportCreateRequest, reporter_user_id: str) -> ReportResponse:
         report_id = str(uuid4())

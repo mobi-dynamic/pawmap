@@ -1,0 +1,33 @@
+{
+  "metro": "melbourne",
+  "area": "fitzroy",
+  "places": [
+    {
+      "id": "ChIJ-fitzy-cafe",
+      "displayName": {
+        "text": "Fitzy Cafe"
+      },
+      "formattedAddress": "77 Brunswick St, Fitzroy VIC 3065",
+      "location": {
+        "latitude": -37.7981234,
+        "longitude": 144.9789876
+      },
+      "primaryType": "cafe",
+      "websiteUri": "https://fitzy.example.com",
+      "googleMapsUri": "https://maps.google.com/?cid=fitzy"
+    },
+    {
+      "id": "ChIJ-fitzroy-gardens",
+      "displayName": {
+        "text": "Fitzroy Gardens Dog Corner"
+      },
+      "formattedAddress": "230 Wellington Parade, East Melbourne VIC 3002",
+      "location": {
+        "latitude": -37.8136,
+        "longitude": 144.9834
+      },
+      "primaryType": "park",
+      "googleMapsUri": "https://maps.google.com/?cid=fitzroy-gardens"
+    }
+  ]
+}

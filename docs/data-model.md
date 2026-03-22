@@ -137,3 +137,11 @@ These are intentionally out of the first schema pass:
 ## Recommended next implementation step
 
 Create the first SQL migration and API schemas directly from this document and the OpenAPI contract.
+
+
+## Google ingestion slice (BE-004)
+
+- Canonical place identity is generated inside PawMap and remains stable per `provider + provider_place_id`.
+- Google provider inputs are normalized into `places` rows and linked through `place_provider_refs`.
+- First ingestion slice is geography-scoped seeding, not live search hydration.
+- Newly ingested canonical places get a placeholder `pet_rules` row with `dog_policy_status=unknown` until verified policy data exists.

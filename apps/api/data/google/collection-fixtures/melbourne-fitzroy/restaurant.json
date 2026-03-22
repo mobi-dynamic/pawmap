@@ -1,0 +1,20 @@
+{
+  "places": [
+    {
+      "id": "ChIJ-pawsome-diner",
+      "displayName": {"text": "Pawsome Diner"},
+      "formattedAddress": "11 Gertrude St, Fitzroy VIC 3065",
+      "location": {"latitude": -37.8062, "longitude": 144.9799},
+      "primaryType": "restaurant",
+      "googleMapsUri": "https://maps.google.com/?cid=pawsome-diner"
+    },
+    {
+      "id": "ChIJ-courtyard-bistro",
+      "displayName": {"text": "Courtyard Bistro"},
+      "formattedAddress": "215 Smith St, Fitzroy VIC 3065",
+      "location": {"latitude": -37.8029, "longitude": 144.9851},
+      "primaryType": "restaurant",
+      "googleMapsUri": "https://maps.google.com/?cid=courtyard-bistro"
+    }
+  ]
+}
