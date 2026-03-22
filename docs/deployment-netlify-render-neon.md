@@ -78,6 +78,10 @@ Notes:
 
 - GitHub Actions remains the required validation baseline for code health
 - Vercel preview checks should not be treated as part of the deployment baseline anymore
+- The current failing PR status named `Vercel` is not produced by anything in this repo. It is an external status context created by the GitHub ↔ Vercel integration for the linked project.
+- In this repo's current setup, that integration points to `https://vercel.com/mobi-dynamic?upgradeToPro=github-private-org-to-hobby`, which indicates a Vercel plan/org-level limitation rather than a build or workflow problem in repository code.
+- Repo-side changes such as editing GitHub Actions, `package.json`, or adding/removing app code will not clear that status by themselves.
+- To remove the stale failing check, update the integration outside the repo: either disconnect the repo/project from Vercel, disable Vercel GitHub deployment/status reporting for this project, or move the project to a Vercel plan that supports the current private org setup.
 - If external preview deploys are needed later, add Netlify and/or Render preview setup explicitly rather than relying on Vercel defaults
 
 ## Trade-offs

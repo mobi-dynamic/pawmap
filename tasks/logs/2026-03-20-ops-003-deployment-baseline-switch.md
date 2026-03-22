@@ -20,7 +20,9 @@
 
 ## Notes
 - This task updates the documented deployment baseline only.
-- It does not yet provision Netlify/Render/Neon projects or remove existing third-party GitHub checks.
+- It does not yet provision Netlify/Render/Neon projects.
+- Follow-up verification on 2026-03-21 confirmed the failing PR status named `Vercel` is an external GitHub ↔ Vercel integration check, not a repo workflow or application-code failure.
+- Repo-side docs were updated to make that blocker explicit and to point maintainers at the real fix path: disconnect/disable the Vercel integration for this repo or move it to a supported Vercel plan.
 
 ## Suggested next step
-- Add platform-specific setup notes or deploy the services once the preferred accounts/projects are ready.
+- Remove or disable the stale Vercel GitHub integration for this repo, then add Netlify and/or Render preview setup explicitly if preview deploys are still wanted.
