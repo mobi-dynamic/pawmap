@@ -312,14 +312,14 @@ function statusEmoji(status: PlaceSummary['dogPolicyStatus']) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#DDF4E5',
+    backgroundColor: '#F3F4F6',
   },
   scrollContent: {
-    backgroundColor: '#DDF4E5',
+    backgroundColor: '#F3F4F6',
     paddingBottom: 24,
   },
   heroMap: {
-    backgroundColor: '#DCFCE7',
+    backgroundColor: '#FFFFFF',
     overflow: 'hidden',
     paddingHorizontal: 16,
     paddingTop: 12,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   },
   mapScrimBottom: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(220, 252, 231, 0.84)',
+    backgroundColor: 'rgba(255,255,255,0.82)',
     top: '74%',
   },
   mapChrome: {
