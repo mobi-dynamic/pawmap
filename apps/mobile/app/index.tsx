@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Keyboard,
@@ -11,6 +11,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import MapView, { Marker, type MapMarker, type Region } from 'react-native-maps';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StatusPill } from '@/components/status-pill';
@@ -18,23 +19,25 @@ import { searchPlaces } from '@/lib/api';
 import type { PlaceSummary } from '@/lib/types';
 
 const INITIAL_QUERY = 'dog friendly cafes';
-const MAP_PADDING = 18;
-const DEFAULT_REGION = {
-  minLat: -37.88,
-  maxLat: -37.76,
-  minLng: 144.94,
-  maxLng: 145.06,
+const DEFAULT_REGION: Region = {
+  latitude: -37.8136,
+  longitude: 144.9631,
+  latitudeDelta: 0.12,
+  longitudeDelta: 0.12,
 };
 
 export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { height: windowHeight } = useWindowDimensions();
+  const mapRef = useRef<MapView | null>(null);
+  const markerRefs = useRef<Record<string, MapMarker | null>>({});
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [results, setResults] = useState<PlaceSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+  const [isMapReady, setIsMapReady] = useState(false);
 
   const runSearch = useCallback(async (nextQuery: string) => {
     const trimmedQuery = nextQuery.trim();
@@ -44,7 +47,13 @@ export default function HomeScreen() {
     try {
       const items = await searchPlaces(trimmedQuery);
       setResults(items);
-      setSelectedPlaceId(items[0]?.id ?? null);
+      setSelectedPlaceId((currentSelectedId) => {
+        if (currentSelectedId && items.some((item) => item.id === currentSelectedId)) {
+          return currentSelectedId;
+        }
+
+        return items[0]?.id ?? null;
+      });
     } catch (searchError) {
       setResults([]);
       setSelectedPlaceId(null);
@@ -58,33 +67,47 @@ export default function HomeScreen() {
     void runSearch(INITIAL_QUERY);
   }, [runSearch]);
 
-  const mapBounds = useMemo(() => {
-    if (results.length === 0) {
-      return DEFAULT_REGION;
-    }
-
-    const latitudes = results.map((place) => place.lat);
-    const longitudes = results.map((place) => place.lng);
-    const minLat = Math.min(...latitudes);
-    const maxLat = Math.max(...latitudes);
-    const minLng = Math.min(...longitudes);
-    const maxLng = Math.max(...longitudes);
-
-    const latPadding = Math.max((maxLat - minLat) * 0.25, 0.01);
-    const lngPadding = Math.max((maxLng - minLng) * 0.25, 0.01);
-
-    return {
-      minLat: minLat - latPadding,
-      maxLat: maxLat + latPadding,
-      minLng: minLng - lngPadding,
-      maxLng: maxLng + lngPadding,
-    };
-  }, [results]);
-
   const selectedPlace = useMemo(
     () => results.find((place) => place.id === selectedPlaceId) ?? results[0] ?? null,
     [results, selectedPlaceId],
   );
+
+  useEffect(() => {
+    if (!isMapReady || !mapRef.current) {
+      return;
+    }
+
+    if (results.length === 0) {
+      mapRef.current.animateToRegion(DEFAULT_REGION, 300);
+      return;
+    }
+
+    mapRef.current.fitToCoordinates(
+      results.map((place) => ({ latitude: place.lat, longitude: place.lng })),
+      {
+        animated: true,
+        edgePadding: { top: 132, right: 44, bottom: 196, left: 44 },
+      },
+    );
+  }, [isMapReady, results]);
+
+  useEffect(() => {
+    if (!isMapReady || !selectedPlace || !mapRef.current) {
+      return;
+    }
+
+    markerRefs.current[selectedPlace.id]?.showCallout();
+    mapRef.current.animateCamera(
+      {
+        center: {
+          latitude: selectedPlace.lat,
+          longitude: selectedPlace.lng,
+        },
+        zoom: 14,
+      },
+      { duration: 300 },
+    );
+  }, [isMapReady, selectedPlace]);
 
   const heroHeight = Math.max(windowHeight - insets.top - 120, 560);
 
@@ -97,12 +120,42 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={[styles.heroMap, { minHeight: heroHeight }]}>
-          <View style={styles.mapGlowTop} />
-          <View style={styles.mapGlowBottom} />
-          <View style={styles.mapGridVertical} />
-          <View style={styles.mapGridHorizontal} />
+          <MapView
+            initialRegion={DEFAULT_REGION}
+            mapPadding={{ top: 132, right: 0, bottom: 196, left: 0 }}
+            onMapReady={() => setIsMapReady(true)}
+            ref={mapRef}
+            rotateEnabled={false}
+            showsCompass={false}
+            showsIndoorLevelPicker={false}
+            showsPointsOfInterest={false}
+            style={styles.mapSurface}
+          >
+            {results.map((place) => {
+              const isSelected = place.id === selectedPlace?.id;
 
-          <View style={styles.mapChrome}>
+              return (
+                <Marker
+                  coordinate={{ latitude: place.lat, longitude: place.lng }}
+                  key={place.id}
+                  onPress={() => setSelectedPlaceId(place.id)}
+                  ref={(marker) => {
+                    markerRefs.current[place.id] = marker;
+                  }}
+                  tracksViewChanges={false}
+                >
+                  <View style={[styles.mapMarker, isSelected ? styles.mapMarkerSelected : null]}>
+                    <Text style={styles.mapMarkerEmoji}>{statusEmoji(place.dogPolicyStatus)}</Text>
+                  </View>
+                </Marker>
+              );
+            })}
+          </MapView>
+
+          <View pointerEvents="none" style={styles.mapScrimTop} />
+          <View pointerEvents="none" style={styles.mapScrimBottom} />
+
+          <View pointerEvents="box-none" style={styles.mapChrome}>
             <View style={styles.searchRow}>
               <TextInput
                 autoCapitalize="none"
@@ -134,57 +187,31 @@ export default function HomeScreen() {
                 <Text style={styles.resultsBadgeText}>{results.length} spots</Text>
               </View>
               <View style={styles.mapWatermark}>
-                <Text style={styles.mapWatermarkText}>Static preview</Text>
+                <Text style={styles.mapWatermarkText}>Live map</Text>
               </View>
             </View>
           </View>
 
           <View pointerEvents="none" style={styles.mapHintBadge}>
-            <Text style={styles.mapHintBadgeText}>Tap pins</Text>
+            <Text style={styles.mapHintBadgeText}>Tap pins or pan map</Text>
           </View>
 
-          {results.map((place) => {
-            const left = positionFromRange(place.lng, mapBounds.minLng, mapBounds.maxLng);
-            const top = positionFromRange(place.lat, mapBounds.minLat, mapBounds.maxLat);
-            const isSelected = place.id === selectedPlace?.id;
-
-            return (
-              <Pressable
-                accessibilityHint="Selects this place in the map card"
-                accessibilityLabel={`Select ${place.name} from map preview`}
-                hitSlop={10}
-                key={place.id}
-                onPress={() => setSelectedPlaceId(place.id)}
-                style={[
-                  styles.mapMarker,
-                  {
-                    left: `${MAP_PADDING + left * (100 - MAP_PADDING * 2)}%`,
-                    top: `${MAP_PADDING + (1 - top) * (100 - MAP_PADDING * 2)}%`,
-                  },
-                  isSelected ? styles.mapMarkerSelected : null,
-                ]}
-              >
-                <Text style={styles.mapMarkerEmoji}>{statusEmoji(place.dogPolicyStatus)}</Text>
-              </Pressable>
-            );
-          })}
-
           {isLoading ? (
-            <View style={styles.mapMessageOverlay}>
+            <View pointerEvents="none" style={styles.mapMessageOverlay}>
               <ActivityIndicator color="#2563EB" />
               <Text style={styles.mapMessageText}>Refreshing places…</Text>
             </View>
           ) : null}
 
           {!isLoading && !error && results.length === 0 ? (
-            <View style={styles.mapMessageOverlay}>
+            <View pointerEvents="none" style={styles.mapMessageOverlay}>
               <Text style={styles.mapMessageTitle}>No places found</Text>
               <Text style={styles.mapMessageText}>Try a broader suburb or category.</Text>
             </View>
           ) : null}
 
           {error ? (
-            <View style={styles.mapMessageOverlay}>
+            <View pointerEvents="none" style={styles.mapMessageOverlay}>
               <Text style={styles.mapMessageTitle}>Search failed</Text>
               <Text style={styles.mapMessageText}>{error}</Text>
             </View>
@@ -268,14 +295,6 @@ export default function HomeScreen() {
   );
 }
 
-function positionFromRange(value: number, min: number, max: number) {
-  if (Number.isNaN(value) || max <= min) {
-    return 0.5;
-  }
-
-  return Math.min(1, Math.max(0, (value - min) / (max - min)));
-}
-
 function statusEmoji(status: PlaceSummary['dogPolicyStatus']) {
   switch (status) {
     case 'allowed':
@@ -306,6 +325,19 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 32,
     position: 'relative',
+  },
+  mapSurface: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  mapScrimTop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(12, 74, 110, 0.06)',
+    bottom: '68%',
+  },
+  mapScrimBottom: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(220, 252, 231, 0.84)',
+    top: '74%',
   },
   mapChrome: {
     gap: 14,
@@ -376,42 +408,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.4,
     textTransform: 'uppercase',
   },
-  mapGlowTop: {
-    backgroundColor: '#BFDBFE',
-    borderRadius: 999,
-    height: 220,
-    opacity: 0.6,
-    position: 'absolute',
-    right: -40,
-    top: 56,
-    width: 220,
-  },
-  mapGlowBottom: {
-    backgroundColor: '#86EFAC',
-    borderRadius: 999,
-    bottom: -40,
-    height: 260,
-    left: -40,
-    opacity: 0.72,
-    position: 'absolute',
-    width: 260,
-  },
-  mapGridVertical: {
-    ...StyleSheet.absoluteFillObject,
-    borderColor: 'rgba(255,255,255,0.38)',
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    left: '33%',
-    right: '33%',
-  },
-  mapGridHorizontal: {
-    ...StyleSheet.absoluteFillObject,
-    borderColor: 'rgba(255,255,255,0.38)',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    bottom: '33%',
-    top: '33%',
-  },
   mapHintBadge: {
     backgroundColor: 'rgba(17,24,39,0.72)',
     borderRadius: 999,
@@ -420,6 +416,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     position: 'absolute',
     top: 126,
+    zIndex: 2,
   },
   mapHintBadgeText: {
     color: '#FFFFFF',
@@ -434,15 +431,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     height: 44,
     justifyContent: 'center',
-    marginLeft: -22,
-    marginTop: -22,
-    position: 'absolute',
     shadowColor: '#0F172A',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.16,
     shadowRadius: 16,
     width: 44,
-    zIndex: 1,
   },
   mapMarkerSelected: {
     borderColor: '#2563EB',
@@ -462,6 +455,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     position: 'absolute',
     top: '38%',
+    zIndex: 2,
   },
   mapMessageTitle: {
     color: '#111827',
@@ -489,6 +483,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 14 },
     shadowOpacity: 0.18,
     shadowRadius: 24,
+    zIndex: 2,
   },
   selectedPlaceTopRow: {
     alignItems: 'center',
