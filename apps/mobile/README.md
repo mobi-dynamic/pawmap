@@ -6,11 +6,11 @@ Thin Expo + React Native shell for the new primary PawMap user surface.
 
 This scaffold intentionally covers only the first navigation spine:
 
-- search shell
-- place detail shell
-- report draft shell
+- API-backed search shell
+- API-backed place detail shell
+- API-backed report submission shell
 
-It is designed to be the continuation point for the first real mobile vertical slice, not a full product build.
+It is still a thin slice, not a full product build.
 
 ## Local run
 
@@ -28,6 +28,7 @@ Then open the Expo QR/dev menu and run on iOS simulator, Android emulator, or Ex
 Required env:
 
 - `EXPO_PUBLIC_API_BASE_URL` — FastAPI base URL for mobile, for example `http://127.0.0.1:8000`
+- `EXPO_PUBLIC_DEV_USER_ID` — local-dev UUID sent as `X-User-Id` for `POST /reports`
 
 Notes:
 

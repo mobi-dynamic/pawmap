@@ -1,5 +1,13 @@
-import { buildApiUrl } from '@/lib/config';
-import type { ApiError, DogPolicyStatus, PetRules, PlaceDetail, PlaceSummary } from '@/lib/types';
+import { buildApiUrl, devUserId } from '@/lib/config';
+import type {
+  ApiError,
+  DogPolicyStatus,
+  PetRules,
+  PlaceDetail,
+  PlaceSummary,
+  ReportSubmissionInput,
+  ReportSubmissionResult,
+} from '@/lib/types';
 
 type ApiEnvelopeError = {
   error?: ApiError;
@@ -43,8 +51,28 @@ export async function getPlaceDetail(placeId: string) {
   return adaptPlaceDetail(response);
 }
 
-async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetch(buildApiUrl(path));
+export async function submitReport(input: ReportSubmissionInput) {
+  const payload = sanitizeReportSubmission(input);
+
+  return fetchJson<ReportSubmissionResult>('/reports', {
+    method: 'POST',
+    headers: {
+      'X-User-Id': devUserId,
+    },
+    body: JSON.stringify(payload),
+  });
+}
+
+async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(buildApiUrl(path), {
+    ...init,
+    headers: {
+      Accept: 'application/json',
+      ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(init?.headers ?? {}),
+    },
+  });
+
   if (!response.ok) {
     const payload = (await safeParseJson(response)) as ApiEnvelopeError | null;
     throw new Error(payload?.error?.message ?? `Request failed with status ${response.status}`);
@@ -59,6 +87,47 @@ async function safeParseJson(response: Response) {
   } catch {
     return null;
   }
+}
+
+function sanitizeReportSubmission(input: ReportSubmissionInput): ReportSubmissionInput {
+  const cleanText = (value: string | null | undefined) => {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : null;
+  };
+
+  return {
+    placeId: input.placeId,
+    proposedDogPolicyStatus: input.proposedDogPolicyStatus ?? null,
+    proposedIndoorAllowed: input.proposedIndoorAllowed ?? null,
+    proposedOutdoorAllowed: input.proposedOutdoorAllowed ?? null,
+    proposedLeashRequired: input.proposedLeashRequired ?? null,
+    proposedSizeRestriction: cleanText(input.proposedSizeRestriction),
+    proposedBreedRestriction: cleanText(input.proposedBreedRestriction),
+    proposedServiceDogOnly: input.proposedServiceDogOnly ?? null,
+    proposedNotes: cleanText(input.proposedNotes),
+    evidenceUrl: cleanText(input.evidenceUrl),
+    reporterComment: cleanText(input.reporterComment),
+  };
+}
+
+export function getReportValidationMessage(payload: ReportSubmissionInput) {
+  const hasSignal = Object.entries(payload).some(
+    ([key, value]) => key !== 'placeId' && value !== null && String(value).trim() !== '',
+  );
+
+  if (!hasSignal) {
+    return 'Add at least one policy change, note, evidence link, or comment before submitting.';
+  }
+
+  if (payload.evidenceUrl) {
+    try {
+      new URL(payload.evidenceUrl);
+    } catch {
+      return 'Evidence link must be a valid URL.';
+    }
+  }
+
+  return null;
 }
 
 function adaptSearchItem(item: ApiSearchItem): PlaceSummary {
