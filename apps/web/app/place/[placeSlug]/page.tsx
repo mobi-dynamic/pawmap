@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { PlaceCacheMissPanel } from '@/components/place-cache-miss-panel';
+import { ReportSubmissionForm } from '@/components/report-submission-form';
 import { RuleRow } from '@/components/rule-row';
 import { ShellCard } from '@/components/shell-card';
 import { StatusBadge } from '@/components/status-badge';
@@ -130,6 +131,15 @@ export default async function PlaceDetailPage({ params }: { params: { placeSlug:
           <p className="leading-6 text-slate-700">{place.petRules.notes ?? 'No additional notes published yet.'}</p>
         </ShellCard>
       </section>
+
+      <ShellCard title="Submit a policy update" eyebrow="User report">
+        <div className="space-y-4">
+          <p className="leading-6 text-slate-700">
+            Saw different signage, spoke with staff, or found a better source? Submit a report for moderators to review before anything is published.
+          </p>
+          <ReportSubmissionForm place={place} />
+        </div>
+      </ShellCard>
     </div>
   );
 }

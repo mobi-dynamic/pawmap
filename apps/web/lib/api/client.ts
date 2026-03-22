@@ -1,4 +1,5 @@
 const DEFAULT_TIMEOUT_MS = 5000;
+const DEFAULT_DEV_USER_ID = '00000000-0000-4000-8000-000000000010';
 const DEFAULT_DEV_ADMIN_USER_ID = '00000000-0000-4000-8000-000000000001';
 const DEFAULT_DEV_ADMIN_ROLE = 'admin';
 
@@ -17,6 +18,12 @@ export class ApiError extends Error {
 export function getApiBaseUrl() {
   const value = process.env.PAWMAP_API_BASE_URL?.trim();
   return value ? value.replace(/\/$/, '') : null;
+}
+
+export function getDevUserHeaders() {
+  return {
+    'X-User-Id': process.env.PAWMAP_DEV_USER_ID?.trim() || DEFAULT_DEV_USER_ID,
+  };
 }
 
 export function getDevAdminHeaders() {
