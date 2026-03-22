@@ -17,17 +17,23 @@ export type PlaceRouteRef = {
   placeSlug: string;
 };
 
-export type PlaceSummary = PlaceRouteRef & {
-  googlePlaceId?: string;
-  name: string;
-  formattedAddress: string;
-  category: string;
-  distanceLabel: string;
-  dogPolicyStatus: DogPolicyStatus;
-  confidenceScore: number | null;
-  verifiedAt: string | null;
-  summary: string;
+export type PlaceCoordinates = {
+  lat: number;
+  lng: number;
 };
+
+export type PlaceSummary = PlaceRouteRef &
+  PlaceCoordinates & {
+    googlePlaceId?: string;
+    name: string;
+    formattedAddress: string;
+    category: string;
+    distanceLabel: string;
+    dogPolicyStatus: DogPolicyStatus;
+    confidenceScore: number | null;
+    verifiedAt: string | null;
+    summary: string;
+  };
 
 export type PlacePetRules = {
   dogPolicyStatus: DogPolicyStatus;
@@ -44,14 +50,15 @@ export type PlacePetRules = {
   verifiedAt: string | null;
 };
 
-export type PlaceDetail = PlaceRouteRef & {
-  name: string;
-  formattedAddress: string;
-  category: string;
-  summary: string;
-  websiteUrl?: string;
-  petRules: PlacePetRules;
-};
+export type PlaceDetail = PlaceRouteRef &
+  PlaceCoordinates & {
+    name: string;
+    formattedAddress: string;
+    category: string;
+    summary: string;
+    websiteUrl?: string;
+    petRules: PlacePetRules;
+  };
 
 export type UserReportSubmission = {
   placeId: string;
