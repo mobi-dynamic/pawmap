@@ -2,9 +2,9 @@ import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   Keyboard,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -86,10 +86,12 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
-      <View style={styles.screen}>
+      <ScrollView
+        contentContainerStyle={styles.screen}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.topBar}>
-          <Text style={styles.title}>Find dog-friendly places</Text>
-          <Text style={styles.subtitle}>Search first, then browse the map and shortlist below.</Text>
           <View style={styles.searchRow}>
             <TextInput
               autoCapitalize="none"
@@ -119,12 +121,6 @@ export default function HomeScreen() {
 
         <View style={styles.mapCard}>
           <View style={styles.mapHeader}>
-            <View style={styles.mapHeaderCopy}>
-              <Text style={styles.mapTitle}>Map preview</Text>
-              <Text style={styles.mapCaption}>
-                Tap pins to focus a place. This preview does not pan or zoom yet.
-              </Text>
-            </View>
             <View style={styles.resultsBadge}>
               <Text style={styles.resultsBadgeText}>{results.length} spots</Text>
             </View>
@@ -140,7 +136,7 @@ export default function HomeScreen() {
             </View>
 
             <View pointerEvents="none" style={styles.mapHintBadge}>
-              <Text style={styles.mapHintBadgeText}>Tap pins · No drag / zoom yet</Text>
+              <Text style={styles.mapHintBadgeText}>Tap pins</Text>
             </View>
 
             {results.map((place) => {
@@ -198,17 +194,15 @@ export default function HomeScreen() {
               onPress={() => router.push({ pathname: '/place/[id]', params: { id: selectedPlace.id } })}
               style={styles.selectedPlaceCard}
             >
-              <View style={styles.selectedPlaceHeader}>
-                <StatusPill status={selectedPlace.dogPolicyStatus} />
-                <Text style={styles.selectedPlaceCategory}>{selectedPlace.category}</Text>
+              <View style={styles.selectedPlaceTopRow}>
+                <View style={styles.selectedPlaceHeader}>
+                  <StatusPill status={selectedPlace.dogPolicyStatus} />
+                  <Text style={styles.selectedPlaceCategory}>{selectedPlace.category}</Text>
+                </View>
+                <Text style={styles.selectedPlaceActionInline}>Details →</Text>
               </View>
               <Text style={styles.selectedPlaceName}>{selectedPlace.name}</Text>
               <Text style={styles.selectedPlaceAddress}>{selectedPlace.formattedAddress}</Text>
-              <Text style={styles.selectedPlaceMeta}>{selectedPlace.summary}</Text>
-              <View style={styles.selectedPlaceActionRow}>
-                <Text style={styles.selectedPlaceActionLabel}>View place details</Text>
-                <Text style={styles.selectedPlaceActionIcon}>→</Text>
-              </View>
             </Pressable>
           ) : null}
         </View>
@@ -222,18 +216,15 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          <FlatList
-            contentContainerStyle={styles.resultsList}
-            data={results}
-            keyExtractor={(item) => item.id}
-            keyboardShouldPersistTaps="handled"
-            renderItem={({ item }) => {
+          <View style={styles.resultsList}>
+            {results.map((item) => {
               const isSelected = item.id === selectedPlace?.id;
 
               return (
                 <Pressable
                   accessibilityHint={isSelected ? 'Selected place. Open details from the preview card above.' : 'Selects this place in the preview above.'}
                   accessibilityLabel={`Select ${item.name}`}
+                  key={item.id}
                   onPress={() => setSelectedPlaceId(item.id)}
                   style={[styles.placeCard, isSelected ? styles.placeCardSelected : null]}
                 >
@@ -249,11 +240,10 @@ export default function HomeScreen() {
                   </Text>
                 </Pressable>
               );
-            }}
-            showsVerticalScrollIndicator={false}
-          />
+            })}
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -286,15 +276,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F4F6',
   },
   screen: {
-    flex: 1,
     backgroundColor: '#F3F4F6',
     gap: 16,
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 24,
   },
   topBar: {
-    gap: 10,
-    paddingTop: 6,
+    gap: 8,
+    paddingTop: 0,
   },
   title: {
     color: '#111827',
@@ -338,27 +327,14 @@ const styles = StyleSheet.create({
   mapCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 28,
-    gap: 14,
-    padding: 16,
+    gap: 12,
+    padding: 12,
   },
   mapHeader: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     gap: 12,
-  },
-  mapHeaderCopy: {
-    flex: 1,
-  },
-  mapTitle: {
-    color: '#111827',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  mapCaption: {
-    color: '#6B7280',
-    fontSize: 13,
-    marginTop: 4,
   },
   resultsBadge: {
     backgroundColor: '#EEF2FF',
@@ -492,13 +468,20 @@ const styles = StyleSheet.create({
     borderColor: '#BFDBFE',
     borderRadius: 20,
     borderWidth: 1,
-    gap: 8,
+    gap: 6,
     padding: 14,
+  },
+  selectedPlaceTopRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
   },
   selectedPlaceHeader: {
     alignItems: 'center',
     flexDirection: 'row',
     gap: 10,
+    flex: 1,
   },
   selectedPlaceCategory: {
     color: '#6B7280',
@@ -515,35 +498,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  selectedPlaceMeta: {
-    color: '#4B5563',
+  selectedPlaceActionInline: {
+    color: '#1D4ED8',
     fontSize: 14,
-    lineHeight: 20,
-  },
-  selectedPlaceActionRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 4,
-    paddingTop: 4,
-  },
-  selectedPlaceActionLabel: {
-    color: '#1D4ED8',
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  selectedPlaceActionIcon: {
-    color: '#1D4ED8',
-    fontSize: 18,
     fontWeight: '700',
   },
   sheet: {
-    flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: 28,
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 4,
+    paddingBottom: 8,
   },
   sheetHeader: {
     borderTopColor: '#E5E7EB',

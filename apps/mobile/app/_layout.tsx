@@ -11,7 +11,7 @@ export default function RootLayout() {
           headerBackTitle: 'Back',
         }}
       >
-        <Stack.Screen name="index" options={{ title: 'PawMap' }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="place/[id]" options={{ title: 'Place detail' }} />
         <Stack.Screen name="report" options={{ title: 'Submit report' }} />
       </Stack>
