@@ -9,16 +9,16 @@ import {
   Text,
   TextInput,
   View,
+  useWindowDimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StatusPill } from '@/components/status-pill';
 import { searchPlaces } from '@/lib/api';
 import type { PlaceSummary } from '@/lib/types';
 
 const INITIAL_QUERY = 'dog friendly cafes';
-const MAP_HEIGHT = 320;
-const MAP_PADDING = 28;
+const MAP_PADDING = 18;
 const DEFAULT_REGION = {
   minLat: -37.88,
   maxLat: -37.76,
@@ -28,6 +28,8 @@ const DEFAULT_REGION = {
 
 export default function HomeScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [results, setResults] = useState<PlaceSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,108 +86,109 @@ export default function HomeScreen() {
     [results, selectedPlaceId],
   );
 
+  const heroHeight = Math.max(windowHeight - insets.top - 120, 560);
+
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <ScrollView
-        contentContainerStyle={styles.screen}
+        bounces={false}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.topBar}>
-          <View style={styles.searchRow}>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              onChangeText={setQuery}
-              onSubmitEditing={() => {
-                Keyboard.dismiss();
-                void runSearch(query);
-              }}
-              placeholder="Search cafes, parks, beaches…"
-              placeholderTextColor="#6B7280"
-              returnKeyType="search"
-              style={styles.searchInput}
-              value={query}
-            />
-            <Pressable
-              onPress={() => {
-                Keyboard.dismiss();
-                void runSearch(query);
-              }}
-              style={styles.searchButton}
-            >
-              <Text style={styles.searchButtonLabel}>{isLoading ? 'Loading…' : 'Search'}</Text>
-            </Pressable>
-          </View>
-        </View>
+        <View style={[styles.heroMap, { minHeight: heroHeight }]}>
+          <View style={styles.mapGlowTop} />
+          <View style={styles.mapGlowBottom} />
+          <View style={styles.mapGridVertical} />
+          <View style={styles.mapGridHorizontal} />
 
-        <View style={styles.mapCard}>
-          <View style={styles.mapHeader}>
-            <View style={styles.resultsBadge}>
-              <Text style={styles.resultsBadgeText}>{results.length} spots</Text>
+          <View style={styles.mapChrome}>
+            <View style={styles.searchRow}>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={setQuery}
+                onSubmitEditing={() => {
+                  Keyboard.dismiss();
+                  void runSearch(query);
+                }}
+                placeholder="Search cafes, parks, beaches…"
+                placeholderTextColor="#6B7280"
+                returnKeyType="search"
+                style={styles.searchInput}
+                value={query}
+              />
+              <Pressable
+                onPress={() => {
+                  Keyboard.dismiss();
+                  void runSearch(query);
+                }}
+                style={styles.searchButton}
+              >
+                <Text style={styles.searchButtonLabel}>{isLoading ? 'Loading…' : 'Search'}</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.heroTopRow}>
+              <View style={styles.resultsBadge}>
+                <Text style={styles.resultsBadgeText}>{results.length} spots</Text>
+              </View>
+              <View style={styles.mapWatermark}>
+                <Text style={styles.mapWatermarkText}>Static preview</Text>
+              </View>
             </View>
           </View>
 
-          <View style={styles.mapCanvas}>
-            <View style={styles.mapGlowTop} />
-            <View style={styles.mapGlowBottom} />
-            <View style={styles.mapGridVertical} />
-            <View style={styles.mapGridHorizontal} />
-            <View style={styles.mapWatermark}>
-              <Text style={styles.mapWatermarkText}>Static preview</Text>
-            </View>
-
-            <View pointerEvents="none" style={styles.mapHintBadge}>
-              <Text style={styles.mapHintBadgeText}>Tap pins</Text>
-            </View>
-
-            {results.map((place) => {
-              const left = positionFromRange(place.lng, mapBounds.minLng, mapBounds.maxLng);
-              const top = positionFromRange(place.lat, mapBounds.minLat, mapBounds.maxLat);
-              const isSelected = place.id === selectedPlace?.id;
-
-              return (
-                <Pressable
-                  accessibilityHint="Selects this place below"
-                  accessibilityLabel={`Select ${place.name} from map preview`}
-                  hitSlop={10}
-                  key={place.id}
-                  onPress={() => setSelectedPlaceId(place.id)}
-                  style={[
-                    styles.mapMarker,
-                    {
-                      left: `${MAP_PADDING + left * (100 - MAP_PADDING * 2)}%`,
-                      top: `${MAP_PADDING + (1 - top) * (100 - MAP_PADDING * 2)}%`,
-                    },
-                    isSelected ? styles.mapMarkerSelected : null,
-                  ]}
-                >
-                  <Text style={styles.mapMarkerEmoji}>{statusEmoji(place.dogPolicyStatus)}</Text>
-                </Pressable>
-              );
-            })}
-
-            {isLoading ? (
-              <View style={styles.mapMessageOverlay}>
-                <ActivityIndicator color="#2563EB" />
-                <Text style={styles.mapMessageText}>Refreshing places…</Text>
-              </View>
-            ) : null}
-
-            {!isLoading && !error && results.length === 0 ? (
-              <View style={styles.mapMessageOverlay}>
-                <Text style={styles.mapMessageTitle}>No places found</Text>
-                <Text style={styles.mapMessageText}>Try a broader suburb or category.</Text>
-              </View>
-            ) : null}
-
-            {error ? (
-              <View style={styles.mapMessageOverlay}>
-                <Text style={styles.mapMessageTitle}>Search failed</Text>
-                <Text style={styles.mapMessageText}>{error}</Text>
-              </View>
-            ) : null}
+          <View pointerEvents="none" style={styles.mapHintBadge}>
+            <Text style={styles.mapHintBadgeText}>Tap pins</Text>
           </View>
+
+          {results.map((place) => {
+            const left = positionFromRange(place.lng, mapBounds.minLng, mapBounds.maxLng);
+            const top = positionFromRange(place.lat, mapBounds.minLat, mapBounds.maxLat);
+            const isSelected = place.id === selectedPlace?.id;
+
+            return (
+              <Pressable
+                accessibilityHint="Selects this place in the map card"
+                accessibilityLabel={`Select ${place.name} from map preview`}
+                hitSlop={10}
+                key={place.id}
+                onPress={() => setSelectedPlaceId(place.id)}
+                style={[
+                  styles.mapMarker,
+                  {
+                    left: `${MAP_PADDING + left * (100 - MAP_PADDING * 2)}%`,
+                    top: `${MAP_PADDING + (1 - top) * (100 - MAP_PADDING * 2)}%`,
+                  },
+                  isSelected ? styles.mapMarkerSelected : null,
+                ]}
+              >
+                <Text style={styles.mapMarkerEmoji}>{statusEmoji(place.dogPolicyStatus)}</Text>
+              </Pressable>
+            );
+          })}
+
+          {isLoading ? (
+            <View style={styles.mapMessageOverlay}>
+              <ActivityIndicator color="#2563EB" />
+              <Text style={styles.mapMessageText}>Refreshing places…</Text>
+            </View>
+          ) : null}
+
+          {!isLoading && !error && results.length === 0 ? (
+            <View style={styles.mapMessageOverlay}>
+              <Text style={styles.mapMessageTitle}>No places found</Text>
+              <Text style={styles.mapMessageText}>Try a broader suburb or category.</Text>
+            </View>
+          ) : null}
+
+          {error ? (
+            <View style={styles.mapMessageOverlay}>
+              <Text style={styles.mapMessageTitle}>Search failed</Text>
+              <Text style={styles.mapMessageText}>{error}</Text>
+            </View>
+          ) : null}
 
           {selectedPlace ? (
             <Pressable
@@ -197,22 +200,31 @@ export default function HomeScreen() {
               <View style={styles.selectedPlaceTopRow}>
                 <View style={styles.selectedPlaceHeader}>
                   <StatusPill status={selectedPlace.dogPolicyStatus} />
-                  <Text style={styles.selectedPlaceCategory}>{selectedPlace.category}</Text>
+                  <Text numberOfLines={1} style={styles.selectedPlaceCategory}>
+                    {selectedPlace.category}
+                  </Text>
                 </View>
                 <Text style={styles.selectedPlaceActionInline}>Details →</Text>
               </View>
-              <Text style={styles.selectedPlaceName}>{selectedPlace.name}</Text>
-              <Text style={styles.selectedPlaceAddress}>{selectedPlace.formattedAddress}</Text>
+              <Text numberOfLines={2} style={styles.selectedPlaceName}>
+                {selectedPlace.name}
+              </Text>
+              <Text numberOfLines={2} style={styles.selectedPlaceAddress}>
+                {selectedPlace.formattedAddress}
+              </Text>
             </Pressable>
           ) : null}
         </View>
 
         <View style={styles.sheet}>
+          <View style={styles.sheetGrabber} />
           <View style={styles.sheetHeader}>
             <View>
-              <Text style={styles.sheetEyebrow}>Results list</Text>
-              <Text style={styles.sheetTitle}>Pick a place to preview</Text>
-              <Text style={styles.sheetSubtitle}>Pins and cards both select. Open details from the highlighted place.</Text>
+              <Text style={styles.sheetEyebrow}>More results</Text>
+              <Text style={styles.sheetTitle}>Keep browsing below the map</Text>
+              <Text style={styles.sheetSubtitle}>
+                The selected place stays anchored on the map. Tap any result to move the overlay.
+              </Text>
             </View>
           </View>
 
@@ -222,7 +234,11 @@ export default function HomeScreen() {
 
               return (
                 <Pressable
-                  accessibilityHint={isSelected ? 'Selected place. Open details from the preview card above.' : 'Selects this place in the preview above.'}
+                  accessibilityHint={
+                    isSelected
+                      ? 'Selected place. Open details from the map card above.'
+                      : 'Selects this place on the map above.'
+                  }
                   accessibilityLabel={`Select ${item.name}`}
                   key={item.id}
                   onPress={() => setSelectedPlaceId(item.id)}
@@ -233,10 +249,14 @@ export default function HomeScreen() {
                     <Text style={styles.placeCategory}>{item.category}</Text>
                   </View>
                   <Text style={styles.placeName}>{item.name}</Text>
-                  <Text style={styles.placeMeta}>{item.formattedAddress}</Text>
-                  <Text style={styles.placeSummary}>{item.summary}</Text>
+                  <Text numberOfLines={2} style={styles.placeMeta}>
+                    {item.formattedAddress}
+                  </Text>
+                  <Text numberOfLines={2} style={styles.placeSummary}>
+                    {item.summary}
+                  </Text>
                   <Text style={styles.placeCardAction}>
-                    {isSelected ? 'Selected above — tap the preview card for details' : 'Tap to preview'}
+                    {isSelected ? 'Pinned on map above' : 'Tap to pin on map'}
                   </Text>
                 </Pressable>
               );
@@ -273,28 +293,23 @@ function statusEmoji(status: PlaceSummary['dogPolicyStatus']) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#DDF4E5',
   },
-  screen: {
-    backgroundColor: '#F3F4F6',
-    gap: 16,
-    paddingHorizontal: 16,
+  scrollContent: {
+    backgroundColor: '#DDF4E5',
     paddingBottom: 24,
   },
-  topBar: {
-    gap: 8,
-    paddingTop: 0,
+  heroMap: {
+    backgroundColor: '#DCFCE7',
+    overflow: 'hidden',
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 32,
+    position: 'relative',
   },
-  title: {
-    color: '#111827',
-    fontSize: 28,
-    fontWeight: '800',
-    lineHeight: 34,
-  },
-  subtitle: {
-    color: '#4B5563',
-    fontSize: 15,
-    lineHeight: 22,
+  mapChrome: {
+    gap: 14,
+    zIndex: 2,
   },
   searchRow: {
     flexDirection: 'row',
@@ -302,81 +317,88 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#E5E7EB',
-    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.94)',
+    borderColor: 'rgba(229,231,235,0.9)',
+    borderRadius: 18,
     borderWidth: 1,
     color: '#111827',
     fontSize: 16,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 15,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
   },
   searchButton: {
     alignItems: 'center',
     backgroundColor: '#111827',
-    borderRadius: 16,
+    borderRadius: 18,
     justifyContent: 'center',
-    minWidth: 92,
+    minWidth: 96,
     paddingHorizontal: 18,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
   },
   searchButtonLabel: {
     color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '700',
   },
-  mapCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 28,
-    gap: 12,
-    padding: 12,
-  },
-  mapHeader: {
+  heroTopRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 12,
+    justifyContent: 'space-between',
   },
   resultsBadge: {
-    backgroundColor: '#EEF2FF',
+    backgroundColor: 'rgba(255,255,255,0.92)',
     borderRadius: 999,
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 7,
   },
   resultsBadgeText: {
-    color: '#3730A3',
+    color: '#166534',
     fontSize: 13,
     fontWeight: '700',
   },
-  mapCanvas: {
-    backgroundColor: '#DCFCE7',
-    borderRadius: 24,
-    height: MAP_HEIGHT,
-    overflow: 'hidden',
-    position: 'relative',
+  mapWatermark: {
+    backgroundColor: 'rgba(17,24,39,0.62)',
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  mapWatermarkText: {
+    color: 'rgba(255,255,255,0.92)',
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.4,
+    textTransform: 'uppercase',
   },
   mapGlowTop: {
     backgroundColor: '#BFDBFE',
     borderRadius: 999,
-    height: 140,
-    opacity: 0.45,
+    height: 220,
+    opacity: 0.6,
     position: 'absolute',
-    right: -20,
-    top: -24,
-    width: 140,
+    right: -40,
+    top: 56,
+    width: 220,
   },
   mapGlowBottom: {
-    backgroundColor: '#BBF7D0',
+    backgroundColor: '#86EFAC',
     borderRadius: 999,
-    bottom: -30,
-    height: 180,
-    left: -20,
-    opacity: 0.65,
+    bottom: -40,
+    height: 260,
+    left: -40,
+    opacity: 0.72,
     position: 'absolute',
-    width: 180,
+    width: 260,
   },
   mapGridVertical: {
     ...StyleSheet.absoluteFillObject,
-    borderColor: 'rgba(255,255,255,0.45)',
+    borderColor: 'rgba(255,255,255,0.38)',
     borderLeftWidth: 1,
     borderRightWidth: 1,
     left: '33%',
@@ -384,32 +406,20 @@ const styles = StyleSheet.create({
   },
   mapGridHorizontal: {
     ...StyleSheet.absoluteFillObject,
-    borderColor: 'rgba(255,255,255,0.45)',
+    borderColor: 'rgba(255,255,255,0.38)',
     borderTopWidth: 1,
     borderBottomWidth: 1,
     bottom: '33%',
     top: '33%',
   },
-  mapWatermark: {
-    left: 16,
-    position: 'absolute',
-    top: 16,
-  },
-  mapWatermarkText: {
-    color: 'rgba(17,24,39,0.45)',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.4,
-    textTransform: 'uppercase',
-  },
   mapHintBadge: {
     backgroundColor: 'rgba(17,24,39,0.72)',
     borderRadius: 999,
-    bottom: 16,
     left: 16,
     paddingHorizontal: 12,
     paddingVertical: 7,
     position: 'absolute',
+    top: 126,
   },
   mapHintBadgeText: {
     color: '#FFFFFF',
@@ -422,35 +432,36 @@ const styles = StyleSheet.create({
     borderColor: '#BFDBFE',
     borderRadius: 999,
     borderWidth: 2,
-    height: 40,
+    height: 44,
     justifyContent: 'center',
-    marginLeft: -20,
-    marginTop: -20,
+    marginLeft: -22,
+    marginTop: -22,
     position: 'absolute',
     shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    width: 40,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.16,
+    shadowRadius: 16,
+    width: 44,
+    zIndex: 1,
   },
   mapMarkerSelected: {
     borderColor: '#2563EB',
-    transform: [{ scale: 1.08 }],
+    transform: [{ scale: 1.12 }],
   },
   mapMarkerEmoji: {
-    fontSize: 16,
+    fontSize: 17,
   },
   mapMessageOverlay: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.86)',
-    borderRadius: 20,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 22,
     gap: 8,
-    left: 20,
-    paddingHorizontal: 18,
-    paddingVertical: 16,
+    maxWidth: 280,
+    paddingHorizontal: 20,
+    paddingVertical: 18,
     position: 'absolute',
-    right: 20,
-    top: 110,
+    top: '38%',
   },
   mapMessageTitle: {
     color: '#111827',
@@ -464,37 +475,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectedPlaceCard: {
-    backgroundColor: '#EFF6FF',
-    borderColor: '#BFDBFE',
-    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.96)',
+    borderColor: 'rgba(255,255,255,0.75)',
+    borderRadius: 24,
     borderWidth: 1,
-    gap: 6,
-    padding: 14,
+    bottom: 24,
+    gap: 8,
+    left: 16,
+    padding: 16,
+    position: 'absolute',
+    right: 16,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 14 },
+    shadowOpacity: 0.18,
+    shadowRadius: 24,
   },
   selectedPlaceTopRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     gap: 12,
+    justifyContent: 'space-between',
   },
   selectedPlaceHeader: {
     alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
     gap: 10,
-    flex: 1,
   },
   selectedPlaceCategory: {
     color: '#6B7280',
+    flex: 1,
     fontSize: 13,
     fontWeight: '600',
   },
   selectedPlaceName: {
     color: '#111827',
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
+    lineHeight: 24,
   },
   selectedPlaceAddress: {
-    color: '#6B7280',
+    color: '#4B5563',
     fontSize: 14,
     lineHeight: 20,
   },
@@ -504,47 +525,55 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   sheet: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 28,
+    backgroundColor: '#F8FAFC',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: -18,
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 12,
     paddingBottom: 8,
   },
+  sheetGrabber: {
+    alignSelf: 'center',
+    backgroundColor: '#CBD5E1',
+    borderRadius: 999,
+    height: 5,
+    marginBottom: 14,
+    width: 48,
+  },
   sheetHeader: {
-    borderTopColor: '#E5E7EB',
-    borderTopWidth: 1,
-    marginBottom: 12,
-    paddingTop: 12,
+    marginBottom: 14,
   },
   sheetEyebrow: {
-    color: '#6B7280',
+    color: '#64748B',
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.3,
     textTransform: 'uppercase',
   },
   sheetTitle: {
-    color: '#111827',
-    fontSize: 18,
-    fontWeight: '700',
+    color: '#0F172A',
+    fontSize: 20,
+    fontWeight: '800',
     marginTop: 4,
   },
   sheetSubtitle: {
-    color: '#6B7280',
+    color: '#64748B',
     fontSize: 13,
-    marginTop: 4,
+    lineHeight: 19,
+    marginTop: 6,
   },
   resultsList: {
-    gap: 12,
+    gap: 10,
     paddingBottom: 12,
   },
   placeCard: {
-    backgroundColor: '#F9FAFB',
-    borderColor: '#E5E7EB',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#E2E8F0',
     borderRadius: 20,
     borderWidth: 1,
-    gap: 8,
-    minHeight: 124,
+    gap: 7,
+    minHeight: 116,
     padding: 14,
   },
   placeCardSelected: {
