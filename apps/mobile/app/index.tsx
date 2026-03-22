@@ -152,9 +152,6 @@ export default function HomeScreen() {
             })}
           </MapView>
 
-          <View pointerEvents="none" style={styles.mapScrimTop} />
-          <View pointerEvents="none" style={styles.mapScrimBottom} />
-
           <View pointerEvents="box-none" style={styles.mapChrome}>
             <View style={styles.searchRow}>
               <TextInput
@@ -328,16 +325,6 @@ const styles = StyleSheet.create({
   },
   mapSurface: {
     ...StyleSheet.absoluteFillObject,
-  },
-  mapScrimTop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(12, 74, 110, 0.06)',
-    bottom: '68%',
-  },
-  mapScrimBottom: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255,255,255,0.82)',
-    top: '74%',
   },
   mapChrome: {
     gap: 14,
