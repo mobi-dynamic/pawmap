@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, Link } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -12,7 +12,6 @@ import {
 
 import { StatusPill } from '@/components/status-pill';
 import { getPlaceDetail, getReportValidationMessage, submitReport } from '@/lib/api';
-import { buildApiUrl, devUserId } from '@/lib/config';
 import type { DogPolicyStatus, PlaceDetail, ReportSubmissionInput } from '@/lib/types';
 
 type FormState = {
@@ -42,7 +41,7 @@ const INITIAL_FORM: FormState = {
 };
 
 const POLICY_OPTIONS: Array<{ label: string; value: DogPolicyStatus | null }> = [
-  { label: 'No change', value: null },
+  { label: 'Not sure', value: null },
   { label: 'Allowed', value: 'allowed' },
   { label: 'Restricted', value: 'restricted' },
   { label: 'Not allowed', value: 'not_allowed' },
@@ -50,9 +49,23 @@ const POLICY_OPTIONS: Array<{ label: string; value: DogPolicyStatus | null }> = 
 ];
 
 const BOOLEAN_OPTIONS: Array<{ label: string; value: boolean | null }> = [
-  { label: 'No change', value: null },
+  { label: 'Not sure', value: null },
   { label: 'Yes', value: true },
   { label: 'No', value: false },
+];
+
+const QUICK_FACT_FIELDS: Array<{
+  label: string;
+  key:
+    | 'proposedIndoorAllowed'
+    | 'proposedOutdoorAllowed'
+    | 'proposedLeashRequired'
+    | 'proposedServiceDogOnly';
+}> = [
+  { label: 'Dogs allowed inside', key: 'proposedIndoorAllowed' },
+  { label: 'Dogs allowed outside', key: 'proposedOutdoorAllowed' },
+  { label: 'Leash required', key: 'proposedLeashRequired' },
+  { label: 'Service dogs only', key: 'proposedServiceDogOnly' },
 ];
 
 export default function ReportScreen() {
@@ -86,7 +99,7 @@ export default function ReportScreen() {
   const loadPlace = useCallback(async () => {
     if (!placeId) {
       setPlace(null);
-      setLoadError('Place id is missing. Open this screen from a place detail view.');
+      setLoadError('This report needs to start from a place screen.');
       setIsLoadingPlace(false);
       return;
     }
@@ -124,7 +137,7 @@ export default function ReportScreen() {
     try {
       const response = await submitReport(payload);
       setForm(INITIAL_FORM);
-      setSuccessMessage(`Report submitted. Reference ${response.id} is now waiting for moderation review.`);
+      setSuccessMessage(`Thanks — your update was sent for review. Reference ${response.id}.`);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Could not submit the report right now.');
     } finally {
@@ -137,7 +150,7 @@ export default function ReportScreen() {
       {isLoadingPlace ? (
         <View style={styles.card}>
           <ActivityIndicator color="#2563EB" />
-          <Text style={styles.body}>Loading place for report…</Text>
+          <Text style={styles.body}>Loading place details…</Text>
         </View>
       ) : loadError || !place ? (
         <View style={styles.card}>
@@ -149,24 +162,30 @@ export default function ReportScreen() {
         </View>
       ) : (
         <>
-          <View style={styles.card}>
+          <View style={[styles.card, styles.summaryCard]}>
             <StatusPill status={place.petRules.dogPolicyStatus} />
             <Text style={styles.title}>{place.name}</Text>
             <Text style={styles.subtitle}>
               {place.category} · {place.formattedAddress}
             </Text>
+            <Text style={styles.summaryHeadline}>Current policy</Text>
             <Text style={styles.body}>{place.summary}</Text>
+            <View style={styles.currentPolicyList}>
+              <PolicyRow label="Indoor access" value={formatAllowance(place.petRules.indoorAllowed)} />
+              <PolicyRow label="Outdoor access" value={formatAllowance(place.petRules.outdoorAllowed)} />
+              <PolicyRow label="Leash required" value={formatAllowance(place.petRules.leashRequired)} />
+            </View>
           </View>
 
           <View style={styles.card}>
-            <Text style={styles.sectionTitle}>Report submission</Text>
-            <Text style={styles.body}>Submit what you saw or were told. Reports stay unpublished until an admin reviews them.</Text>
-            <Text style={styles.meta}>POST target: {buildApiUrl('/reports')}</Text>
-            <Text style={styles.meta}>Dev reporter header: {devUserId}</Text>
+            <Text style={styles.sectionTitle}>Suggest a correction</Text>
+            <Text style={styles.body}>
+              Share only what changed or what you confirmed. Leave anything you did not check as “Not sure.”
+            </Text>
           </View>
 
           <View style={styles.card}>
-            <FieldLabel label="Dog policy">
+            <FieldLabel label="Overall policy today">
               <OptionRow<DogPolicyStatus | null>
                 options={POLICY_OPTIONS}
                 selectedValue={form.proposedDogPolicyStatus}
@@ -174,59 +193,47 @@ export default function ReportScreen() {
               />
             </FieldLabel>
 
-            <FieldLabel label="Indoor allowed">
-              <OptionRow<boolean | null>
-                options={BOOLEAN_OPTIONS}
-                selectedValue={form.proposedIndoorAllowed}
-                onSelect={(value) => setForm((current) => ({ ...current, proposedIndoorAllowed: value }))}
-              />
+            <FieldLabel label="Quick facts">
+              <View style={styles.quickFactsGrid}>
+                {QUICK_FACT_FIELDS.map((field) => (
+                  <View key={field.key} style={styles.quickFactCard}>
+                    <Text style={styles.quickFactLabel}>{field.label}</Text>
+                    <OptionRow<boolean | null>
+                      compact
+                      options={BOOLEAN_OPTIONS}
+                      selectedValue={form[field.key]}
+                      onSelect={(value) => setForm((current) => ({ ...current, [field.key]: value }))}
+                    />
+                  </View>
+                ))}
+              </View>
             </FieldLabel>
 
-            <FieldLabel label="Outdoor allowed">
-              <OptionRow<boolean | null>
-                options={BOOLEAN_OPTIONS}
-                selectedValue={form.proposedOutdoorAllowed}
-                onSelect={(value) => setForm((current) => ({ ...current, proposedOutdoorAllowed: value }))}
-              />
-            </FieldLabel>
-
-            <FieldLabel label="Leash required">
-              <OptionRow<boolean | null>
-                options={BOOLEAN_OPTIONS}
-                selectedValue={form.proposedLeashRequired}
-                onSelect={(value) => setForm((current) => ({ ...current, proposedLeashRequired: value }))}
-              />
-            </FieldLabel>
-
-            <FieldLabel label="Service dog only">
-              <OptionRow<boolean | null>
-                options={BOOLEAN_OPTIONS}
-                selectedValue={form.proposedServiceDogOnly}
-                onSelect={(value) => setForm((current) => ({ ...current, proposedServiceDogOnly: value }))}
-              />
-            </FieldLabel>
-
-            <FieldLabel label="Size restriction">
+            <FieldLabel label="What did you see or get told?">
               <TextInput
-                onChangeText={(value) => setForm((current) => ({ ...current, proposedSizeRestriction: value }))}
-                placeholder="Small dogs only"
+                multiline
+                onChangeText={(value) => setForm((current) => ({ ...current, proposedNotes: value }))}
+                placeholder="Example: Staff said dogs are welcome on the patio but not inside."
                 placeholderTextColor="#9CA3AF"
-                style={styles.input}
-                value={form.proposedSizeRestriction}
+                style={[styles.input, styles.textArea]}
+                textAlignVertical="top"
+                value={form.proposedNotes}
               />
             </FieldLabel>
 
-            <FieldLabel label="Breed restriction">
+            <FieldLabel label="Helpful context (optional)">
               <TextInput
-                onChangeText={(value) => setForm((current) => ({ ...current, proposedBreedRestriction: value }))}
-                placeholder="No listed breed restriction"
+                multiline
+                onChangeText={(value) => setForm((current) => ({ ...current, reporterComment: value }))}
+                placeholder="When did you check? Was it a sign, staff member, or menu note?"
                 placeholderTextColor="#9CA3AF"
-                style={styles.input}
-                value={form.proposedBreedRestriction}
+                style={[styles.input, styles.textAreaSmall]}
+                textAlignVertical="top"
+                value={form.reporterComment}
               />
             </FieldLabel>
 
-            <FieldLabel label="Evidence link">
+            <FieldLabel label="Evidence link (optional)">
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -239,27 +246,23 @@ export default function ReportScreen() {
               />
             </FieldLabel>
 
-            <FieldLabel label="Proposed notes">
+            <FieldLabel label="Size limit (optional)">
               <TextInput
-                multiline
-                onChangeText={(value) => setForm((current) => ({ ...current, proposedNotes: value }))}
-                placeholder="Share the rule as it was explained or displayed on site."
+                onChangeText={(value) => setForm((current) => ({ ...current, proposedSizeRestriction: value }))}
+                placeholder="Example: Small dogs only"
                 placeholderTextColor="#9CA3AF"
-                style={[styles.input, styles.textArea]}
-                textAlignVertical="top"
-                value={form.proposedNotes}
+                style={styles.input}
+                value={form.proposedSizeRestriction}
               />
             </FieldLabel>
 
-            <FieldLabel label="Reporter comment">
+            <FieldLabel label="Breed limit (optional)">
               <TextInput
-                multiline
-                onChangeText={(value) => setForm((current) => ({ ...current, reporterComment: value }))}
-                placeholder="Add context for the moderator, like when you checked or who confirmed the policy."
+                onChangeText={(value) => setForm((current) => ({ ...current, proposedBreedRestriction: value }))}
+                placeholder="Leave blank if none mentioned"
                 placeholderTextColor="#9CA3AF"
-                style={[styles.input, styles.textArea]}
-                textAlignVertical="top"
-                value={form.reporterComment}
+                style={styles.input}
+                value={form.proposedBreedRestriction}
               />
             </FieldLabel>
 
@@ -270,8 +273,14 @@ export default function ReportScreen() {
             ) : null}
 
             <Pressable disabled={isSubmitting} onPress={() => void handleSubmit()} style={styles.primaryAction}>
-              <Text style={styles.primaryActionLabel}>{isSubmitting ? 'Submitting…' : 'Submit report'}</Text>
+              <Text style={styles.primaryActionLabel}>{isSubmitting ? 'Sending…' : 'Send update'}</Text>
             </Pressable>
+
+            <Link href={{ pathname: '/place/[id]', params: { id: place.id } }} asChild>
+              <Pressable style={styles.inlineSecondaryAction}>
+                <Text style={styles.inlineSecondaryActionLabel}>Back to place details</Text>
+              </Pressable>
+            </Link>
           </View>
         </>
       )}
@@ -288,14 +297,25 @@ function FieldLabel({ label, children }: { label: string; children: React.ReactN
   );
 }
 
+function PolicyRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.policyRow}>
+      <Text style={styles.policyLabel}>{label}</Text>
+      <Text style={styles.policyValue}>{value}</Text>
+    </View>
+  );
+}
+
 function OptionRow<T extends string | boolean | null>({
   options,
   selectedValue,
   onSelect,
+  compact = false,
 }: {
   options: Array<{ label: string; value: T }>;
   selectedValue: T;
   onSelect: (value: T) => void;
+  compact?: boolean;
 }) {
   return (
     <View style={styles.optionRow}>
@@ -306,7 +326,11 @@ function OptionRow<T extends string | boolean | null>({
           <Pressable
             key={`${option.label}-${String(option.value)}`}
             onPress={() => onSelect(option.value)}
-            style={[styles.optionChip, isSelected ? styles.optionChipSelected : null]}
+            style={[
+              styles.optionChip,
+              compact ? styles.optionChipCompact : null,
+              isSelected ? styles.optionChipSelected : null,
+            ]}
           >
             <Text style={[styles.optionChipLabel, isSelected ? styles.optionChipLabelSelected : null]}>
               {option.label}
@@ -316,6 +340,12 @@ function OptionRow<T extends string | boolean | null>({
       })}
     </View>
   );
+}
+
+function formatAllowance(value: boolean | null) {
+  if (value === true) return 'Yes';
+  if (value === false) return 'No';
+  return 'Unknown';
 }
 
 const styles = StyleSheet.create({
@@ -331,6 +361,9 @@ const styles = StyleSheet.create({
     gap: 14,
     padding: 18,
   },
+  summaryCard: {
+    gap: 12,
+  },
   title: {
     color: '#111827',
     fontSize: 28,
@@ -339,6 +372,12 @@ const styles = StyleSheet.create({
   subtitle: {
     color: '#6B7280',
     fontSize: 15,
+    lineHeight: 22,
+  },
+  summaryHeadline: {
+    color: '#111827',
+    fontSize: 18,
+    fontWeight: '700',
   },
   sectionTitle: {
     color: '#111827',
@@ -350,9 +389,28 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
   },
-  meta: {
-    color: '#6B7280',
-    fontSize: 13,
+  currentPolicyList: {
+    borderColor: '#E5E7EB',
+    borderRadius: 16,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  policyRow: {
+    borderBottomColor: '#E5E7EB',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingVertical: 13,
+  },
+  policyLabel: {
+    color: '#374151',
+    fontSize: 15,
+  },
+  policyValue: {
+    color: '#111827',
+    fontSize: 15,
+    fontWeight: '700',
   },
   fieldGroup: {
     gap: 8,
@@ -360,6 +418,20 @@ const styles = StyleSheet.create({
   fieldLabel: {
     color: '#111827',
     fontSize: 15,
+    fontWeight: '600',
+  },
+  quickFactsGrid: {
+    gap: 12,
+  },
+  quickFactCard: {
+    backgroundColor: '#F9FAFB',
+    borderRadius: 16,
+    gap: 10,
+    padding: 12,
+  },
+  quickFactLabel: {
+    color: '#111827',
+    fontSize: 14,
     fontWeight: '600',
   },
   optionRow: {
@@ -373,6 +445,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 10,
+  },
+  optionChipCompact: {
+    minWidth: 78,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
   optionChipSelected: {
     backgroundColor: '#111827',
@@ -399,6 +476,9 @@ const styles = StyleSheet.create({
   textArea: {
     minHeight: 110,
   },
+  textAreaSmall: {
+    minHeight: 88,
+  },
   primaryAction: {
     alignItems: 'center',
     backgroundColor: '#111827',
@@ -410,6 +490,15 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
+  },
+  inlineSecondaryAction: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  inlineSecondaryActionLabel: {
+    color: '#2563EB',
+    fontSize: 14,
+    fontWeight: '600',
   },
   secondaryAction: {
     alignSelf: 'flex-start',
