@@ -8,6 +8,8 @@ export type VerificationSourceType =
   | 'third_party_listing'
   | 'other';
 
+export type ReportStatus = 'pending' | 'approved' | 'rejected';
+
 export type ApiError = {
   code: string;
   message: string;
@@ -56,4 +58,26 @@ export type PlaceDetail = {
   summary: string;
   websiteUrl: string | null;
   petRules: PetRules;
+};
+
+export type ReportSubmissionInput = {
+  placeId: string;
+  proposedDogPolicyStatus: DogPolicyStatus | null;
+  proposedIndoorAllowed: boolean | null;
+  proposedOutdoorAllowed: boolean | null;
+  proposedLeashRequired: boolean | null;
+  proposedSizeRestriction?: string | null;
+  proposedBreedRestriction?: string | null;
+  proposedServiceDogOnly: boolean | null;
+  proposedNotes?: string | null;
+  evidenceUrl?: string | null;
+  reporterComment?: string | null;
+};
+
+export type ReportSubmissionResult = {
+  id: string;
+  placeId: string;
+  status: ReportStatus;
+  reporterUserId: string;
+  createdAt: string;
 };

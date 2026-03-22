@@ -81,7 +81,7 @@ export default function PlaceDetailScreen() {
 
           <Link href={{ pathname: '/report', params: { placeId: place.id } }} asChild>
             <Pressable style={styles.primaryAction}>
-              <Text style={styles.primaryActionLabel}>Open report draft</Text>
+              <Text style={styles.primaryActionLabel}>Submit a report</Text>
             </Pressable>
           </Link>
         </>
