@@ -3,8 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { StatusPill } from '@/components/status-pill';
-import { getPlaceDetail } from '@/lib/api';
-import type { DogPolicyStatus, PlaceDetail, VerificationSourceType } from '@/lib/types';
+import { getNearbyPlaces, getPlaceDetail } from '@/lib/api';
+import type { DogPolicyStatus, PlaceDetail, PlaceSummary, VerificationSourceType } from '@/lib/types';
 
 const DETAIL_ITEMS: Array<{
   label: string;
@@ -19,8 +19,11 @@ const DETAIL_ITEMS: Array<{
 export default function PlaceDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [place, setPlace] = useState<PlaceDetail | null>(null);
+  const [nearbyPlaces, setNearbyPlaces] = useState<PlaceSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingNearby, setIsLoadingNearby] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [nearbyError, setNearbyError] = useState<string | null>(null);
 
   const loadPlace = useCallback(async () => {
     if (!id) {
@@ -35,8 +38,29 @@ export default function PlaceDetailScreen() {
     try {
       const item = await getPlaceDetail(id);
       setPlace(item);
+      setIsLoadingNearby(true);
+      setNearbyError(null);
+
+      try {
+        const items = await getNearbyPlaces({
+          lat: item.lat,
+          lng: item.lng,
+          radiusMeters: 2000,
+          limit: 6,
+        });
+        setNearbyPlaces(items.filter((candidate) => candidate.id !== item.id));
+      } catch (nearbyLoadError) {
+        setNearbyPlaces([]);
+        setNearbyError(
+          nearbyLoadError instanceof Error ? nearbyLoadError.message : 'Nearby places failed to load.',
+        );
+      } finally {
+        setIsLoadingNearby(false);
+      }
     } catch (loadError) {
       setPlace(null);
+      setNearbyPlaces([]);
+      setNearbyError(null);
       setError(loadError instanceof Error ? loadError.message : 'Place load failed.');
     } finally {
       setIsLoading(false);
@@ -153,6 +177,50 @@ export default function PlaceDetailScreen() {
             </View>
           ) : null}
 
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>Nearby places</Text>
+            <Text style={styles.body}>Real places near this spot from PawMap’s nearby search endpoint.</Text>
+
+            {isLoadingNearby ? (
+              <View style={styles.nearbyState}>
+                <ActivityIndicator color="#2563EB" />
+                <Text style={styles.body}>Loading nearby places…</Text>
+              </View>
+            ) : nearbyError ? (
+              <View style={styles.nearbyState}>
+                <Text style={styles.body}>{nearbyError}</Text>
+              </View>
+            ) : nearbyPlaces.length === 0 ? (
+              <View style={styles.nearbyState}>
+                <Text style={styles.body}>No other saved places are nearby yet.</Text>
+              </View>
+            ) : (
+              <View style={styles.nearbyList}>
+                {nearbyPlaces.map((item) => (
+                  <Link href={{ pathname: '/place/[id]', params: { id: item.id } }} asChild key={item.id}>
+                    <Pressable style={styles.nearbyCard}>
+                      <View style={styles.nearbyCardHeader}>
+                        <StatusPill status={item.dogPolicyStatus} />
+                        <Text numberOfLines={1} style={styles.nearbyCategory}>
+                          {item.category}
+                        </Text>
+                      </View>
+                      <Text numberOfLines={2} style={styles.nearbyName}>
+                        {item.name}
+                      </Text>
+                      <Text numberOfLines={2} style={styles.nearbyAddress}>
+                        {item.formattedAddress}
+                      </Text>
+                      <Text numberOfLines={2} style={styles.nearbySummary}>
+                        {item.summary}
+                      </Text>
+                    </Pressable>
+                  </Link>
+                ))}
+              </View>
+            )}
+          </View>
+
           <View style={[styles.card, styles.reportCard]}>
             <Text style={styles.sectionTitle}>Something look off?</Text>
             <Text style={styles.body}>
@@ -178,7 +246,7 @@ function formatAllowance(value: boolean | null) {
 
 function formatConfidence(value: number | null) {
   if (value === null || Number.isNaN(value)) return 'Not rated yet';
-  return `${Math.round(value * 100)}% confidence`;
+  return `${Math.round(value)}% confidence`;
 }
 
 function formatDate(value: string | null) {
@@ -333,6 +401,48 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: '#2563EB',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  nearbyState: {
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 12,
+  },
+  nearbyList: {
+    gap: 10,
+  },
+  nearbyCard: {
+    backgroundColor: '#F9FAFB',
+    borderColor: '#E5E7EB',
+    borderRadius: 16,
+    borderWidth: 1,
+    gap: 8,
+    padding: 14,
+  },
+  nearbyCardHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  nearbyCategory: {
+    color: '#6B7280',
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  nearbyName: {
+    color: '#111827',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  nearbyAddress: {
+    color: '#6B7280',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  nearbySummary: {
+    color: '#4B5563',
     fontSize: 14,
     lineHeight: 20,
   },
