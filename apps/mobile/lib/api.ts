@@ -51,6 +51,28 @@ export async function getPlaceDetail(placeId: string) {
   return adaptPlaceDetail(response);
 }
 
+export async function getNearbyPlaces(params: {
+  lat: number;
+  lng: number;
+  radiusMeters?: number;
+  limit?: number;
+  dogPolicyStatus?: DogPolicyStatus;
+}) {
+  const searchParams = new URLSearchParams({
+    lat: String(params.lat),
+    lng: String(params.lng),
+    radiusMeters: String(params.radiusMeters ?? 2000),
+    limit: String(params.limit ?? 6),
+  });
+
+  if (params.dogPolicyStatus) {
+    searchParams.set('dogPolicyStatus', params.dogPolicyStatus);
+  }
+
+  const response = await fetchJson<ApiSearchResponse>(`/places/nearby?${searchParams.toString()}`);
+  return response.items.map(adaptSearchItem);
+}
+
 export async function submitReport(input: ReportSubmissionInput) {
   const payload = sanitizeReportSubmission(input);
 
