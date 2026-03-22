@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { StatusBadge } from '@/components/status-badge';
 import { placeDetailsById } from '@/lib/mock-data';
 import { buildGoogleResolvePath } from '@/lib/routes';
+import { buildSearchMapPoints } from '@/lib/search-map';
 import { PlaceSummary } from '@/lib/types';
 import { getResultSummary, getTrustSummary } from '@/lib/view-models';
 
@@ -100,11 +101,7 @@ function SearchLoadingState() {
 }
 
 function MapPanel({ results, selectedPlaceId, onSelect }: { results: PlaceSummary[]; selectedPlaceId: string; onSelect: (placeId: string) => void }) {
-  const points = results.map((place, index) => ({
-    place,
-    top: [22, 48, 68, 34, 58, 76][index] ?? 20 + (index % 5) * 12,
-    left: [24, 62, 46, 72, 36, 54][index] ?? 25 + (index % 4) * 14,
-  }));
+  const points = buildSearchMapPoints(results);
 
   return (
     <div className="sticky top-6 rounded-[2rem] border border-[#e7ddd2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))] p-5 shadow-panel">

@@ -1,5 +1,5 @@
 import { buildPlaceSlug } from '@/lib/routes';
-import { PlaceDetail, PlacePetRules, PlaceSummary } from '@/lib/types';
+import { DogPolicyStatus, PlaceDetail, PlacePetRules, PlaceSummary } from '@/lib/types';
 
 type ApiSearchItem = {
   id: string;
@@ -22,6 +22,9 @@ type ApiPlaceDetail = {
   lat: number;
   lng: number;
   category: string;
+  dogPolicyStatus?: DogPolicyStatus;
+  confidenceScore?: number | null;
+  verifiedAt?: string | null;
   websiteUrl?: string;
   petRules: PlacePetRules;
 };
@@ -33,25 +36,36 @@ export function adaptSearchItem(item: ApiSearchItem): PlaceSummary {
     googlePlaceId: item.googlePlaceId,
     name: item.name,
     formattedAddress: item.formattedAddress,
+    lat: item.lat,
+    lng: item.lng,
     category: normalizeCategory(item.category),
     distanceLabel: 'API result',
     dogPolicyStatus: item.dogPolicyStatus,
     confidenceScore: item.confidenceScore,
     verifiedAt: item.verifiedAt,
-    summary: 'Dog policy available',
+    summary: item.dogPolicyStatus === 'unknown' ? 'No trustworthy public policy published yet' : 'Dog policy available',
   };
 }
 
 export function adaptPlaceDetail(place: ApiPlaceDetail): PlaceDetail {
+  const petRules: PlacePetRules = {
+    ...place.petRules,
+    dogPolicyStatus: place.dogPolicyStatus ?? place.petRules.dogPolicyStatus,
+    confidenceScore: place.confidenceScore !== undefined ? place.confidenceScore : place.petRules.confidenceScore,
+    verifiedAt: place.verifiedAt !== undefined ? place.verifiedAt : place.petRules.verifiedAt,
+  };
+
   return {
     placeId: place.id,
     placeSlug: buildPlaceSlug(place.name, place.id),
     name: place.name,
     formattedAddress: place.formattedAddress,
+    lat: place.lat,
+    lng: place.lng,
     category: normalizeCategory(place.category),
-    summary: place.petRules.notes ?? 'Dog policy available',
+    summary: petRules.notes ?? 'Dog policy available',
     websiteUrl: place.websiteUrl,
-    petRules: place.petRules,
+    petRules,
   };
 }
 

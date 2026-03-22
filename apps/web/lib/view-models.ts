@@ -140,6 +140,8 @@ export function toSummaryFromDetail(place: PlaceDetail, distanceLabel = 'Sample 
     placeSlug: place.placeSlug,
     name: place.name,
     formattedAddress: place.formattedAddress,
+    lat: place.lat,
+    lng: place.lng,
     category: place.category,
     distanceLabel,
     dogPolicyStatus: place.petRules.dogPolicyStatus,
