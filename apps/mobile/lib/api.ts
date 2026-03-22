@@ -9,9 +9,35 @@ import type {
   ReportSubmissionResult,
 } from '@/lib/types';
 
+type FastApiValidationDetail = {
+  loc?: Array<string | number>;
+  msg?: string;
+  type?: string;
+};
+
 type ApiEnvelopeError = {
   error?: ApiError;
+  detail?:
+    | ApiError
+    | string
+    | FastApiValidationDetail[]
+    | {
+        code?: string;
+        message?: string;
+      };
+  message?: string;
 };
+
+export class ApiClientError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+    public readonly code?: string,
+  ) {
+    super(message);
+    this.name = 'ApiClientError';
+  }
+}
 
 type ApiSearchItem = {
   id: string;
@@ -97,7 +123,8 @@ async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (!response.ok) {
     const payload = (await safeParseJson(response)) as ApiEnvelopeError | null;
-    throw new Error(payload?.error?.message ?? `Request failed with status ${response.status}`);
+    const normalized = normalizeApiError(payload, response.status);
+    throw new ApiClientError(normalized.message, response.status, normalized.code);
   }
 
   return (await response.json()) as T;
@@ -108,6 +135,57 @@ async function safeParseJson(response: Response) {
     return await response.json();
   } catch {
     return null;
+  }
+}
+
+function normalizeApiError(payload: ApiEnvelopeError | null, status: number) {
+  const detail = payload?.detail;
+
+  if (payload?.error?.message) {
+    return { code: payload.error.code, message: payload.error.message };
+  }
+
+  if (typeof detail === 'string' && detail.trim()) {
+    return { message: detail.trim() };
+  }
+
+  if (Array.isArray(detail) && detail.length > 0) {
+    const message = detail
+      .map((item) => item.msg?.trim())
+      .filter((value): value is string => Boolean(value))
+      .join(' ');
+
+    if (message) {
+      return { code: 'VALIDATION_ERROR', message };
+    }
+  }
+
+  if (detail && typeof detail === 'object' && 'message' in detail && typeof detail.message === 'string') {
+    return {
+      code: 'code' in detail && typeof detail.code === 'string' ? detail.code : undefined,
+      message: detail.message,
+    };
+  }
+
+  if (payload?.message?.trim()) {
+    return { message: payload.message.trim() };
+  }
+
+  return { message: defaultErrorMessage(status) };
+}
+
+function defaultErrorMessage(status: number) {
+  switch (status) {
+    case 401:
+      return 'You need to be signed in before sending a report.';
+    case 404:
+      return 'That place could not be found.';
+    case 422:
+      return 'The server rejected this request. Check the fields and try again.';
+    case 500:
+      return 'PawMap hit a server error. Try again in a moment.';
+    default:
+      return `Request failed with status ${status}`;
   }
 }
 
