@@ -88,8 +88,20 @@ def search_places(
     radiusMeters: Annotated[int, Query(gt=0, le=20000)] = 5000,
     limit: Annotated[int, Query(gt=0, le=50)] = 20,
 ) -> PlaceSearchResponse:
-    del lat, lng, radiusMeters
-    return PlaceSearchResponse(items=repository.search_places(query=q, limit=limit))
+    if (lat is None) != (lng is None):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail={"code": "INVALID_SEARCH_BIAS", "message": "lat and lng must be provided together when using location bias."},
+        )
+    return PlaceSearchResponse(
+        items=repository.search_places(
+            query=q,
+            limit=limit,
+            lat=lat,
+            lng=lng,
+            radius_meters=radiusMeters if lat is not None and lng is not None else None,
+        )
+    )
 
 
 @app.get("/places/nearby", response_model=PlaceSearchResponse)

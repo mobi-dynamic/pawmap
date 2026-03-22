@@ -29,6 +29,39 @@ def test_search_returns_integration_ready_cards_for_frontend_wiring() -> None:
     assert payload["items"][0]["confidenceScore"] == 92
 
 
+def test_search_supports_location_bias_for_contract_alignment() -> None:
+    client, _ = make_client()
+
+    response = client.get(
+        "/places/search",
+        params={
+            "q": "cafe",
+            "lat": -37.798,
+            "lng": 144.978,
+            "radiusMeters": 250,
+            "limit": 10,
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert [item["id"] for item in payload["items"]] == ["plc_puppy_cafe", "plc_royal-bark"]
+
+
+def test_search_rejects_partial_location_bias() -> None:
+    client, _ = make_client()
+
+    response = client.get("/places/search", params={"q": "cafe", "lat": -37.798})
+
+    assert response.status_code == 422
+    assert response.json() == {
+        "error": {
+            "code": "INVALID_SEARCH_BIAS",
+            "message": "lat and lng must be provided together when using location bias.",
+        }
+    }
+
+
 def test_place_detail_supports_unknown_policy_state_for_frontend() -> None:
     client, _ = make_client()
 

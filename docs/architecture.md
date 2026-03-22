@@ -2,35 +2,37 @@
 
 ## 1. MVP architecture decision
 
-PawMap should ship as a **modular monolith in a monorepo**:
+PawMap should ship as a **mobile-first modular monolith in a monorepo**:
 
-- `apps/web` — Next.js + TypeScript + Tailwind
+- `apps/mobile` — React Native + Expo (primary user product)
 - `apps/api` — FastAPI
+- `apps/web` — Next.js + TypeScript + Tailwind (internal/admin/demo/fallback)
 - `packages/contracts` — shared API contracts and example payloads
 - PostgreSQL — application data and cached place snapshots
 
-Optimize for **speed to first usable MVP**, not flexibility for hypothetical scale.
+Optimize for **speed to first usable mobile MVP**, not flexibility for hypothetical scale.
 
 ## 2. Recommended stack
 
-- Frontend: Next.js + TypeScript + Tailwind CSS
+- Primary frontend: React Native + Expo
+- Secondary/internal frontend: Next.js + TypeScript + Tailwind CSS
 - Backend API: FastAPI
 - Database: PostgreSQL
 - Geospatial: plain lat/lng first; add PostGIS only if nearby/map queries become limiting
 - Auth: keep full end-user account flows out of MVP, but require authenticated identity for `POST /reports`
 - Hosting:
-  - Netlify for `apps/web`
   - Render for `apps/api`
   - Neon-managed PostgreSQL for data storage
+  - web hosting is optional/secondary because `apps/web` is no longer the flagship surface
 - Place provider: Google Places for MVP, wrapped behind an API provider adapter
 
 ## 3. System overview
 
 ```text
-[Next.js Web App]
-   |
-   v
-[FastAPI API]
+[React Native + Expo Mobile App]
+             |
+             v
+         [FastAPI API]
    |-- Place provider adapter (Google Places)
    |-- Place normalization and cache
    |-- Dog rules service
@@ -42,14 +44,18 @@ Optimize for **speed to first usable MVP**, not flexibility for hypothetical sca
    |-- pet_rules
    |-- user_reports
    |-- admin_users (optional/minimal)
+
+[Next.js Web App]
+  -> internal/admin/demo/fallback only
 ```
 
 ## 4. Architectural principles
 
 - Keep place discovery external; keep dog-policy truth internal
-- Frontend never calls the place provider directly
+- Clients never call the place provider directly
 - Use internal place IDs as canonical IDs
-- Keep implementation modular, but deploy as one web app + one API
+- Keep implementation modular, but deploy as one API with one primary mobile client
+- Keep the web app as a secondary internal/admin/demo surface
 - Avoid microservices, background workers, and extra infrastructure in MVP
 
 ## 5. Core domains
@@ -64,13 +70,21 @@ Favorites are deferred from MVP even though report submission requires authentic
 
 ## 6. App boundaries
 
-### `apps/web`
+### `apps/mobile`
 Responsibilities:
 - search UI
-- map/list results
-- place detail page
-- report submission form
-- optional minimal admin UI later
+- nearby/map discovery
+- place detail
+- report submission
+- location permission handling
+- deep linking and mobile-first navigation
+
+### `apps/web`
+Responsibilities:
+- internal/admin workflows
+- moderation support
+- QA/demo fallback surface
+- contract verification against the API
 
 ### `apps/api`
 Responsibilities:
@@ -85,6 +99,12 @@ Responsibilities:
 
 ```text
 apps/
+  mobile/
+    app/
+    components/
+    lib/
+    assets/
+
   web/
     app/
     components/
@@ -202,11 +222,16 @@ Canonical identity rules:
 
 ## 11. Deployment baseline
 
+### Mobile
+- Primary end-user surface is `apps/mobile`
+- Distribution path to be defined around Expo/EAS once the shell is in place
+- Required env:
+  - mobile API base URL
+
 ### Web
-- Deploy `apps/web` to Netlify
+- `apps/web` is optional/secondary and can remain on Netlify only if useful for admin/demo access
 - Required env:
   - `PAWMAP_API_BASE_URL`
-  - frontend map key if needed
 
 ### API
 - Deploy `apps/api` to Render

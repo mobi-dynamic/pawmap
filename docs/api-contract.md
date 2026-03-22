@@ -35,9 +35,9 @@ Search by free text and optional location bias. Search may use Google Places to 
 #### Query params
 
 - `q` (required, string)
-- `lat` (optional, number)
-- `lng` (optional, number)
-- `radiusMeters` (optional, integer, default 5000)
+- `lat` (optional, number; must be paired with `lng`)
+- `lng` (optional, number; must be paired with `lat`)
+- `radiusMeters` (optional, integer, default 5000; only applied when `lat` + `lng` are supplied)
 - `limit` (optional, integer, default 20, max 50)
 
 #### Response shape

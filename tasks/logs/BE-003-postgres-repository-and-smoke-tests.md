@@ -39,4 +39,4 @@ Move the API scaffold off a hard-wired in-memory repository by adding a practica
 
 - Search currently uses simple `ILIKE`/distance SQL, not full-text or PostGIS.
 - Local bootstrap intentionally seeds just one sample place. Real ingest and richer seed fixtures can come later without changing the bootstrap shape.
-- Search still ignores the optional location bias on `GET /places/search`; once live provider integration lands, that endpoint should use the bias inputs or drop them from the contract.
+- `GET /places/search` now supports canonical-place location bias, but it still only searches already-cached PawMap places rather than live provider hits.
