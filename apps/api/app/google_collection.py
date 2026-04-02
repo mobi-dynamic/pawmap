@@ -7,6 +7,10 @@ from pathlib import Path
 from typing import Any, Protocol
 from urllib import error, request
 
+from .env import load_local_env
+
+load_local_env()
+
 GOOGLE_TEXT_SEARCH_URL = "https://places.googleapis.com/v1/places:searchText"
 _GOOGLE_FIELD_MASK = ",".join(
     [
@@ -122,7 +126,67 @@ _LAUNCH_GEOGRAPHIES: dict[str, LaunchGeographyPlan] = {
             GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Fitzroy Melbourne", page_size=10),
             GoogleCollectionQuery(key="park", text_query="dog park in Fitzroy Melbourne", page_size=10),
         ),
-    )
+    ),
+    "melbourne-cheltenham": LaunchGeographyPlan(
+        slug="melbourne-cheltenham",
+        name="Melbourne Cheltenham launch slice",
+        circle=GeographyCircle(lat=-37.9695, lng=145.0544, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Cheltenham Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Cheltenham Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Cheltenham Melbourne", page_size=10),
+        ),
+    ),
+    "melbourne-mentone": LaunchGeographyPlan(
+        slug="melbourne-mentone",
+        name="Melbourne Mentone launch slice",
+        circle=GeographyCircle(lat=-37.9826, lng=145.0677, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Mentone Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Mentone Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Mentone Melbourne", page_size=10),
+        ),
+    ),
+    "melbourne-parkdale": LaunchGeographyPlan(
+        slug="melbourne-parkdale",
+        name="Melbourne Parkdale launch slice",
+        circle=GeographyCircle(lat=-37.9915, lng=145.0816, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Parkdale Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Parkdale Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Parkdale Melbourne", page_size=10),
+        ),
+    ),
+    "melbourne-highett": LaunchGeographyPlan(
+        slug="melbourne-highett",
+        name="Melbourne Highett launch slice",
+        circle=GeographyCircle(lat=-37.9472, lng=145.0352, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Highett Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Highett Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Highett Melbourne", page_size=10),
+        ),
+    ),
+    "melbourne-sandringham": LaunchGeographyPlan(
+        slug="melbourne-sandringham",
+        name="Melbourne Sandringham launch slice",
+        circle=GeographyCircle(lat=-37.9528, lng=145.0108, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Sandringham Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Sandringham Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Sandringham Melbourne", page_size=10),
+        ),
+    ),
+    "melbourne-beaumaris": LaunchGeographyPlan(
+        slug="melbourne-beaumaris",
+        name="Melbourne Beaumaris launch slice",
+        circle=GeographyCircle(lat=-37.9869, lng=145.0357, radius_meters=2200),
+        queries=(
+            GoogleCollectionQuery(key="cafe", text_query="dog friendly cafe in Beaumaris Melbourne", page_size=10),
+            GoogleCollectionQuery(key="restaurant", text_query="restaurant with outdoor seating in Beaumaris Melbourne", page_size=10),
+            GoogleCollectionQuery(key="park", text_query="dog park in Beaumaris Melbourne", page_size=10),
+        ),
+    ),
 }
 
 

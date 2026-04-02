@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import datetime, timezone
 from functools import lru_cache
 from math import acos, cos, radians, sin
 from typing import Protocol
@@ -27,9 +28,37 @@ from .models import (
     ReportStatus,
     ResolveGooglePlaceResponse,
     VerificationSourceType,
+    derive_policy_trust_level,
     serialize_report_payload,
     utcnow,
 )
+
+
+_INFERRED_POLICY_VERIFIED_AT = datetime(2026, 3, 23, tzinfo=timezone.utc)
+
+
+def _infer_pet_rules(*, name: str, formatted_address: str, category: str | None) -> PetRules | None:
+    haystack = " ".join(filter(None, [name, formatted_address, category or ""]))
+    normalized = haystack.lower()
+    normalized_category = (category or "").strip().lower()
+
+    if normalized_category == "dog-park" or "dog park" in normalized or "off leash" in normalized or "off-leash" in normalized:
+        return PetRules(
+            dogPolicyStatus=DogPolicyStatus.ALLOWED,
+            indoorAllowed=False,
+            outdoorAllowed=True,
+            leashRequired=False,
+            sizeRestriction=None,
+            breedRestriction=None,
+            serviceDogOnly=False,
+            notes="Inferred from place type/name: designated dog park or off-leash area. Verify local signage before visiting.",
+            confidenceScore=58,
+            verificationSourceType=VerificationSourceType.OTHER,
+            verificationSourceUrl=None,
+            verifiedAt=_INFERRED_POLICY_VERIFIED_AT,
+        )
+
+    return None
 
 
 class Repository(Protocol):
@@ -183,7 +212,7 @@ class InMemoryRepository:
                 ),
             ),
         ]
-        return {place.id: place for place in places}
+        return {place.id: self._apply_policy_trust_level(place) for place in places}
 
     def search_places(
         self,
@@ -230,9 +259,18 @@ class InMemoryRepository:
                 return ResolveGooglePlaceResponse(placeId=place.id, googlePlaceId=google_place_id)
         return None
 
+    @staticmethod
+    def _apply_policy_trust_level(place: PlaceDetail) -> PlaceDetail:
+        place.petRules.policyTrustLevel = derive_policy_trust_level(
+            dog_policy_status=place.petRules.dogPolicyStatus,
+            verification_source_type=place.petRules.verificationSourceType,
+        )
+        place.policyTrustLevel = place.petRules.policyTrustLevel
+        return place
+
     def get_place(self, place_id: str) -> PlaceDetail | None:
         place = self._places.get(place_id)
-        return deepcopy(place) if place else None
+        return self._apply_policy_trust_level(deepcopy(place)) if place else None
 
     def upsert_google_places(self, places: list[CanonicalPlaceUpsert]) -> GoogleIngestResult:
         inserted = 0
@@ -241,6 +279,11 @@ class InMemoryRepository:
         for record in places:
             existing = next((place for place in self._places.values() if place.googlePlaceId == record.googlePlaceId), None)
             if existing is None:
+                inferred_pet_rules = _infer_pet_rules(
+                    name=record.name,
+                    formatted_address=record.formattedAddress,
+                    category=record.category,
+                )
                 detail = PlaceDetail(
                     id=record.placeId,
                     googlePlaceId=record.googlePlaceId,
@@ -249,11 +292,12 @@ class InMemoryRepository:
                     lat=record.lat,
                     lng=record.lng,
                     category=record.category,
-                    dogPolicyStatus=DogPolicyStatus.UNKNOWN,
-                    confidenceScore=None,
-                    verifiedAt=None,
+                    dogPolicyStatus=(inferred_pet_rules.dogPolicyStatus if inferred_pet_rules else DogPolicyStatus.UNKNOWN),
+                    confidenceScore=(inferred_pet_rules.confidenceScore if inferred_pet_rules else None),
+                    verifiedAt=(inferred_pet_rules.verifiedAt if inferred_pet_rules else None),
                     websiteUrl=record.websiteUrl,
-                    petRules=PetRules(
+                    petRules=inferred_pet_rules
+                    or PetRules(
                         dogPolicyStatus=DogPolicyStatus.UNKNOWN,
                         indoorAllowed=None,
                         outdoorAllowed=None,
@@ -268,7 +312,7 @@ class InMemoryRepository:
                         verifiedAt=None,
                     ),
                 )
-                self._places[detail.id] = detail
+                self._places[detail.id] = self._apply_policy_trust_level(detail)
                 place_ids.append(detail.id)
                 inserted += 1
                 continue
@@ -279,6 +323,17 @@ class InMemoryRepository:
             existing.lng = record.lng
             existing.category = record.category
             existing.websiteUrl = record.websiteUrl
+            inferred_pet_rules = _infer_pet_rules(
+                name=record.name,
+                formatted_address=record.formattedAddress,
+                category=record.category,
+            )
+            if inferred_pet_rules and existing.petRules.dogPolicyStatus == DogPolicyStatus.UNKNOWN:
+                existing.petRules = inferred_pet_rules
+                existing.dogPolicyStatus = inferred_pet_rules.dogPolicyStatus
+                existing.confidenceScore = inferred_pet_rules.confidenceScore
+                existing.verifiedAt = inferred_pet_rules.verifiedAt
+            self._apply_policy_trust_level(existing)
             place_ids.append(existing.id)
             updated += 1
 
@@ -327,6 +382,7 @@ class InMemoryRepository:
             place.dogPolicyStatus = place.petRules.dogPolicyStatus
             place.confidenceScore = place.petRules.confidenceScore
             place.verifiedAt = place.petRules.verifiedAt
+            self._apply_policy_trust_level(place)
         return AdminReportRecord.model_validate(record)
 
     def reject_report(self, report_id: str, reviewer_user_id: str, payload: RejectReportRequest) -> AdminReportRecord | None:
@@ -381,6 +437,7 @@ class InMemoryRepository:
             dogPolicyStatus=place.dogPolicyStatus,
             confidenceScore=place.confidenceScore,
             verifiedAt=place.verifiedAt,
+            policyTrustLevel=place.policyTrustLevel,
         )
 
     @staticmethod
@@ -438,6 +495,7 @@ class PostgresRepository:
               p.category,
               pr.dog_policy_status,
               pr.confidence_score,
+              pr.verification_source_type,
               pr.verified_at,
               ppr.provider_place_id as google_place_id
               {distance_select}
@@ -450,6 +508,8 @@ class PostgresRepository:
               or p.formatted_address ilike %(query)s
               or coalesce(p.category, '') ilike %(query)s
               or coalesce(pr.notes, '') ilike %(query)s
+              or coalesce(p.website_url, '') ilike %(query)s
+              or coalesce(ppr.provider_url, '') ilike %(query)s
             )
             {distance_where}
             order by {order_by}
@@ -488,6 +548,7 @@ class PostgresRepository:
               p.category,
               pr.dog_policy_status,
               pr.confidence_score,
+              pr.verification_source_type,
               pr.verified_at,
               ppr.provider_place_id as google_place_id,
               (
@@ -587,6 +648,11 @@ class PostgresRepository:
                     {"google_place_id": record.googlePlaceId},
                 )
                 existing = cur.fetchone()
+                inferred_pet_rules = _infer_pet_rules(
+                    name=record.name,
+                    formatted_address=record.formattedAddress,
+                    category=record.category,
+                )
                 if existing is None:
                     cur.execute(
                         """
@@ -617,13 +683,48 @@ class PostgresRepository:
                     cur.execute(
                         """
                         insert into pet_rules (
-                          place_id, dog_policy_status, confidence_score, verification_source_type, published_at, updated_at
+                          place_id,
+                          dog_policy_status,
+                          indoor_allowed,
+                          outdoor_allowed,
+                          leash_required,
+                          service_dog_only,
+                          notes,
+                          confidence_score,
+                          verification_source_type,
+                          published_at,
+                          verified_at,
+                          updated_at
                         ) values (
-                          %(place_id)s, 'unknown', 0, 'other', now(), now()
+                          %(place_id)s,
+                          %(dog_policy_status)s,
+                          %(indoor_allowed)s,
+                          %(outdoor_allowed)s,
+                          %(leash_required)s,
+                          %(service_dog_only)s,
+                          %(notes)s,
+                          %(confidence_score)s,
+                          %(verification_source_type)s,
+                          now(),
+                          %(verified_at)s,
+                          now()
                         )
                         on conflict (place_id) do nothing
                         """,
-                        {"place_id": record.placeId},
+                        {
+                            "place_id": record.placeId,
+                            "dog_policy_status": (inferred_pet_rules.dogPolicyStatus.value if inferred_pet_rules else DogPolicyStatus.UNKNOWN.value),
+                            "indoor_allowed": (inferred_pet_rules.indoorAllowed if inferred_pet_rules else None),
+                            "outdoor_allowed": (inferred_pet_rules.outdoorAllowed if inferred_pet_rules else None),
+                            "leash_required": (inferred_pet_rules.leashRequired if inferred_pet_rules else None),
+                            "service_dog_only": (inferred_pet_rules.serviceDogOnly if inferred_pet_rules else None),
+                            "notes": (inferred_pet_rules.notes if inferred_pet_rules else None),
+                            "confidence_score": (inferred_pet_rules.confidenceScore if inferred_pet_rules else 0),
+                            "verification_source_type": (
+                                inferred_pet_rules.verificationSourceType.value if inferred_pet_rules and inferred_pet_rules.verificationSourceType else VerificationSourceType.OTHER.value
+                            ),
+                            "verified_at": (inferred_pet_rules.verifiedAt if inferred_pet_rules else None),
+                        },
                     )
                     place_ids.append(record.placeId)
                     inserted += 1
@@ -655,6 +756,38 @@ class PostgresRepository:
                     """,
                     {"provider_url": record.providerUrl, "google_place_id": record.googlePlaceId},
                 )
+                if inferred_pet_rules is not None:
+                    cur.execute(
+                        """
+                        update pet_rules
+                        set
+                          dog_policy_status = %(dog_policy_status)s,
+                          indoor_allowed = %(indoor_allowed)s,
+                          outdoor_allowed = %(outdoor_allowed)s,
+                          leash_required = %(leash_required)s,
+                          service_dog_only = %(service_dog_only)s,
+                          notes = %(notes)s,
+                          confidence_score = %(confidence_score)s,
+                          verification_source_type = %(verification_source_type)s,
+                          verified_at = %(verified_at)s,
+                          updated_at = now()
+                        where place_id::text = %(place_id)s
+                          and dog_policy_status = 'unknown'
+                          and coalesce(verification_source_type, 'other') = 'other'
+                        """,
+                        {
+                            "place_id": place_id,
+                            "dog_policy_status": inferred_pet_rules.dogPolicyStatus.value,
+                            "indoor_allowed": inferred_pet_rules.indoorAllowed,
+                            "outdoor_allowed": inferred_pet_rules.outdoorAllowed,
+                            "leash_required": inferred_pet_rules.leashRequired,
+                            "service_dog_only": inferred_pet_rules.serviceDogOnly,
+                            "notes": inferred_pet_rules.notes,
+                            "confidence_score": inferred_pet_rules.confidenceScore,
+                            "verification_source_type": inferred_pet_rules.verificationSourceType.value if inferred_pet_rules.verificationSourceType else VerificationSourceType.OTHER.value,
+                            "verified_at": inferred_pet_rules.verifiedAt,
+                        },
+                    )
                 place_ids.append(place_id)
                 updated += 1
             conn.commit()
@@ -905,10 +1038,18 @@ class PostgresRepository:
             dogPolicyStatus=row["dog_policy_status"],
             confidenceScore=row["confidence_score"],
             verifiedAt=row.get("verified_at"),
+            policyTrustLevel=derive_policy_trust_level(
+                dog_policy_status=row["dog_policy_status"],
+                verification_source_type=row.get("verification_source_type"),
+            ),
         )
 
     @staticmethod
     def _row_to_place_detail(row: dict) -> PlaceDetail:
+        policy_trust_level = derive_policy_trust_level(
+            dog_policy_status=row["dog_policy_status"],
+            verification_source_type=row.get("verification_source_type"),
+        )
         pet_rules = PetRules(
             dogPolicyStatus=row["dog_policy_status"],
             indoorAllowed=row.get("indoor_allowed"),
@@ -922,6 +1063,7 @@ class PostgresRepository:
             verificationSourceType=row["verification_source_type"],
             verificationSourceUrl=row.get("verification_source_url"),
             verifiedAt=row.get("verified_at"),
+            policyTrustLevel=policy_trust_level,
         )
         return PlaceDetail(
             id=row["id"],
@@ -934,6 +1076,7 @@ class PostgresRepository:
             dogPolicyStatus=pet_rules.dogPolicyStatus,
             confidenceScore=pet_rules.confidenceScore,
             verifiedAt=pet_rules.verifiedAt,
+            policyTrustLevel=policy_trust_level,
             websiteUrl=row.get("website_url"),
             petRules=pet_rules,
         )

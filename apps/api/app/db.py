@@ -8,6 +8,7 @@ from textwrap import dedent
 
 import psycopg
 
+from .env import load_local_env
 from .google_collection import (
     build_google_places_collector,
     collect_google_launch_snapshot,
@@ -23,6 +24,8 @@ DEV_PLACE_ID = "11111111-1111-1111-1111-111111111111"
 DEV_REPORTER_ID = "22222222-2222-2222-2222-222222222222"
 DEV_REVIEWER_ID = "33333333-3333-3333-3333-333333333333"
 DEV_GOOGLE_PLACE_ID = "ChIJ-puppy-cafe"
+
+load_local_env()
 
 
 def require_database_url() -> str:

@@ -13,7 +13,8 @@
       "typedRoutes": true
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.pawmap-mobile"
     },
     "android": {
       "edgeToEdgeEnabled": true

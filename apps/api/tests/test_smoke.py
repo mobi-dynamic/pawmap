@@ -26,6 +26,7 @@ def test_search_returns_integration_ready_cards_for_frontend_wiring() -> None:
     assert [item["id"] for item in payload["items"]] == ["plc_royal-bark", "plc_puppy_cafe"]
     assert payload["items"][0]["googlePlaceId"] == "ChIJ-royal-bark"
     assert payload["items"][0]["dogPolicyStatus"] == "restricted"
+    assert payload["items"][0]["policyTrustLevel"] == "verified"
     assert payload["items"][0]["confidenceScore"] == 92
 
 
@@ -71,7 +72,9 @@ def test_place_detail_supports_unknown_policy_state_for_frontend() -> None:
     payload = response.json()
     assert payload["id"] == "plc_market-hall"
     assert payload["dogPolicyStatus"] == "unknown"
+    assert payload["policyTrustLevel"] == "needs_verification"
     assert payload["petRules"]["dogPolicyStatus"] == "unknown"
+    assert payload["petRules"]["policyTrustLevel"] == "needs_verification"
     assert payload["petRules"]["confidenceScore"] is None
     assert payload["petRules"]["verificationSourceType"] is None
     assert payload["petRules"]["verifiedAt"] is None
@@ -156,7 +159,9 @@ def test_report_submission_and_moderation_flow_updates_place_rules() -> None:
     assert place_response.status_code == 200
     payload = place_response.json()
     assert payload["dogPolicyStatus"] == "allowed"
+    assert payload["policyTrustLevel"] == "verified"
     assert payload["petRules"]["dogPolicyStatus"] == "allowed"
+    assert payload["petRules"]["policyTrustLevel"] == "verified"
     assert payload["petRules"]["indoorAllowed"] is True
     assert payload["petRules"]["verificationSourceType"] == "user_report"
 

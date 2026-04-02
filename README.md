@@ -162,10 +162,12 @@ Project bootstrap complete enough to start the first backend slice.
 
 ## Deployment baseline
 
-Recommended free-tier deployment split for the MVP:
+Recommended deployment split for the MVP:
 
 - Web: Netlify
-- API: Render
-- Database: Neon
+- API: Render Blueprint (`render.yaml`)
+- Database: Render Postgres with automatic `DATABASE_URL` injection into the API service
+
+If you prefer Neon instead, you can still point the same API service at a Neon connection string manually.
 
 See `docs/deployment-netlify-render-neon.md` for the concrete baseline.

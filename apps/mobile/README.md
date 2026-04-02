@@ -30,6 +30,8 @@ Required env:
 - `EXPO_PUBLIC_API_BASE_URL` — FastAPI base URL for mobile, for example `http://127.0.0.1:8000`
 - `EXPO_PUBLIC_DEV_USER_ID` — local-dev UUID sent as `X-User-Id` for `POST /reports`
 
+Do not put backend secrets such as `DATABASE_URL` in `apps/mobile/.env`. Keep database connection strings in the API environment only, for example `apps/api/.env` for local development.
+
 Notes:
 
 - On a simulator/emulator, `127.0.0.1` may need to be replaced with a LAN IP depending on how the API is running.
@@ -43,10 +45,14 @@ Notes:
 - `npm run web` — preview with Expo web
 - `npm run typecheck` — TypeScript validation
 
-## Next recommended implementation step
+## Data-source note
 
-Replace the mock search/detail/report content with real API-backed data for:
+The mobile app search/detail/report flows are API-backed now.
 
-1. `GET /places/search`
-2. `GET /places/{placeId}`
-3. `POST /reports`
+What can still look mock is the backend data source:
+
+- if the API runs without `DATABASE_URL`, it falls back to the in-memory sample repository in `apps/api/app/repository.py`
+- if the API runs with `DATABASE_URL` and only `python -m app.db bootstrap`, Postgres contains one stable sample place
+- Google collection/ingestion commands can load geography-scoped sample snapshots or live Google-collected snapshots into Postgres
+
+So "real API" does not automatically mean "live provider-backed search results".

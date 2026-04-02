@@ -1,0 +1,486 @@
+{
+  "geographySlug": "melbourne-fitzroy",
+  "geographyName": "Melbourne Fitzroy launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.7989,
+    "lng": 144.9784,
+    "radius_meters": 1800
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Fitzroy Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJSQVyIiBD1moRgh7PcCbSpb8",
+        "ChIJDeqOSudC1moRLCC-gjbUWow",
+        "ChIJm9kDMt5D1moRf805dJlaiA8",
+        "ChIJl0FJoSBD1moRFMiAZXRKHsc",
+        "ChIJ0YTd1ydD1moRaIuCtTpLR6w",
+        "ChIJ7WOBhx9D1moRxd_W_xx0Nmo",
+        "ChIJyZHJtt1C1moREOF2qDiF_AM",
+        "ChIJ6_sNdN9C1moR5zcuxFy0TXs",
+        "ChIJz_xlBTBD1moRPi2yOnEq1ZU",
+        "ChIJnweEnBRD1moR_yRzFdTVlHM"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Fitzroy Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ5bIEz-ND1moRGeSJtkBvDXk",
+        "ChIJl0FJoSBD1moRFMiAZXRKHsc",
+        "ChIJE4WnxyFD1moRW-Pvjv626S4",
+        "ChIJyZHJtt1C1moREOF2qDiF_AM",
+        "ChIJl-AFCdtC1moRKdKGswC5nYU",
+        "ChIJIY2EZLRD1moRx7cSDr82Y4c",
+        "ChIJC5xHddtC1moRxaAJXcp4Ypk",
+        "ChIJPTa4tyBD1moR8uLRaBjUU4E",
+        "ChIJDwz0U9lC1moR2viF-qh34mU",
+        "ChIJpfNgh6BD1moRoq9GpSqML-I"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Fitzroy Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJXapX5dhC1moR86MypIgqvAs",
+        "ChIJ5SeoaSJD1moRid9AQPf4wjI",
+        "ChIJQ2grDgBD1moREhRhWczAD2E",
+        "ChIJkXHactxD1moRyWljcqHIlgA",
+        "ChIJ-yYHAlZD1moRGu-uSgNT_LE",
+        "ChIJUXAg55hD1moR5cvueQ1SbWY",
+        "ChIJg77nyblD1moRlD97i0GYb2k",
+        "ChIJI0peIQBD1moRKdNrCC7fxjg",
+        "ChIJXetR8z1D1moRIOkxBXZWBA8",
+        "ChIJ13nPDXdD1moR7MGHiK13OW8"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJSQVyIiBD1moRgh7PcCbSpb8",
+      "formattedAddress": "325-329 Gore St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.799348599999995,
+        "longitude": 144.98281190000003
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13809674894944706178&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.faradayscage.com.au/",
+      "displayName": {
+        "text": "Faraday's Cage",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJDeqOSudC1moRLCC-gjbUWow",
+      "formattedAddress": "46 Oxford St, Collingwood VIC 3066, Australia",
+      "location": {
+        "latitude": -37.8059899,
+        "longitude": 144.9846545
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10113629243800690732&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.southofjohnston.com.au/",
+      "displayName": {
+        "text": "South of Johnston",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJm9kDMt5D1moRf805dJlaiA8",
+      "formattedAddress": "233 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8004403,
+        "longitude": 144.97787879999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1119244122528009599&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://bellstreet.com.au/",
+      "displayName": {
+        "text": "Bell Street Coffee Window",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJl0FJoSBD1moRFMiAZXRKHsc",
+      "formattedAddress": "276 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7989841,
+        "longitude": 144.9785384
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14347987326628579348&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://staggerlees.com.au/",
+      "displayName": {
+        "text": "Stagger Lee's Fitzroy",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJ0YTd1ydD1moRaIuCtTpLR6w",
+      "formattedAddress": "379 George St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7980188,
+        "longitude": 144.9817888
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12413973613395479400&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://ponywhite.com.au/",
+      "displayName": {
+        "text": "Pony White",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ7WOBhx9D1moRxd_W_xx0Nmo",
+      "formattedAddress": "240/242 Johnston St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.799018,
+        "longitude": 144.983232
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7653432284662915013&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://addictfoodandcoffee.com.au/",
+      "displayName": {
+        "text": "Addict Food And Coffee",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJyZHJtt1C1moREOF2qDiF_AM",
+      "formattedAddress": "189 Gertrude St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.80602,
+        "longitude": 144.98091399999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=287250954635895056&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.instagram.com/archiesallday/",
+      "displayName": {
+        "text": "Archie's All Day",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJ6_sNdN9C1moR5zcuxFy0TXs",
+      "formattedAddress": "237 Napier St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.800663899999996,
+        "longitude": 144.9802
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=8884955950393210855&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://bentwoodfitzroy.com.au/",
+      "displayName": {
+        "text": "Bentwood Fitzroy Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJz_xlBTBD1moRPi2yOnEq1ZU",
+      "formattedAddress": "Unit 1/166 Gertrude St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8061231,
+        "longitude": 144.98018050000002
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10796582347495058750&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.calerecoffee.com.au/",
+      "displayName": {
+        "text": "Cal\u0113re Coffee",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJnweEnBRD1moR_yRzFdTVlHM",
+      "formattedAddress": "401 Smith St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.79645500000001,
+        "longitude": 144.984512
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=8328516717784540415&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "nabie",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ5bIEz-ND1moRGeSJtkBvDXk",
+      "formattedAddress": "347 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.796830799999995,
+        "longitude": 144.9784584
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=8722750377017599001&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.thefitzcafe.com/",
+      "displayName": {
+        "text": "The Fitz Cafe & Rooftop Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJE4WnxyFD1moRW-Pvjv626S4",
+      "formattedAddress": "411 George St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7972134,
+        "longitude": 144.9819784
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3380434199754302299&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.marquisoflorne.com.au/",
+      "displayName": {
+        "text": "Marquis of Lorne",
+        "languageCode": "en"
+      },
+      "primaryType": "pub"
+    },
+    {
+      "id": "ChIJl-AFCdtC1moRKdKGswC5nYU",
+      "formattedAddress": "53 Gertrude St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8054734,
+        "longitude": 144.9758542
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9628054991051084329&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://marionwine.com.au/",
+      "displayName": {
+        "text": "Marion Wine Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "wine_bar"
+    },
+    {
+      "id": "ChIJIY2EZLRD1moRx7cSDr82Y4c",
+      "formattedAddress": "187 Gertrude St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8059929,
+        "longitude": 144.98081539999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9755701412017387463&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.gabrielfitzroy.com.au/",
+      "displayName": {
+        "text": "GABRIEL FITZROY",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJC5xHddtC1moRxaAJXcp4Ypk",
+      "formattedAddress": "69 Gertrude St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8054953,
+        "longitude": 144.97642080000003
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11052529246060257477&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.sonido.com.au/",
+      "displayName": {
+        "text": "SONIDO",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJPTa4tyBD1moR8uLRaBjUU4E",
+      "formattedAddress": "303 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.797962,
+        "longitude": 144.9784224
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9319025255262577394&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://marioscafe.com.au/",
+      "displayName": {
+        "text": "Marios",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJDwz0U9lC1moR2viF-qh34mU",
+      "formattedAddress": "149 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8031384,
+        "longitude": 144.9774875
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7341561910208624858&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://amarillofitzroy.com.au/",
+      "displayName": {
+        "text": "Amarillo",
+        "languageCode": "en"
+      },
+      "primaryType": "bar"
+    },
+    {
+      "id": "ChIJpfNgh6BD1moRoq9GpSqML-I",
+      "formattedAddress": "402 Brunswick St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7951389,
+        "longitude": 144.9791495
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16298399691266502562&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://maven.melbourne/",
+      "displayName": {
+        "text": "Maven by Morgan",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJXapX5dhC1moR86MypIgqvAs",
+      "formattedAddress": "19-29 Bell St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7999282,
+        "longitude": 144.9756731
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=845597596397511667&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Frank King Park",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJ5SeoaSJD1moRid9AQPf4wjI",
+      "formattedAddress": "Alexandra Parade, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.7940827,
+        "longitude": 144.982016
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3657759588196867977&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.yarracity.vic.gov.au/facilities/smith-reserve",
+      "displayName": {
+        "text": "Smith Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJQ2grDgBD1moREhRhWczAD2E",
+      "formattedAddress": "Fitzroy North VIC 3068, Australia",
+      "location": {
+        "latitude": -37.787786,
+        "longitude": 144.9839019
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6994020730235065362&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://theyappack.com.au/dog-friendly/melbourne/off-leash-areas/edinburgh-gardens-off-leash-fitzroy-north/",
+      "displayName": {
+        "text": "Edinburgh Gardens Off-Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJkXHactxD1moRyWljcqHIlgA",
+      "formattedAddress": "Atherton Reserve, 165 Napier St, Fitzroy VIC 3065, Australia",
+      "location": {
+        "latitude": -37.8032002,
+        "longitude": 144.9792995
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=42441842241006025&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.yarracity.vic.gov.au/facilities/atherton-reserve",
+      "displayName": {
+        "text": "Atherton Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJ-yYHAlZD1moRGu-uSgNT_LE",
+      "formattedAddress": "Curtain St &, Canning St, Carlton North VIC 3054, Australia",
+      "location": {
+        "latitude": -37.789316899999996,
+        "longitude": 144.9740832
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12825217112447315738&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Curtain Square Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJUXAg55hD1moR5cvueQ1SbWY",
+      "formattedAddress": "22 Lulie St, Abbotsford VIC 3067, Australia",
+      "location": {
+        "latitude": -37.798415999999996,
+        "longitude": 144.9968309
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7380645582163856357&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://theyappack.com.au/dog-friendly/melbourne/off-leash-areas/victoria-park-fenced-dog-off-leash-area-abbotsford/",
+      "displayName": {
+        "text": "Victoria Park Fenced Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJg77nyblD1moRlD97i0GYb2k",
+      "formattedAddress": "192 Park St, Fitzroy North VIC 3068, Australia",
+      "location": {
+        "latitude": -37.7807408,
+        "longitude": 144.9840586
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7597458503677722516&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Janet Millman Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJI0peIQBD1moRKdNrCC7fxjg",
+      "formattedAddress": "Clifton Hill VIC 3068, Australia",
+      "location": {
+        "latitude": -37.790402199999996,
+        "longitude": 144.99262579999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=4091202700315448105&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://theyappack.com.au/dog-friendly/melbourne/off-leash-areas/darling-gardens-off-leash-area-clifton-hill/",
+      "displayName": {
+        "text": "Darling Gardens Off-Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJXetR8z1D1moRIOkxBXZWBA8",
+      "formattedAddress": "Alfred Cres, Fitzroy North VIC 3068, Australia",
+      "location": {
+        "latitude": -37.7873691,
+        "longitude": 144.9829997
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1082084875369048352&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.yarracity.vic.gov.au/facilities/edinburgh-gardens",
+      "displayName": {
+        "text": "Edinburgh Gardens",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJ13nPDXdD1moR7MGHiK13OW8",
+      "formattedAddress": "267 Holden St, Fitzroy North VIC 3068, Australia",
+      "location": {
+        "latitude": -37.7815861,
+        "longitude": 144.9913305
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=8014568599086154220&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/rushall-reserve-dog-off-leash-area-fitzroy-north",
+      "displayName": {
+        "text": "Rushall Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 30,
+    "uniquePlaceCount": 28
+  }
+}

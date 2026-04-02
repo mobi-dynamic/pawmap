@@ -1,4 +1,5 @@
 import { buildApiUrl, devUserId } from '@/lib/config';
+import { buildPolicySummary } from '@/lib/policy-presentations';
 import type {
   ApiError,
   DogPolicyStatus,
@@ -242,7 +243,7 @@ function adaptSearchItem(item: ApiSearchItem): PlaceSummary {
     dogPolicyStatus: item.dogPolicyStatus,
     confidenceScore: item.confidenceScore,
     verifiedAt: item.verifiedAt,
-    summary: buildSummary({
+    summary: buildPolicySummary({
       dogPolicyStatus: item.dogPolicyStatus,
       notes: null,
       indoorAllowed: null,
@@ -271,7 +272,7 @@ function adaptPlaceDetail(item: ApiPlaceDetail): PlaceDetail {
     dogPolicyStatus: item.dogPolicyStatus,
     confidenceScore: item.confidenceScore,
     verifiedAt: item.verifiedAt,
-    summary: buildSummary(petRules),
+    summary: buildPolicySummary(petRules),
     websiteUrl: item.websiteUrl,
     petRules,
   };
@@ -287,19 +288,3 @@ function normalizeCategory(value: string | null) {
     .join(' ');
 }
 
-function buildSummary(rules: {
-  dogPolicyStatus: DogPolicyStatus;
-  notes: string | null;
-  indoorAllowed: boolean | null;
-  outdoorAllowed: boolean | null;
-  serviceDogOnly: boolean | null;
-}) {
-  if (rules.notes) return rules.notes;
-  if (rules.serviceDogOnly) return 'Service dogs only.';
-  if (rules.indoorAllowed === true && rules.outdoorAllowed === true) return 'Dogs allowed indoors and outdoors.';
-  if (rules.indoorAllowed === false && rules.outdoorAllowed === true) return 'Dogs allowed outdoors only.';
-  if (rules.dogPolicyStatus === 'not_allowed') return 'Dogs are not allowed.';
-  if (rules.dogPolicyStatus === 'unknown') return 'No trustworthy public policy published yet.';
-  if (rules.dogPolicyStatus === 'allowed') return 'Dog policy available.';
-  return 'Dog access may be restricted.';
-}

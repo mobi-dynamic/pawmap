@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 
 import { StatusPill } from '@/components/status-pill';
+import { TrustPill } from '@/components/trust-pill';
 import { getPlaceDetail, getReportValidationMessage, submitReport } from '@/lib/api';
+import { getTrustLevel, getTrustShortNote, getPolicyHeadline } from '@/lib/policy-presentations';
 import type { DogPolicyStatus, PlaceDetail, ReportSubmissionInput } from '@/lib/types';
 
 type FormState = {
@@ -42,10 +44,10 @@ const INITIAL_FORM: FormState = {
 
 const POLICY_OPTIONS: Array<{ label: string; value: DogPolicyStatus | null }> = [
   { label: 'Not sure', value: null },
-  { label: 'Allowed', value: 'allowed' },
-  { label: 'Restricted', value: 'restricted' },
-  { label: 'Not allowed', value: 'not_allowed' },
-  { label: 'Unknown', value: 'unknown' },
+  { label: 'Dogs allowed', value: 'allowed' },
+  { label: 'Rules apply', value: 'restricted' },
+  { label: 'Dogs not allowed', value: 'not_allowed' },
+  { label: 'Policy unknown', value: 'unknown' },
 ];
 
 const BOOLEAN_OPTIONS: Array<{ label: string; value: boolean | null }> = [
@@ -163,13 +165,35 @@ export default function ReportScreen() {
       ) : (
         <>
           <View style={[styles.card, styles.summaryCard]}>
-            <StatusPill status={place.petRules.dogPolicyStatus} />
+            <View style={styles.summaryBadgeRow}>
+              <StatusPill status={place.petRules.dogPolicyStatus} />
+              <TrustPill
+                level={
+                  getTrustLevel({
+                    dogPolicyStatus: place.petRules.dogPolicyStatus,
+                    verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
+                    verificationSourceType: place.petRules.verificationSourceType,
+                    confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
+                  })
+                }
+              />
+            </View>
             <Text style={styles.title}>{place.name}</Text>
             <Text style={styles.subtitle}>
               {place.category} · {place.formattedAddress}
             </Text>
-            <Text style={styles.summaryHeadline}>Current policy</Text>
+            <Text style={styles.summaryHeadline}>{getPolicyHeadline(place.petRules.dogPolicyStatus)}</Text>
             <Text style={styles.body}>{place.summary}</Text>
+            <Text style={styles.helperText}>
+              {getTrustShortNote(
+                getTrustLevel({
+                  dogPolicyStatus: place.petRules.dogPolicyStatus,
+                  verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
+                  verificationSourceType: place.petRules.verificationSourceType,
+                  confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
+                }),
+              )}
+            </Text>
             <View style={styles.currentPolicyList}>
               <PolicyRow label="Indoor access" value={formatAllowance(place.petRules.indoorAllowed)} />
               <PolicyRow label="Outdoor access" value={formatAllowance(place.petRules.outdoorAllowed)} />
@@ -363,6 +387,11 @@ const styles = StyleSheet.create({
   },
   summaryCard: {
     gap: 12,
+  },
+  summaryBadgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
   title: {
     color: '#111827',

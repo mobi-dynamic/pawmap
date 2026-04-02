@@ -1,0 +1,328 @@
+{
+  "geographySlug": "melbourne-beaumaris",
+  "geographyName": "Melbourne Beaumaris launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9869,
+    "lng": 145.0357,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Beaumaris Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ3aBOIEBv1moRmPMZNt2PjMA",
+        "ChIJe0i03FFu1moRv4IycU7we1I",
+        "ChIJ_bBGNBNu1moRyBbnQDEqcKU",
+        "ChIJx9qz5Whu1moRdinvJi1Ckuw",
+        "ChIJ62yqA0Zu1moRrSers7fXAUQ",
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJh7gKxg5t1moRK8Bbz-p3iwQ",
+        "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+        "ChIJ4ZviVHFv1moRh7qdvw9uDkI",
+        "ChIJQ5O2Ydhv1moRRdszhoLJT0Y"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Beaumaris Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ3aBOIEBv1moRmPMZNt2PjMA",
+        "ChIJe0i03FFu1moRv4IycU7we1I",
+        "ChIJ4UKDtmxu1moRKRXF7KfOCcI",
+        "ChIJ_bBGNBNu1moRyBbnQDEqcKU",
+        "ChIJx9qz5Whu1moRdinvJi1Ckuw",
+        "ChIJGYOIPghv1moRbvc4xa1sYFA",
+        "ChIJGfRORlVv1moRzKlek6DjrSw",
+        "ChIJwyeauuBt1moRSyEnpM-lx4E",
+        "ChIJ62yqA0Zu1moRrSers7fXAUQ",
+        "ChIJr3z55E1u1moRheGhhfjbNhk"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Beaumaris Melbourne",
+      "count": 3,
+      "place_ids": [
+        "ChIJl6ePBT5u1moR8zNdlrK7T5A",
+        "ChIJd9a2K6dv1moRxi3g8aqSF34",
+        "ChIJU39a4nJv1moRbIdxDbOQ3cY"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJ3aBOIEBv1moRmPMZNt2PjMA",
+      "formattedAddress": "38 E Concourse, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9858431,
+        "longitude": 145.03489
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13874622732279870360&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://2littlemonkeys.com.au/",
+      "displayName": {
+        "text": "Two Little Monkeys",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJe0i03FFu1moRv4IycU7we1I",
+      "formattedAddress": "407C Beach Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9910777,
+        "longitude": 145.0293341
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5943608352942752447&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.rickettspointbeaumaris.com.au/",
+      "displayName": {
+        "text": "Rickett's Point Beaumaris",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ_bBGNBNu1moRyBbnQDEqcKU",
+      "formattedAddress": "23/25 S Concourse, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.986292,
+        "longitude": 145.034399
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11921074604680353480&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.gingerfox.com.au/",
+      "displayName": {
+        "text": "Ginger Fox Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJx9qz5Whu1moRdinvJi1Ckuw",
+      "formattedAddress": "457 Balcombe Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.977456499999995,
+        "longitude": 145.0310269
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17046760301244918134&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.chinoandco.com.au/",
+      "displayName": {
+        "text": "Chino & Co",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ62yqA0Zu1moRrSers7fXAUQ",
+      "formattedAddress": "299 Beach Rd, Black Rock VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9758114,
+        "longitude": 145.0164307
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=4900435053549135789&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.thecolonelsson.com.au/reservations-1",
+      "displayName": {
+        "text": "The Colonel's Son",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJh7gKxg5t1moRK8Bbz-p3iwQ",
+      "formattedAddress": "107 Charman Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.979496999999995,
+        "longitude": 145.052873
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=327487248299442219&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "16Beans Espresso Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "coffee_shop"
+    },
+    {
+      "id": "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+      "formattedAddress": "68 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9885091,
+        "longitude": 145.05964989999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14847419362754715238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "CHAIN OF FOOLS",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ4ZviVHFv1moRh7qdvw9uDkI",
+      "formattedAddress": "467 Beach Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.992091699999996,
+        "longitude": 145.0417899
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=4759862870095542919&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://thecnr.com.au/",
+      "displayName": {
+        "text": "The CNR",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJQ5O2Ydhv1moRRdszhoLJT0Y",
+      "formattedAddress": "34 S Concourse, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9865103,
+        "longitude": 145.0343631
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5066489668249574213&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.flavoursbeaumaris.com.au/",
+      "displayName": {
+        "text": "Flavours & Co Beaumaris Pty Ltd",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ4UKDtmxu1moRKRXF7KfOCcI",
+      "formattedAddress": "8/10 N Concourse, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9855954,
+        "longitude": 145.0339907
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13981933738775614761&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://lacucinabeaumaris.com.au/",
+      "displayName": {
+        "text": "La Cucina Beaumaris",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJGYOIPghv1moRbvc4xa1sYFA",
+      "formattedAddress": "359 Balcombe Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.979025799999995,
+        "longitude": 145.0450549
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5791748614392444782&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://saskacafe.com.au/",
+      "displayName": {
+        "text": "Saska",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJGfRORlVv1moRzKlek6DjrSw",
+      "formattedAddress": "16/18 Keys St, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.991772,
+        "longitude": 145.040968
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3219479587446499788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.instagram.com/bothybeaumaris/",
+      "displayName": {
+        "text": "Bothy",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJwyeauuBt1moRSyEnpM-lx4E",
+      "formattedAddress": "109 Charman Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9794236,
+        "longitude": 145.0528368
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9351625462488965451&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.creativethaibar.com/",
+      "displayName": {
+        "text": "Creative Thai & Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "thai_restaurant"
+    },
+    {
+      "id": "ChIJr3z55E1u1moRheGhhfjbNhk",
+      "formattedAddress": "16 Cerberus Way, Boat shed, 212 Half Moon Bay, Black Rock VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9691876,
+        "longitude": 145.01073309999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1816881360130924933&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.cerberusbeachhouse.com.au/",
+      "displayName": {
+        "text": "The Cerberus Beach House",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJl6ePBT5u1moR8zNdlrK7T5A",
+      "formattedAddress": "389/390 Beach Rd, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.989979999999996,
+        "longitude": 145.0282579
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10398736440323027955&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.bayside.vic.gov.au/living_in_bayside/marine_sanctuary_dog_off_leash_areas.htm",
+      "displayName": {
+        "text": "Ricketts Point Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJd9a2K6dv1moRxi3g8aqSF34",
+      "formattedAddress": "83 Tramway Parade, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.985793099999995,
+        "longitude": 145.0431238
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9085892036143361478&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Banksia Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJU39a4nJv1moRbIdxDbOQ3cY",
+      "formattedAddress": "20 Keating St, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.982050199999996,
+        "longitude": 145.0257819
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14329768688061876076&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Donald MacDonald Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "athletic_field"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 23,
+    "uniquePlaceCount": 18
+  }
+}

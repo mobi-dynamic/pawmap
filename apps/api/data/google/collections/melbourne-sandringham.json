@@ -1,0 +1,437 @@
+{
+  "geographySlug": "melbourne-sandringham",
+  "geographyName": "Melbourne Sandringham launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9528,
+    "lng": 145.0108,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Sandringham Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJfWkhtNxv1moRMiorfaYtAtY",
+        "ChIJL9wcDgJv1moRJYJruQtM1e0",
+        "ChIJf7BXxkNv1moRfG4pjuVjBwU",
+        "ChIJOwVJjY9v1moRudaZeV1AlAU",
+        "ChIJz3iTAZtv1moRxyFGr4TaCi8",
+        "ChIJb-x9b-1u1moRJBcbu_R05O0",
+        "ChIJK700zQRv1moR-XbpVHPK0ug",
+        "ChIJw6lQa75u1moR3iR1lWp03ME",
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJDcuLXNtv1moRTn62NLcocuo"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Sandringham Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJb-x9b-1u1moRJBcbu_R05O0",
+        "ChIJfWkhtNxv1moRMiorfaYtAtY",
+        "ChIJRQuwbS5v1moRZ6p4egJRIl4",
+        "ChIJL9wcDgJv1moRJYJruQtM1e0",
+        "ChIJOwVJjY9v1moRudaZeV1AlAU",
+        "ChIJ3XbmigJv1moRp1B6_j_LKr0",
+        "ChIJrY6t09hv1moRpaFsY-oFUY4",
+        "ChIJPwuISUhv1moRI3rwoDaYFaE",
+        "ChIJK700zQRv1moR-XbpVHPK0ug",
+        "ChIJP5iFF8lv1moRs4zcvp_LZIw"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Sandringham Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ0bF4VQVv1moR_FvUjZJuw38",
+        "ChIJY8pGQjZv1moRgRl3Bu6WUZ4",
+        "ChIJ75rZQcFv1moRswWzhGgv-GE",
+        "ChIJZRU-nxtv1moRZ5YJyMP6gJs",
+        "ChIJcSQDuA9v1moRtHkZ59tk15w",
+        "ChIJOWKxsPVu1moRzNgMH9B9pbg",
+        "ChIJsdWQSydv1moRa3iDFU20ZjU",
+        "ChIJCwkgjUNv1moRS6Uf6J53jy0",
+        "ChIJFetC_wZv1moR4anYuGq1nqw",
+        "ChIJocAD4bBv1moREW5wT0wJk9w"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJfWkhtNxv1moRMiorfaYtAtY",
+      "formattedAddress": "50 Station St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.94993230000001,
+        "longitude": 145.003954
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15420938267157801522&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.littleray.com.au/",
+      "displayName": {
+        "text": "Our Little Ray of Sunshine",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJL9wcDgJv1moRJYJruQtM1e0",
+      "formattedAddress": "20 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.951989999999995,
+        "longitude": 145.004525
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17137687570267472421&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.blacksquirrel.com.au/",
+      "displayName": {
+        "text": "Black Squirrel",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJf7BXxkNv1moRfG4pjuVjBwU",
+      "formattedAddress": "114 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9529796,
+        "longitude": 145.01168859999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=362368132610354812&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://bayroadcafe.com.au/",
+      "displayName": {
+        "text": "The Bay Road Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJOwVJjY9v1moRudaZeV1AlAU",
+      "formattedAddress": "7 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9515763,
+        "longitude": 145.0043438
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=402017036959078073&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.portofcall.com.au/",
+      "displayName": {
+        "text": "Port of Call",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJz3iTAZtv1moRxyFGr4TaCi8",
+      "formattedAddress": "2 Small St, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.939509699999995,
+        "longitude": 145.00078879999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3389761932960866759&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.merrymenhampton.com/",
+      "displayName": {
+        "text": "Merrymen",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJb-x9b-1u1moRJBcbu_R05O0",
+      "formattedAddress": "222 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9549655,
+        "longitude": 145.02565429999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17141954676138907428&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://fullturnkb.com/",
+      "displayName": {
+        "text": "Full Turn Kitchen Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJK700zQRv1moR-XbpVHPK0ug",
+      "formattedAddress": "36 Jetty Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.945707999999996,
+        "longitude": 144.9977532
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16776694158603155193&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Sandy Kiosk",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJw6lQa75u1moR3iR1lWp03ME",
+      "formattedAddress": "23 Spring Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9467652,
+        "longitude": 145.03191099999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13969168145319273694&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.facebook.com/TheLittleElephantHighett",
+      "displayName": {
+        "text": "The Little Elephant",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJDcuLXNtv1moRTn62NLcocuo",
+      "formattedAddress": "73 Station St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9509037,
+        "longitude": 145.0043236
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16893609919548653134&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.facebook.com/StationMingleCafe/",
+      "displayName": {
+        "text": "station mingle cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJRQuwbS5v1moRZ6p4egJRIl4",
+      "formattedAddress": "shop 1/18/34 Station St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9488951,
+        "longitude": 145.004411
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6783073059859901031&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Stevie",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ3XbmigJv1moRp1B6_j_LKr0",
+      "formattedAddress": "54 Station St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.950033,
+        "longitude": 145.00384900000003
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13630930697903034535&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.cafelimoncello.com.au/",
+      "displayName": {
+        "text": "Cafe Limoncello",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJrY6t09hv1moRpaFsY-oFUY4",
+      "formattedAddress": "66 Station St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.950662099999995,
+        "longitude": 145.00399389999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10254984330747879845&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://ammosgreektavern.com/",
+      "displayName": {
+        "text": "Ammos Greek Tavern",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJPwuISUhv1moRI3rwoDaYFaE",
+      "formattedAddress": "39 Melrose St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9503325,
+        "longitude": 145.0038741
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11607350975013091875&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.sidebarwine.com/",
+      "displayName": {
+        "text": "Sidebar",
+        "languageCode": "en"
+      },
+      "primaryType": "wine_bar"
+    },
+    {
+      "id": "ChIJP5iFF8lv1moRs4zcvp_LZIw",
+      "formattedAddress": "315 Hampton St, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.938228099999996,
+        "longitude": 145.00227089999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10116434549943340211&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.bangbangeats.com.au/",
+      "displayName": {
+        "text": "Bang Bang Hampton",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJ0bF4VQVv1moR_FvUjZJuw38",
+      "formattedAddress": "53 Royal Ave, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9594482,
+        "longitude": 145.0151436
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9206323638999211004&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/royal-avenue-reserve-dog-off-leash-area-sandringham",
+      "displayName": {
+        "text": "Royal Avenue Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJY8pGQjZv1moRgRl3Bu6WUZ4",
+      "formattedAddress": "47 Spring St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9595765,
+        "longitude": 145.0260954
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11408065280161028481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Merindah Park Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ75rZQcFv1moRswWzhGgv-GE",
+      "formattedAddress": "9996 George St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.961454499999995,
+        "longitude": 145.0281225
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7059444541852681651&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/george-street-reserve-dog-off-leash-area-sandringham",
+      "displayName": {
+        "text": "George Street Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJZRU-nxtv1moRZ5YJyMP6gJs",
+      "formattedAddress": "Dog Friendly Beach Sandringham Harbour, Jetty Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.943401,
+        "longitude": 144.9984646
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11205231591679432295&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.bayside.vic.gov.au/places-walk-your-dog-hampton-hampton-east-and-highett",
+      "displayName": {
+        "text": "Dog Friendly Beach Sandringham Harbour",
+        "languageCode": "en"
+      },
+      "primaryType": "beach"
+    },
+    {
+      "id": "ChIJcSQDuA9v1moRtHkZ59tk15w",
+      "formattedAddress": "Unit 2/26 Cooke St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9594495,
+        "longitude": 145.02608619999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11301612685547370932&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Merindah Park",
+        "languageCode": "fr"
+      },
+      "primaryType": "city_park"
+    },
+    {
+      "id": "ChIJOWKxsPVu1moRzNgMH9B9pbg",
+      "formattedAddress": "29A Tulip St, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9619917,
+        "longitude": 145.0235236
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13305179006963603660&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Tjilatjirrin Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJsdWQSydv1moRa3iDFU20ZjU",
+      "formattedAddress": "81 Fewster Rd, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.938174,
+        "longitude": 145.0214384
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3847961174801086571&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/w-l-simpson-reserve-dog-off-leash-area-hampton",
+      "displayName": {
+        "text": "W. L Simpson Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "sports_club"
+    },
+    {
+      "id": "ChIJCwkgjUNv1moRS6Uf6J53jy0",
+      "formattedAddress": "5 Wishart St, Hampton East VIC 3188, Australia",
+      "location": {
+        "latitude": -37.9359909,
+        "longitude": 145.02519470000001
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3282974177759307083&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Wishart Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJFetC_wZv1moR4anYuGq1nqw",
+      "formattedAddress": "2 Lawson St, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.934556799999996,
+        "longitude": 145.0209041
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12438578690816256481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "R J Sillitoe Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJocAD4bBv1moREW5wT0wJk9w",
+      "formattedAddress": "Beach Rd &, South Rd, Brighton VIC 3186, Australia",
+      "location": {
+        "latitude": -37.929007899999995,
+        "longitude": 144.9896774
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15894057733275545105&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/brighton-beach-dog-off-leash-area-brighton",
+      "displayName": {
+        "text": "Brighton Beach Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 30,
+    "uniquePlaceCount": 25
+  }
+}

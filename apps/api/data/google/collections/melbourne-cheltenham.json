@@ -1,0 +1,405 @@
+{
+  "geographySlug": "melbourne-cheltenham",
+  "geographyName": "Melbourne Cheltenham launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9695,
+    "lng": 145.0544,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Cheltenham Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJg-U1wY9t1moRTChZg135tJI",
+        "ChIJXe3TWtpt1moRL9oV51rXM6c",
+        "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+        "ChIJXRGgcPFt1moR-GyCyme721U",
+        "ChIJd_c_1xVs1moRKn0BM_ES-NM",
+        "ChIJtY3cyS5s1moRLltgJgkr-XY",
+        "ChIJt1GJmj1v1moR15tNKRms-KQ",
+        "ChIJ8aztI31u1moRQZIrGIPyXIE",
+        "ChIJ-zK9MS9s1moR_yNL-jRsFA0"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Cheltenham Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJHcdqFS9s1moRewMG13mOtg8",
+        "ChIJ8aztI31u1moRQZIrGIPyXIE",
+        "ChIJd_c_1xVs1moRKn0BM_ES-NM",
+        "ChIJtY3cyS5s1moRLltgJgkr-XY",
+        "ChIJ-zK9MS9s1moR_yNL-jRsFA0",
+        "ChIJXe3TWtpt1moRL9oV51rXM6c",
+        "ChIJZdT5uXds1moRlXPcPbZYy6g",
+        "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+        "ChIJWe18mcRt1moRkR9H18pv71Y",
+        "ChIJb-x9b-1u1moRJBcbu_R05O0"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Cheltenham Melbourne",
+      "count": 9,
+      "place_ids": [
+        "ChIJUaH9AjJt1moRbdIVOSVd7AQ",
+        "ChIJW4qL3w1t1moRIQ15qM6nNAA",
+        "ChIJwfPNEUZs1moRXNcpH87l_5Q",
+        "ChIJh7IlhJlt1moRU-wk02m6z-o",
+        "ChIJo-5J_2ls1moRKkIHF8Ufmiw",
+        "ChIJOZgemk9s1moRyi5Jc_XnWdY",
+        "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+        "ChIJb-tzSztt1moRbk8HgVJnRBI",
+        "ChIJHbvDmWBs1moRkKcxBXZWBA8"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJg-U1wY9t1moRTChZg135tJI",
+      "formattedAddress": "4 Station Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9672018,
+        "longitude": 145.0559859
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10571348405376329804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://holytoast.com.au/",
+      "displayName": {
+        "text": "Holy Toast",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJXe3TWtpt1moRL9oV51rXM6c",
+      "formattedAddress": "1 Dissik St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.95393920000001,
+        "longitude": 145.07128269999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12048210213570206255&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Rattle Beans Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+      "formattedAddress": "88 Chesterville Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.956212099999995,
+        "longitude": 145.057693
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9171132928894738037&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://social.quandoo.com/en/groups/Drip-Cafe",
+      "displayName": {
+        "text": "Drip Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJXRGgcPFt1moR-GyCyme721U",
+      "formattedAddress": "14 Station Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.967245,
+        "longitude": 145.0563395
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6186744567577079032&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.peckishcheltenham.com.au/",
+      "displayName": {
+        "text": "Peckish Cafe Cheltenham",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJd_c_1xVs1moRKn0BM_ES-NM",
+      "formattedAddress": "97 Cavanagh St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.957760799999996,
+        "longitude": 145.0662525
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15273978963379191082&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.franksmelbourne.com.au/",
+      "displayName": {
+        "text": "Frank's",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJtY3cyS5s1moRLltgJgkr-XY",
+      "formattedAddress": "256 Charman Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9687159,
+        "longitude": 145.0551917
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=8572930683974998830&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.twobobsnobs.com.au/",
+      "displayName": {
+        "text": "Two Bob Snob",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJt1GJmj1v1moR15tNKRms-KQ",
+      "formattedAddress": "31 Ambrose Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9609981,
+        "longitude": 145.03984839999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11887440440511536087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.sanamelbourne.com.au/",
+      "displayName": {
+        "text": "Sana Coffee",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ8aztI31u1moRQZIrGIPyXIE",
+      "formattedAddress": "38-40 Weatherall Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.970856999999995,
+        "longitude": 145.0393958
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9321591973610230337&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.theparlorkitchenbar.com.au/home",
+      "displayName": {
+        "text": "The Parlor Kitchen & Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ-zK9MS9s1moR_yNL-jRsFA0",
+      "formattedAddress": "253 Charman Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9668667,
+        "longitude": 145.0552601
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=942497196820603903&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Johnny Dante",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJHcdqFS9s1moRewMG13mOtg8",
+      "formattedAddress": "13 Station Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.96691,
+        "longitude": 145.0562909
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1132249010279940987&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.thegardenchelt.com.au/",
+      "displayName": {
+        "text": "The Garden of Good & Evil",
+        "languageCode": "en"
+      },
+      "primaryType": "bar"
+    },
+    {
+      "id": "ChIJZdT5uXds1moRlXPcPbZYy6g",
+      "formattedAddress": "8 Arco Ln, Heatherton VIC 3202, Australia",
+      "location": {
+        "latitude": -37.9473997,
+        "longitude": 145.08045239999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12162912758389306261&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.arcobar.com.au/",
+      "displayName": {
+        "text": "arcobar heatherton",
+        "languageCode": "en"
+      },
+      "primaryType": "australian_restaurant"
+    },
+    {
+      "id": "ChIJWe18mcRt1moRkR9H18pv71Y",
+      "formattedAddress": "9 Cochranes Rd, Moorabbin VIC 3189, Australia",
+      "location": {
+        "latitude": -37.9416526,
+        "longitude": 145.0619769
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6264348523681488785&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.stompingground.beer/morrismoor",
+      "displayName": {
+        "text": "Stomping Ground Brewery & Beer Hall - Morris Moor",
+        "languageCode": "en"
+      },
+      "primaryType": "bar"
+    },
+    {
+      "id": "ChIJb-x9b-1u1moRJBcbu_R05O0",
+      "formattedAddress": "222 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9549655,
+        "longitude": 145.02565429999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17141954676138907428&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://fullturnkb.com/",
+      "displayName": {
+        "text": "Full Turn Kitchen Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJUaH9AjJt1moRbdIVOSVd7AQ",
+      "formattedAddress": "Tulip Grove &, Park Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9661624,
+        "longitude": 145.0498405
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=354760885108331117&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Cheltenham Park Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJW4qL3w1t1moRIQ15qM6nNAA",
+      "formattedAddress": "52 Brampton St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9643867,
+        "longitude": 145.0767155
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14821204820561185&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Farm Road Reserve Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJwfPNEUZs1moRXNcpH87l_5Q",
+      "formattedAddress": "22 Eagland Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9715633,
+        "longitude": 145.0761705
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10736552710123411292&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/derring-lane-reserve-dog-off-leash-area-cheltenham",
+      "displayName": {
+        "text": "Derring Lane Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJh7IlhJlt1moRU-wk02m6z-o",
+      "formattedAddress": "112 Argus St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9586731,
+        "longitude": 145.07218229999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16919947288730987603&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Le Page Park Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJo-5J_2ls1moRKkIHF8Ufmiw",
+      "formattedAddress": "Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9629822,
+        "longitude": 145.0769868
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3213916215437640234&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Farm Road Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJOZgemk9s1moRyi5Jc_XnWdY",
+      "formattedAddress": "5A Snowdon Dr, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9745612,
+        "longitude": 145.080284
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15445631438431006410&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Snowdon Reserve Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+      "formattedAddress": "Reg Marlow Reserve, 133 Warrigal Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9764438,
+        "longitude": 145.0721879
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=519518808107335216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Reg Marlow Reserve Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJb-tzSztt1moRbk8HgVJnRBI",
+      "formattedAddress": "35 Turner Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9499627,
+        "longitude": 145.0544464
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1316290595148746606&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/turner-road-reserve-dog-off-leash-area-highett",
+      "displayName": {
+        "text": "Turner Road Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJHbvDmWBs1moRkKcxBXZWBA8",
+      "formattedAddress": "285 Centre Dandenong Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9669198,
+        "longitude": 145.0884533
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1082084875369031568&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.kingston.vic.gov.au/Places-and-Spaces/Parks-and-Playgrounds/Playgrounds/Kingston-Heath-Reserve",
+      "displayName": {
+        "text": "Kingston Heath Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 29,
+    "uniquePlaceCount": 23
+  }
+}

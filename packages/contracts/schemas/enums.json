@@ -19,6 +19,10 @@
         null
       ]
     },
+    "policyTrustLevel": {
+      "type": "string",
+      "enum": ["verified", "inferred", "needs_verification"]
+    },
     "reportStatus": {
       "type": "string",
       "enum": ["pending", "approved", "rejected"]

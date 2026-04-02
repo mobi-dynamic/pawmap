@@ -5,8 +5,8 @@
 For the PawMap MVP, use:
 
 - **Netlify** for `apps/web` (Next.js)
-- **Render** for `apps/api` (FastAPI)
-- **Neon** for managed PostgreSQL
+- **Render Blueprint** for `apps/api` (FastAPI)
+- **Render Postgres** for managed PostgreSQL with automatic `DATABASE_URL` injection
 
 This replaces the earlier Vercel-first assumption. The main reason is practical, not ideological: PawMap is a small full-stack app, and the current repository needs a deployment path that works cleanly with private GitHub org workflows on free tiers.
 
@@ -29,6 +29,8 @@ This replaces the earlier Vercel-first assumption. The main reason is practical,
 
 ### API — Render
 
+Recommended path: deploy via the repo Blueprint in `render.yaml` so `DATABASE_URL` is injected automatically from the managed Render Postgres instance.
+
 - Root/base directory: `apps/api`
 - Runtime: Python
 - Build command:
@@ -44,23 +46,25 @@ python -m app.db bootstrap && uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
 - Required env:
-  - `DATABASE_URL=<neon-postgres-url>`
+  - `DATABASE_URL` — auto-injected when deployed through `render.yaml`
   - any future provider keys / admin secrets when those integrations land
 
 Notes:
 - `python -m app.db bootstrap` is intentionally safe for repeat starts because migrations are tracked.
 - If startup time becomes an issue later, split bootstrap/migrate into a release command and keep app start narrower.
 
-### Database — Neon
+### Database — Render Postgres via Blueprint
 
-- Provision a PostgreSQL database in Neon
-- Copy the pooled or direct `DATABASE_URL` into the Render API service
+- `render.yaml` provisions a managed Postgres instance named `pawmap-db`
+- Render injects the database connection string into the API service as `DATABASE_URL`
 - Keep schema changes driven by the existing SQL migration flow in `apps/api/migrations`
+
+If you still prefer Neon later, keep the same API service and set `DATABASE_URL` manually to the Neon connection string.
 
 ## Minimum deployment flow
 
-1. Create the Neon database
-2. Create the Render API service and set `DATABASE_URL`
+1. Create the Render Blueprint from `render.yaml`
+2. Let Render provision `pawmap-db` and inject `DATABASE_URL` into the API service automatically
 3. Verify:
    - `/health`
    - `/docs`

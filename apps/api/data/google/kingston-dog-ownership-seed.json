@@ -1,0 +1,42 @@
+{
+  "metro": "kingston",
+  "area": "dog-ownership",
+  "places": [
+    {
+      "id": "kingston-exercise-area-bicentennial-park-chelsea",
+      "displayName": { "text": "Bicentennial Park" },
+      "formattedAddress": "Chelsea VIC",
+      "location": { "latitude": -38.0, "longitude": 145.0 },
+      "primaryType": "dog_park",
+      "websiteUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership",
+      "googleMapsUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership"
+    },
+    {
+      "id": "kingston-exercise-area-kevin-hayes-reserve-mordialloc",
+      "displayName": { "text": "Kevin Hayes Reserve" },
+      "formattedAddress": "Mordialloc VIC",
+      "location": { "latitude": -38.005, "longitude": 145.07 },
+      "primaryType": "dog_park",
+      "websiteUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership",
+      "googleMapsUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership"
+    },
+    {
+      "id": "kingston-exercise-area-kingston-heath-cheltenham",
+      "displayName": { "text": "Kingston Heath" },
+      "formattedAddress": "Cheltenham VIC",
+      "location": { "latitude": -37.96, "longitude": 145.05 },
+      "primaryType": "dog_park",
+      "websiteUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership",
+      "googleMapsUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership"
+    },
+    {
+      "id": "kingston-exercise-area-bald-hill-park-clayton-south",
+      "displayName": { "text": "Bald Hill Park" },
+      "formattedAddress": "Clayton South VIC",
+      "location": { "latitude": -37.94, "longitude": 145.12 },
+      "primaryType": "dog_park",
+      "websiteUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership",
+      "googleMapsUri": "https://www.kingston.vic.gov.au/services/pets/dog-ownership"
+    }
+  ]
+}

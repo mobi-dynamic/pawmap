@@ -12,6 +12,7 @@ Minimal FastAPI scaffold for the PawMap MVP.
 - Tiny DB helper CLI for migrate/seed/bootstrap/google collection + ingestion flows: `python -m app.db ...`
 - Repository abstraction with PostgreSQL-backed persistence when `DATABASE_URL` is set
 - In-memory fallback repository for local scaffold work and fast smoke tests
+  - Important: this fallback serves hard-coded sample places from `app/repository.py`; it is not live provider data
 
 ## Run locally
 
@@ -44,7 +45,16 @@ Open <http://127.0.0.1:8000/docs>.
 
 ### PostgreSQL-backed local dev
 
-Point the API at a local Postgres instance before starting the app:
+Point the API at a Postgres instance before starting the app. For local-only secrets, prefer `apps/api/.env` over putting `DATABASE_URL` in any frontend/mobile env file.
+
+```bash
+cp .env.example .env
+# then edit .env with your real DATABASE_URL if needed
+python -m app.db bootstrap
+uvicorn app.main:app --reload
+```
+
+The API now auto-loads `apps/api/.env` for local development. You can still export it inline if you prefer:
 
 ```bash
 export DATABASE_URL='postgresql://postgres:postgres@localhost:5432/pawmap'

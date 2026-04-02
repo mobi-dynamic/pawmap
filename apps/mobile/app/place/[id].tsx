@@ -3,8 +3,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { StatusPill } from '@/components/status-pill';
+import { TrustPill } from '@/components/trust-pill';
 import { getNearbyPlaces, getPlaceDetail } from '@/lib/api';
-import type { DogPolicyStatus, PlaceDetail, PlaceSummary, VerificationSourceType } from '@/lib/types';
+import {
+  getConfidenceNote,
+  getPolicyHeadline,
+  getTrustLevel,
+  getTrustMessage,
+  getTrustShortNote,
+} from '@/lib/policy-presentations';
+import type { PlaceDetail, PlaceSummary, VerificationSourceType } from '@/lib/types';
 
 const DETAIL_ITEMS: Array<{
   label: string;
@@ -71,13 +79,24 @@ export default function PlaceDetailScreen() {
     void loadPlace();
   }, [loadPlace]);
 
+  const trustLevel = useMemo(() => {
+    if (!place) return 'needs_verification';
+
+    return getTrustLevel({
+      dogPolicyStatus: place.petRules.dogPolicyStatus,
+      verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
+      verificationSourceType: place.petRules.verificationSourceType,
+      confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
+    });
+  }, [place]);
+
   const trustSummary = useMemo(() => {
     if (!place) return [];
 
     return [
       {
-        label: 'Confidence',
-        value: formatConfidence(place.petRules.confidenceScore ?? place.confidenceScore),
+        label: 'Trust',
+        value: getTrustMessage(trustLevel),
       },
       {
         label: 'Source',
@@ -88,7 +107,12 @@ export default function PlaceDetailScreen() {
         value: formatDate(place.petRules.verifiedAt ?? place.verifiedAt),
       },
     ];
-  }, [place]);
+  }, [place, trustLevel]);
+
+  const confidenceNote = useMemo(
+    () => (place ? getConfidenceNote(place.petRules.confidenceScore ?? place.confidenceScore) : null),
+    [place],
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.screen}>
@@ -108,13 +132,17 @@ export default function PlaceDetailScreen() {
       ) : (
         <>
           <View style={[styles.card, styles.heroCard]}>
-            <StatusPill status={place.petRules.dogPolicyStatus} />
+            <View style={styles.heroBadgeRow}>
+              <StatusPill status={place.petRules.dogPolicyStatus} />
+              <TrustPill level={trustLevel} />
+            </View>
             <Text style={styles.title}>{place.name}</Text>
             <Text style={styles.subtitle}>
               {place.category} · {place.formattedAddress}
             </Text>
-            <Text style={styles.summaryHeadline}>{getSummaryHeadline(place.petRules.dogPolicyStatus)}</Text>
+            <Text style={styles.summaryHeadline}>{getPolicyHeadline(place.petRules.dogPolicyStatus)}</Text>
             <Text style={styles.body}>{place.summary}</Text>
+            <Text style={styles.trustMessage}>{getTrustShortNote(trustLevel)}</Text>
 
             <View style={styles.trustGrid}>
               {trustSummary.map((item) => (
@@ -124,6 +152,8 @@ export default function PlaceDetailScreen() {
                 </View>
               ))}
             </View>
+
+            {confidenceNote ? <Text style={styles.confidenceNote}>{confidenceNote}</Text> : null}
           </View>
 
           <View style={styles.card}>
@@ -201,18 +231,22 @@ export default function PlaceDetailScreen() {
                     <Pressable style={styles.nearbyCard}>
                       <View style={styles.nearbyCardHeader}>
                         <StatusPill status={item.dogPolicyStatus} />
-                        <Text numberOfLines={1} style={styles.nearbyCategory}>
-                          {item.category}
-                        </Text>
+                        <TrustPill level={getTrustLevel(item)} />
                       </View>
                       <Text numberOfLines={2} style={styles.nearbyName}>
                         {item.name}
+                      </Text>
+                      <Text numberOfLines={1} style={styles.nearbyCategory}>
+                        {item.category}
                       </Text>
                       <Text numberOfLines={2} style={styles.nearbyAddress}>
                         {item.formattedAddress}
                       </Text>
                       <Text numberOfLines={2} style={styles.nearbySummary}>
                         {item.summary}
+                      </Text>
+                      <Text numberOfLines={2} style={styles.nearbyTrustNote}>
+                        {getTrustShortNote(getTrustLevel(item))}
                       </Text>
                     </Pressable>
                   </Link>
@@ -244,11 +278,6 @@ function formatAllowance(value: boolean | null) {
   return 'Unknown';
 }
 
-function formatConfidence(value: number | null) {
-  if (value === null || Number.isNaN(value)) return 'Not rated yet';
-  return `${Math.round(value)}% confidence`;
-}
-
 function formatDate(value: string | null) {
   if (!value) return 'Not verified yet';
 
@@ -277,20 +306,6 @@ function formatSourceType(value: VerificationSourceType | null) {
   return labels[value];
 }
 
-function getSummaryHeadline(status: DogPolicyStatus) {
-  switch (status) {
-    case 'allowed':
-      return 'Dogs are currently allowed here.';
-    case 'restricted':
-      return 'Dogs are allowed with some limits.';
-    case 'not_allowed':
-      return 'Dogs are currently not allowed here.';
-    case 'unknown':
-    default:
-      return 'Dog access is still unclear here.';
-  }
-}
-
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: '#F9FAFB',
@@ -306,6 +321,11 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     gap: 12,
+  },
+  heroBadgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
   reportCard: {
     marginTop: -4,
@@ -336,6 +356,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
   },
+  trustMessage: {
+    color: '#6B7280',
+    fontSize: 14,
+    lineHeight: 20,
+  },
   trustGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -359,6 +384,11 @@ const styles = StyleSheet.create({
     color: '#111827',
     fontSize: 14,
     fontWeight: '700',
+  },
+  confidenceNote: {
+    color: '#9CA3AF',
+    fontSize: 12,
+    lineHeight: 18,
   },
   detailList: {
     borderColor: '#E5E7EB',
@@ -423,7 +453,8 @@ const styles = StyleSheet.create({
   nearbyCardHeader: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 10,
+    flexWrap: 'wrap',
+    gap: 8,
   },
   nearbyCategory: {
     color: '#6B7280',
@@ -445,6 +476,11 @@ const styles = StyleSheet.create({
     color: '#4B5563',
     fontSize: 14,
     lineHeight: 20,
+  },
+  nearbyTrustNote: {
+    color: '#6B7280',
+    fontSize: 13,
+    lineHeight: 18,
   },
   primaryAction: {
     alignItems: 'center',

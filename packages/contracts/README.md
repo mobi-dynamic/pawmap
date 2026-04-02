@@ -28,6 +28,16 @@ Rules:
 - `third_party_listing`
 - `other`
 
+### `policyTrustLevel`
+- `verified`
+- `inferred`
+- `needs_verification`
+
+Derived UI trust qualifier for dog-policy messaging:
+- `verified` = backed by a concrete source such as official website, signage, direct contact, third-party listing, or an approved user report
+- `inferred` = heuristic / fallback inference only; should not be presented like confirmed policy
+- `needs_verification` = no strong provenance yet
+
 ### `reportStatus`
 - `pending`
 - `approved`

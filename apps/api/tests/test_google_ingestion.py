@@ -62,7 +62,32 @@ def test_inmemory_repository_upserts_google_places_with_unknown_pet_rules() -> N
     assert place is not None
     assert place.googlePlaceId == "ChIJ-fitzroy-gardens"
     assert place.dogPolicyStatus == "unknown"
+    assert place.policyTrustLevel == "needs_verification"
     assert place.petRules.verificationSourceType is None
+
+
+def test_inmemory_repository_marks_heuristic_dog_parks_as_inferred() -> None:
+    repository = InMemoryRepository()
+    records = normalize_google_places_payload(
+        [
+            {
+                "id": "ChIJ-offleash-park",
+                "displayName": {"text": "Fitzroy Off-Leash Reserve"},
+                "formattedAddress": "10 Park Lane, Fitzroy VIC 3065",
+                "location": {"latitude": -37.8, "longitude": 144.98},
+                "primaryType": "dog_park",
+            }
+        ]
+    )
+
+    result = repository.upsert_google_places(records)
+
+    place = repository.get_place(result.place_ids[0])
+    assert place is not None
+    assert place.dogPolicyStatus == "allowed"
+    assert place.policyTrustLevel == "inferred"
+    assert place.petRules.verificationSourceType == "other"
+    assert place.petRules.policyTrustLevel == "inferred"
 
 
 def test_load_google_seed_file_reads_google_places_array() -> None:

@@ -89,10 +89,24 @@ function SearchLoadingState() {
         ))}
       </div>
       <div className="hidden lg:block">
-        <div className="sticky top-6 rounded-[2rem] border border-[#e7ddd2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))] p-5 shadow-panel">
-          <div className="flex h-[32rem] animate-pulse flex-col items-center justify-center rounded-[1.5rem] bg-[linear-gradient(180deg,#fffaf4_0%,#f5efe7_100%)] text-sm text-slate-500">
-            <div className="h-44 w-44 rounded-full bg-[#eadfce]" />
-            <p className="mt-4">Loading places…</p>
+        <div className="sticky top-6 overflow-hidden rounded-[2rem] border border-[#e7ddd2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))] shadow-panel">
+          <div className="relative h-[32rem] overflow-hidden bg-[linear-gradient(180deg,#fff9f2_0%,#f5eee5_52%,#edf4fb_100%)]">
+            <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,#e7d8c9_1px,transparent_1px),linear-gradient(to_bottom,#dbe6f0_1px,transparent_1px)] [background-size:48px_48px]" />
+            <div className="absolute inset-x-8 top-8 h-24 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.6)_0%,transparent_70%)]" />
+            <div className="absolute right-4 top-4 h-[calc(100%-2rem)] w-56 animate-pulse rounded-2xl border border-[#eadfce] bg-[rgba(255,255,255,0.78)] p-3 shadow-lg backdrop-blur-sm">
+              <div className="h-4 w-24 rounded-full bg-[#e7ddd2]" />
+              <div className="mt-3 space-y-2">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="rounded-xl border border-[#eadfce] bg-white/70 p-3">
+                    <div className="h-4 w-3/4 rounded-full bg-[#e7ddd2]" />
+                    <div className="mt-2 h-3 w-5/6 rounded-full bg-[#f0e6da]" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="absolute inset-x-6 bottom-6 rounded-2xl border border-[#eadfce] bg-white/75 p-4 text-sm text-slate-500 backdrop-blur-sm">
+              Loading places…
+            </div>
           </div>
         </div>
       </div>
@@ -102,43 +116,74 @@ function SearchLoadingState() {
 
 function MapPanel({ results, selectedPlaceId, onSelect }: { results: PlaceSummary[]; selectedPlaceId: string; onSelect: (placeId: string) => void }) {
   const points = buildSearchMapPoints(results);
+  const selectedPlace = results.find((place) => place.placeId === selectedPlaceId) ?? results[0] ?? null;
 
   return (
-    <div className="sticky top-6 rounded-[2rem] border border-[#e7ddd2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))] p-5 shadow-panel">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-semibold text-slate-900">Map</h2>
-          <p className="text-sm text-slate-500">Pins mirror the current results.</p>
-        </div>
-      </div>
-
-      <div className="relative h-[32rem] overflow-hidden rounded-[1.5rem] border border-[#e4d8cb] bg-[linear-gradient(180deg,#fff9f2_0%,#f5eee5_52%,#edf4fb_100%)]">
+    <div className="sticky top-6 overflow-hidden rounded-[2rem] border border-[#e7ddd2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,248,239,0.9))] shadow-panel">
+      <div className="relative h-[32rem] overflow-hidden rounded-[2rem] border-b border-[#e4d8cb] bg-[linear-gradient(180deg,#fff9f2_0%,#f5eee5_52%,#edf4fb_100%)]">
         <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,#e7d8c9_1px,transparent_1px),linear-gradient(to_bottom,#dbe6f0_1px,transparent_1px)] [background-size:48px_48px]" />
         <div className="absolute inset-x-8 top-8 h-24 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.6)_0%,transparent_70%)]" />
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-col gap-3 p-4 md:flex-row md:items-start md:justify-between md:p-5">
+          <div className="pointer-events-auto w-full rounded-2xl border border-white/60 bg-white/72 px-4 py-3 shadow-lg backdrop-blur-sm md:max-w-[15rem]">
+            <h2 className="text-lg font-semibold text-slate-900">Map</h2>
+            <p className="text-sm text-slate-500">Full-bleed map with quick preview pins.</p>
+          </div>
+
+          <div className="pointer-events-auto w-full rounded-2xl border border-[#eadfce] bg-[rgba(255,255,255,0.84)] p-3 shadow-lg backdrop-blur-sm md:w-56">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Quick preview</p>
+              <p className="text-[11px] text-slate-400">Tap a pin</p>
+            </div>
+            <div className="mt-3 max-h-[22rem] space-y-2 overflow-auto pr-1">
+              {points.map(({ place }) => {
+                const selected = place.placeId === selectedPlaceId;
+                const detail = placeDetailsById[place.placeId];
+                return (
+                  <button
+                    key={place.placeId}
+                    type="button"
+                    onClick={() => onSelect(place.placeId)}
+                    className={`w-full rounded-xl border px-3 py-2 text-left text-sm outline-none transition focus-visible:ring-2 focus-visible:ring-[#6b4f36]/25 ${
+                      selected
+                        ? 'border-[#6b4f36] bg-[#6b4f36] text-white shadow-sm'
+                        : 'border-[#dfd2c4] bg-white/85 text-slate-700 hover:border-[#c9b39b] hover:bg-white'
+                    }`}
+                    aria-pressed={selected}
+                  >
+                    <div className="font-medium leading-5">{place.name}</div>
+                    <div className={`mt-1 text-xs leading-4 ${selected ? 'text-white/80' : 'text-slate-500'}`}>
+                      {getResultSummary({ dogPolicyStatus: place.dogPolicyStatus, petRules: detail?.petRules, summary: place.summary })}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         {points.map(({ place, top, left }) => {
           const selected = place.placeId === selectedPlaceId;
           return (
-            <button
+            <div
               key={place.placeId}
-              type="button"
-              onClick={() => onSelect(place.placeId)}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-2 text-xs font-semibold shadow-sm outline-none transition focus-visible:ring-2 focus-visible:ring-[#6b4f36]/25 ${
+              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border px-2.5 py-1.5 text-[11px] font-semibold shadow-sm transition ${
                 selected
                   ? 'border-[#6b4f36] bg-[#6b4f36] text-white'
-                  : 'border-[#ddcfbf] bg-[rgba(255,250,244,0.94)] text-slate-700 hover:border-[#c9b39b] hover:bg-white'
+                  : 'border-[#ddcfbf] bg-[rgba(255,250,244,0.9)] text-slate-700'
               }`}
               style={{ top: `${top}%`, left: `${left}%` }}
-              aria-pressed={selected}
+              aria-hidden="true"
             >
-              {place.name}
-            </button>
+              ●
+            </div>
           );
         })}
       </div>
 
-      <div className="mt-4 rounded-2xl border border-[#eadfce] bg-[#fbf6ef] p-4 text-sm text-slate-600">
+      <div className="border-t border-[#eadfce] bg-[#fbf6ef] p-4 text-sm text-slate-600">
         <p className="font-medium text-slate-900">Selected place</p>
-        <p className="mt-1">{results.find((place) => place.placeId === selectedPlaceId)?.name ?? 'No place selected'}</p>
+        <p className="mt-1">{selectedPlace?.name ?? 'No place selected'}</p>
       </div>
     </div>
   );

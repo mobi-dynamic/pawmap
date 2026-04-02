@@ -23,6 +23,12 @@ class VerificationSourceType(str, Enum):
     OTHER = "other"
 
 
+class PolicyTrustLevel(str, Enum):
+    VERIFIED = "verified"
+    INFERRED = "inferred"
+    NEEDS_VERIFICATION = "needs_verification"
+
+
 class ReportStatus(str, Enum):
     PENDING = "pending"
     APPROVED = "approved"
@@ -51,6 +57,7 @@ class PetRules(BaseModel):
     verificationSourceType: VerificationSourceType | None = None
     verificationSourceUrl: HttpUrl | None = None
     verifiedAt: datetime | None = None
+    policyTrustLevel: PolicyTrustLevel = PolicyTrustLevel.NEEDS_VERIFICATION
 
 
 class PlaceSummary(BaseModel):
@@ -64,6 +71,7 @@ class PlaceSummary(BaseModel):
     dogPolicyStatus: DogPolicyStatus
     confidenceScore: int | None = Field(default=None, ge=0, le=100)
     verifiedAt: datetime | None = None
+    policyTrustLevel: PolicyTrustLevel = PolicyTrustLevel.NEEDS_VERIFICATION
 
 
 class PlaceDetail(PlaceSummary):
@@ -163,6 +171,24 @@ class HealthResponse(BaseModel):
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def derive_policy_trust_level(
+    *,
+    dog_policy_status: DogPolicyStatus,
+    verification_source_type: VerificationSourceType | None,
+) -> PolicyTrustLevel:
+    if verification_source_type in {
+        VerificationSourceType.OFFICIAL_WEBSITE,
+        VerificationSourceType.DIRECT_CONTACT,
+        VerificationSourceType.USER_REPORT,
+        VerificationSourceType.ONSITE_SIGNAGE,
+        VerificationSourceType.THIRD_PARTY_LISTING,
+    }:
+        return PolicyTrustLevel.VERIFIED
+    if verification_source_type == VerificationSourceType.OTHER and dog_policy_status != DogPolicyStatus.UNKNOWN:
+        return PolicyTrustLevel.INFERRED
+    return PolicyTrustLevel.NEEDS_VERIFICATION
 
 
 def serialize_report_payload(payload: ReportCreateRequest, report_id: str, reporter_user_id: str) -> dict[str, Any]:

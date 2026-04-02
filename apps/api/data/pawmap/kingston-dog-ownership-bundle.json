@@ -1,0 +1,116 @@
+{
+  "entityType": "policy_source_bundle",
+  "source": {
+    "sourceId": "kingston-vic-dog-ownership",
+    "sourceType": "municipal_webpage",
+    "jurisdiction": "Kingston City Council",
+    "sourceUrl": "https://www.kingston.vic.gov.au/services/pets/dog-ownership",
+    "sourceTitle": "Dog ownership - City of Kingston",
+    "policyTrustLevel": "verified",
+    "retrievedAt": "2026-04-02T06:31:13Z"
+  },
+  "rules": [
+    {
+      "ruleId": "kingston-leash-public-spaces",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "restricted",
+      "scope": "all_public_spaces",
+      "rule": "Dogs must stay on a leash in all public spaces except designated off leash areas.",
+      "evidence": "Dogs must stay on a leash in all public spaces except for designated off leash areas.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    },
+    {
+      "ruleId": "kingston-canals-waterways-not-off-leash",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "restricted",
+      "scope": "canals_and_waterways",
+      "rule": "Canals and waterways are not off leash areas.",
+      "evidence": "Canals and waterways are not off leash areas.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    },
+    {
+      "ruleId": "kingston-cleanup-requirement",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "restricted",
+      "scope": "all_dog_owners",
+      "rule": "Dog owners must carry a plastic bag and be able to produce it on request of an authorised officer.",
+      "evidence": "Dog owners must carry a plastic bag and be able to produce this on request of an authorised officer.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    },
+    {
+      "ruleId": "kingston-foreshore-seasonal-regulations",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "restricted",
+      "scope": "foreshore_reserve",
+      "rule": "Foreshore reserve regulations change seasonally.",
+      "evidence": "Summer regulations are in place from 1 November until 31 March. Winter regulations are in place from 1 April until 31 October.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    },
+    {
+      "ruleId": "kingston-mordialloc-no-dog-zone",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "not_allowed",
+      "scope": "mordialloc_foreshore_zone",
+      "rule": "Dogs are not allowed in the designated No Dog Zone between Mordialloc Creek and the end of Bay Street to the off-street car park.",
+      "evidence": "Dogs are not allowed from the foreshore reserve in the designated ‘No Dog Zone’.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    },
+    {
+      "ruleId": "kingston-bike-tracks-footpaths-leash",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "restricted",
+      "scope": "bike_tracks_and_footpaths",
+      "rule": "Dogs must always be on a leash on bike tracks and footpaths.",
+      "evidence": "Dogs must be always be on a leash on bike tracks and footpaths.",
+      "sourceId": "kingston-vic-dog-ownership",
+      "policyTrustLevel": "verified"
+    }
+  ],
+  "places": [
+    {
+      "placeId": "kingston-exercise-area-bicentennial-park-chelsea",
+      "name": "Bicentennial Park",
+      "formattedAddress": "Chelsea VIC",
+      "category": "dog_exercise_area",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "allowed",
+      "policyTrustLevel": "verified",
+      "sourceId": "kingston-vic-dog-ownership"
+    },
+    {
+      "placeId": "kingston-exercise-area-kevin-hayes-reserve-mordialloc",
+      "name": "Kevin Hayes Reserve",
+      "formattedAddress": "Mordialloc VIC",
+      "category": "dog_exercise_area",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "allowed",
+      "policyTrustLevel": "verified",
+      "sourceId": "kingston-vic-dog-ownership"
+    },
+    {
+      "placeId": "kingston-exercise-area-kingston-heath-cheltenham",
+      "name": "Kingston Heath",
+      "formattedAddress": "Cheltenham VIC",
+      "category": "dog_exercise_area",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "allowed",
+      "policyTrustLevel": "verified",
+      "sourceId": "kingston-vic-dog-ownership"
+    },
+    {
+      "placeId": "kingston-exercise-area-bald-hill-park-clayton-south",
+      "name": "Bald Hill Park",
+      "formattedAddress": "Clayton South VIC",
+      "category": "dog_exercise_area",
+      "jurisdiction": "Kingston City Council",
+      "dogPolicyStatus": "allowed",
+      "policyTrustLevel": "verified",
+      "sourceId": "kingston-vic-dog-ownership"
+    }
+  ]
+}

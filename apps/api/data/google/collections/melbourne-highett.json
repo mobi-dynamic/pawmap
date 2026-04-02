@@ -1,0 +1,356 @@
+{
+  "geographySlug": "melbourne-highett",
+  "geographyName": "Melbourne Highett launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9472,
+    "lng": 145.0352,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Highett Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJw6lQa75u1moR3iR1lWp03ME",
+        "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJ_0auVwBv1moR-DH8W4CnlYc",
+        "ChIJXe3TWtpt1moRL9oV51rXM6c",
+        "ChIJg-U1wY9t1moRTChZg135tJI",
+        "ChIJ_aSgTBts1moRyuVtpJJ-S4Q",
+        "ChIJz3iTAZtv1moRxyFGr4TaCi8",
+        "ChIJd_c_1xVs1moRKn0BM_ES-NM",
+        "ChIJBRv8WNpu1moR5lI3yY0HAsE"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Highett Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJw6lQa75u1moR3iR1lWp03ME",
+        "ChIJD9Q2fS1v1moRmVpr9F9pMrM",
+        "ChIJ251ExaNu1moR-SvdA-L8zQI",
+        "ChIJb-x9b-1u1moRJBcbu_R05O0",
+        "ChIJi_Vb1B5v1moRnL25EgblnGs",
+        "ChIJ60HcBrNv1moRXh6Q0n6le6M",
+        "ChIJRdFwRQBv1moR__dOfb68-uw",
+        "ChIJjbPFyaNu1moRiVZEjPTUU-k",
+        "ChIJy-TfIcRv1moRx0NerbGoCpk",
+        "ChIJlde7wYFv1moRnlIGZamizxo"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Highett Melbourne",
+      "count": 1,
+      "place_ids": [
+        "ChIJb-tzSztt1moRbk8HgVJnRBI"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJw6lQa75u1moR3iR1lWp03ME",
+      "formattedAddress": "23 Spring Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9467652,
+        "longitude": 145.03191099999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13969168145319273694&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.facebook.com/TheLittleElephantHighett",
+      "displayName": {
+        "text": "The Little Elephant",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+      "formattedAddress": "88 Chesterville Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.956212099999995,
+        "longitude": 145.057693
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9171132928894738037&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://social.quandoo.com/en/groups/Drip-Cafe",
+      "displayName": {
+        "text": "Drip Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ_0auVwBv1moR-DH8W4CnlYc",
+      "formattedAddress": "509 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9487125,
+        "longitude": 145.0427637
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9769899136391066104&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.instagram.com/latinopaninodeli/",
+      "displayName": {
+        "text": "Cafe Valentina Highett",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJXe3TWtpt1moRL9oV51rXM6c",
+      "formattedAddress": "1 Dissik St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.95393920000001,
+        "longitude": 145.07128269999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12048210213570206255&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Rattle Beans Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJg-U1wY9t1moRTChZg135tJI",
+      "formattedAddress": "4 Station Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9672018,
+        "longitude": 145.0559859
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10571348405376329804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://holytoast.com.au/",
+      "displayName": {
+        "text": "Holy Toast",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ_aSgTBts1moRyuVtpJJ-S4Q",
+      "formattedAddress": "1/260 Wickham Rd, Moorabbin VIC 3189, Australia",
+      "location": {
+        "latitude": -37.9470678,
+        "longitude": 145.05583489999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9532852204548777418&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.thetradesmancafe.com.au/",
+      "displayName": {
+        "text": "The Tradesman Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJz3iTAZtv1moRxyFGr4TaCi8",
+      "formattedAddress": "2 Small St, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.939509699999995,
+        "longitude": 145.00078879999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=3389761932960866759&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.merrymenhampton.com/",
+      "displayName": {
+        "text": "Merrymen",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJd_c_1xVs1moRKn0BM_ES-NM",
+      "formattedAddress": "97 Cavanagh St, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.957760799999996,
+        "longitude": 145.0662525
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15273978963379191082&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.franksmelbourne.com.au/",
+      "displayName": {
+        "text": "Frank's",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJBRv8WNpu1moR5lI3yY0HAsE",
+      "formattedAddress": "75 Ludstone St, Hampton VIC 3188, Australia",
+      "location": {
+        "latitude": -37.9340662,
+        "longitude": 145.0132999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13907686904821142246&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.cornerstoneandco.com.au/",
+      "displayName": {
+        "text": "Cornerstone & Co.",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJD9Q2fS1v1moRmVpr9F9pMrM",
+      "formattedAddress": "501 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.948518,
+        "longitude": 145.04170399999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12912498942468119193&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.abbioccohighett.com/",
+      "displayName": {
+        "text": "Abbiocco Pasta & Wine",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJ251ExaNu1moR-SvdA-L8zQI",
+      "formattedAddress": "519 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.948775999999995,
+        "longitude": 145.043084
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=202095605959175161&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Monkey Can Fly Caf\u00e9",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJb-x9b-1u1moRJBcbu_R05O0",
+      "formattedAddress": "222 Bay Rd, Sandringham VIC 3191, Australia",
+      "location": {
+        "latitude": -37.9549655,
+        "longitude": 145.02565429999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17141954676138907428&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://fullturnkb.com/",
+      "displayName": {
+        "text": "Full Turn Kitchen Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJi_Vb1B5v1moRnL25EgblnGs",
+      "formattedAddress": "493 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9484474,
+        "longitude": 145.04108810000002
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7754324472671878556&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Third Wheel Highett",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ60HcBrNv1moRXh6Q0n6le6M",
+      "formattedAddress": "515 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.948746899999996,
+        "longitude": 145.0429424
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11780191214434786910&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.thehellenichouseproject.com.au/",
+      "displayName": {
+        "text": "The Hellenic House Project",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJRdFwRQBv1moR__dOfb68-uw",
+      "formattedAddress": "481 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9483842,
+        "longitude": 145.039743
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17076168463460792319&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.redstarcafewinebar.com.au/",
+      "displayName": {
+        "text": "Red Star Caf\u00e9 and Wine Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJjbPFyaNu1moRiVZEjPTUU-k",
+      "formattedAddress": "288-290 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.948893399999996,
+        "longitude": 145.04246659999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16813015980694591113&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.hawkertyphoon.com.au/",
+      "displayName": {
+        "text": "Hawker Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "bar"
+    },
+    {
+      "id": "ChIJy-TfIcRv1moRx0NerbGoCpk",
+      "formattedAddress": "350 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9491625,
+        "longitude": 145.04453809999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11027812118641394631&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.facebook.com/SoulGreensHighett",
+      "displayName": {
+        "text": "Soul Greens",
+        "languageCode": "en"
+      },
+      "primaryType": "vegetarian_restaurant"
+    },
+    {
+      "id": "ChIJlde7wYFv1moRnlIGZamizxo",
+      "formattedAddress": "326 Highett Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.949049099999996,
+        "longitude": 145.043755
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1931941613593318046&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Sons of Mischief",
+        "languageCode": "en"
+      },
+      "primaryType": "coffee_shop"
+    },
+    {
+      "id": "ChIJb-tzSztt1moRbk8HgVJnRBI",
+      "formattedAddress": "35 Turner Rd, Highett VIC 3190, Australia",
+      "location": {
+        "latitude": -37.9499627,
+        "longitude": 145.0544464
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1316290595148746606&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/turner-road-reserve-dog-off-leash-area-highett",
+      "displayName": {
+        "text": "Turner Road Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 21,
+    "uniquePlaceCount": 20
+  }
+}

@@ -12,6 +12,7 @@
 node_modules/
 .next/
 out/
+apps/mobile/.expo/
 
 # Python
 __pycache__/

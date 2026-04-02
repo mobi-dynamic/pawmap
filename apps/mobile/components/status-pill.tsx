@@ -1,13 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { getPolicyStatusLabel } from '@/lib/policy-presentations';
 import type { DogPolicyStatus } from '@/lib/types';
-
-const STATUS_LABELS: Record<DogPolicyStatus, string> = {
-  allowed: 'Allowed',
-  restricted: 'Restricted',
-  not_allowed: 'Not allowed',
-  unknown: 'Unknown',
-};
 
 const STATUS_COLORS: Record<DogPolicyStatus, string> = {
   allowed: '#DCFCE7',
@@ -19,7 +13,7 @@ const STATUS_COLORS: Record<DogPolicyStatus, string> = {
 export function StatusPill({ status }: { status: DogPolicyStatus }) {
   return (
     <View style={[styles.pill, { backgroundColor: STATUS_COLORS[status] }]}>
-      <Text style={styles.label}>{STATUS_LABELS[status]}</Text>
+      <Text style={styles.label}>{getPolicyStatusLabel(status)}</Text>
     </View>
   );
 }

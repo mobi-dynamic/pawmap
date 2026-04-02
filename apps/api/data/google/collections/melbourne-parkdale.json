@@ -1,0 +1,484 @@
+{
+  "geographySlug": "melbourne-parkdale",
+  "geographyName": "Melbourne Parkdale launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9915,
+    "lng": 145.0816,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Parkdale Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJX8dWwXRu1moRHSXiYwsX2AA",
+        "ChIJZ2xRYblt1moR-2Pe8AVfy6E",
+        "ChIJBU6re7lt1moRQlmiP2Lz9Yw",
+        "ChIJSYNKf6Bt1moRWaRAdiFEl1U",
+        "ChIJIz8kmH1t1moRZtfIfwFbaQ0",
+        "ChIJi7OzEsdt1moRbL88o0bJScs",
+        "ChIJ7wKSqzNt1moR_tvatGuoYGo",
+        "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJSRE3dgxt1moRdZ6o3s5oRn8"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Parkdale Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJPYm9T6lt1moRCqGNDmfj5O8",
+        "ChIJZ2xRYblt1moR-2Pe8AVfy6E",
+        "ChIJX8dWwXRu1moRHSXiYwsX2AA",
+        "ChIJy_OVfG5t1moRFI4Aai7sCbc",
+        "ChIJCcx_wJlt1moR4ati2kOv1YU",
+        "ChIJfduCFJlt1moRUc4VJJxkMAs",
+        "ChIJ0QBlrbVt1moR2VEIiQq8g-4",
+        "ChIJcW0kecxt1moRG0lTjM90u2s",
+        "ChIJm69QcRRt1moRoMKbVlM8A_A",
+        "ChIJYTA_UQht1moRhLtPzKeXI2k"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Parkdale Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJreBnL1ht1moRYJpQpZUEFrA",
+        "ChIJ9ZnZcIxt1moRMRTzPkRuhkU",
+        "ChIJM89Wza9t1moRYKsxBXZWBA8",
+        "ChIJg5y2NbNt1moRivXq9JXD_mQ",
+        "ChIJmU_j4Qpt1moRc2uTUcpmHl4",
+        "ChIJ02m7nYtt1moRmAoFn8LBdkY",
+        "ChIJYyrHEKpt1moR6A1U1QwZL10",
+        "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+        "ChIJ9daJVuBt1moRLig3uUiiULU",
+        "ChIJobmV2HNt1moRk2rQ5pM4qdE"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJX8dWwXRu1moRHSXiYwsX2AA",
+      "formattedAddress": "Beach Foreshore, Beach Rd, 3194/151 Bay Trail, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0000333,
+        "longitude": 145.0754333
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=60823932657345821&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.parkdalebeachcafe.com.au/",
+      "displayName": {
+        "text": "Parkdale Beach Cafe & Kiosk",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJZ2xRYblt1moR-2Pe8AVfy6E",
+      "formattedAddress": "79 Parkers Rd, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9942997,
+        "longitude": 145.0765451
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11658516539499242491&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://parkerscafe.com.au/",
+      "displayName": {
+        "text": "Parkers Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJBU6re7lt1moRQlmiP2Lz9Yw",
+      "formattedAddress": "274 Como Parade W, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.993772799999995,
+        "longitude": 145.0764199
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=10157292137903970626&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://stationstop.com.au/",
+      "displayName": {
+        "text": "Station Stop Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJSYNKf6Bt1moRWaRAdiFEl1U",
+      "formattedAddress": "121 Bay Trail, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9958196,
+        "longitude": 145.07067569999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6167473125215741017&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.instagram.com/thecoffeechief/",
+      "displayName": {
+        "text": "the coffee chief",
+        "languageCode": "en"
+      },
+      "primaryType": "coffee_shop"
+    },
+    {
+      "id": "ChIJIz8kmH1t1moRZtfIfwFbaQ0",
+      "formattedAddress": "133 Nepean Hwy, Aspendale VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0263018,
+        "longitude": 145.1010858
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=966403657044645734&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.facebook.com/twofarmgirlscafe/",
+      "displayName": {
+        "text": "Two Farm Girls",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJi7OzEsdt1moRbL88o0bJScs",
+      "formattedAddress": "73 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.988749299999995,
+        "longitude": 145.0603299
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14648460568222809964&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Sanctum",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ7wKSqzNt1moR_tvatGuoYGo",
+      "formattedAddress": "113 McDonald St, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0012087,
+        "longitude": 145.0969287
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7665311746333793278&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.tlchealthcare.com.au/location/mordialloc/village-cafe/",
+      "displayName": {
+        "text": "The Village Caf\u00e9 & Bar",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+      "formattedAddress": "68 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9885091,
+        "longitude": 145.05964989999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14847419362754715238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "CHAIN OF FOOLS",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJSRE3dgxt1moRdZ6o3s5oRn8",
+      "formattedAddress": "88 Chesterville Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.956212099999995,
+        "longitude": 145.057693
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9171132928894738037&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://social.quandoo.com/en/groups/Drip-Cafe",
+      "displayName": {
+        "text": "Drip Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJPYm9T6lt1moRCqGNDmfj5O8",
+      "formattedAddress": "196 Como Parade W, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9924523,
+        "longitude": 145.0749722
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17286191301520105738&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://parkerspavilion.com.au/",
+      "displayName": {
+        "text": "Parkers Pavilion",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJy_OVfG5t1moRFI4Aai7sCbc",
+      "formattedAddress": "226 Beach Rd, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.008672,
+        "longitude": 145.087157
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13189332667822280212&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://instagram.com/mordicanteen",
+      "displayName": {
+        "text": "The Mordi Canteen",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJCcx_wJlt1moR4ati2kOv1YU",
+      "formattedAddress": "528 Main St, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0052672,
+        "longitude": 145.0849831
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9643806883045354465&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://theepsom.com.au/",
+      "displayName": {
+        "text": "The Epsom",
+        "languageCode": "en"
+      },
+      "primaryType": "pub"
+    },
+    {
+      "id": "ChIJfduCFJlt1moRUc4VJJxkMAs",
+      "formattedAddress": "576 Main St, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0071148,
+        "longitude": 145.08616849999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=806254955082403409&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://bangbangeats.com.au/",
+      "displayName": {
+        "text": "Bang Bang Mordialloc",
+        "languageCode": "en"
+      },
+      "primaryType": "asian_restaurant"
+    },
+    {
+      "id": "ChIJ0QBlrbVt1moR2VEIiQq8g-4",
+      "formattedAddress": "39A Hinkler Rd, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -37.990559499999996,
+        "longitude": 145.0984225
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17186787356410663385&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.milhousecanteen.com/",
+      "displayName": {
+        "text": "Milhouse Canteen",
+        "languageCode": "en"
+      },
+      "primaryType": "meal_takeaway"
+    },
+    {
+      "id": "ChIJcW0kecxt1moRG0lTjM90u2s",
+      "formattedAddress": "1 Swanston St, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.981169,
+        "longitude": 145.06539899999999
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7762926817464502555&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.thecornerstore3194.com/",
+      "displayName": {
+        "text": "The Corner Store",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJm69QcRRt1moRoMKbVlM8A_A",
+      "formattedAddress": "48 Como Parade W, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9827188,
+        "longitude": 145.0650718
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17294733322665837216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://zerocucina.com.au/",
+      "displayName": {
+        "text": "Zero cucina Italiana Mentone",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJYTA_UQht1moRhLtPzKeXI2k",
+      "formattedAddress": "105/107 White St, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9995879,
+        "longitude": 145.0959077
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7576065745110416260&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.hendrikscafe.com.au/",
+      "displayName": {
+        "text": "Hendriks Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJreBnL1ht1moRYJpQpZUEFrA",
+      "formattedAddress": "34 Ellen St, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9910716,
+        "longitude": 145.0889838
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=12688334040933112416&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/walter-galt-reserve-dog-off-leash-area-parkdale",
+      "displayName": {
+        "text": "Walter Galt Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ9ZnZcIxt1moRMRTzPkRuhkU",
+      "formattedAddress": "69 Keith St, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.991932,
+        "longitude": 145.0917566
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5009812874889204785&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Walter Galt Reserve Off Leash Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJM89Wza9t1moRYKsxBXZWBA8",
+      "formattedAddress": "Cnr Nepean Highway & Imes Street, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9906769,
+        "longitude": 145.0831604
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=1082084875369032544&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://m.facebook.com/pages/Gerry-Green-Reserve/133346180047931",
+      "displayName": {
+        "text": "Gerry Green Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJg5y2NbNt1moRivXq9JXD_mQ",
+      "formattedAddress": "151 Beach Rd, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0005954,
+        "longitude": 145.0757738
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=7277469096703882634&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.kingston.vic.gov.au/",
+      "displayName": {
+        "text": "Parkdale Beach",
+        "languageCode": "en"
+      }
+    },
+    {
+      "id": "ChIJmU_j4Qpt1moRc2uTUcpmHl4",
+      "formattedAddress": "Kevin Hayes Reserve, Crown Ave, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0056516,
+        "longitude": 145.0961884
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6781971108004588403&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.kingston.vic.gov.au/",
+      "displayName": {
+        "text": "Kevin Hayes Dog Park with coffee van",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ02m7nYtt1moRmAoFn8LBdkY",
+      "formattedAddress": "11 Southern Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.981097399999996,
+        "longitude": 145.0869402
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5077458671542536856&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/southern-road-reserve-dog-off-leash-area-mentone",
+      "displayName": {
+        "text": "Southern Road Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJYyrHEKpt1moR6A1U1QwZL10",
+      "formattedAddress": "115 Warren Rd, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9917711,
+        "longitude": 145.0892338
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6714613112342056424&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://kingston.vic.gov.au/",
+      "displayName": {
+        "text": "Walter Galt Reserve",
+        "languageCode": "en"
+      },
+      "primaryType": "park"
+    },
+    {
+      "id": "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+      "formattedAddress": "Reg Marlow Reserve, 133 Warrigal Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9764438,
+        "longitude": 145.0721879
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=519518808107335216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Reg Marlow Reserve Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ9daJVuBt1moRLig3uUiiULU",
+      "formattedAddress": "15 Governor Rd, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0102793,
+        "longitude": 145.0942789
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13065120952230553646&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/george-woods-reserve-dog-off-leash-area-mordialloc",
+      "displayName": {
+        "text": "George Woods Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJobmV2HNt1moRk2rQ5pM4qdE",
+      "formattedAddress": "64 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9874185,
+        "longitude": 145.055502
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15107668632874805907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.kingston.vic.gov.au/",
+      "displayName": {
+        "text": "Mentone Beach Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 30,
+    "uniquePlaceCount": 28
+  }
+}

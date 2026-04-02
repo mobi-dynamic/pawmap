@@ -1,0 +1,344 @@
+{
+  "geographySlug": "melbourne-mentone",
+  "geographyName": "Melbourne Mentone launch slice",
+  "collectionMode": "google_text_search",
+  "circle": {
+    "lat": -37.9826,
+    "lng": 145.0677,
+    "radius_meters": 2200
+  },
+  "queries": [
+    {
+      "query_key": "cafe",
+      "text_query": "dog friendly cafe in Mentone Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+        "ChIJce2Dnc5t1moRVIi6MxNEcfg",
+        "ChIJi7OzEsdt1moRbL88o0bJScs",
+        "ChIJKff7h0Zt1moRrPqaUROxN0I",
+        "ChIJ4YOnCqRt1moRywG4pXsSK1w",
+        "ChIJ4d06TKNt1moRj80dowvF4IM",
+        "ChIJ63vymZhv1moRj2p4F9ChtsE",
+        "ChIJZ2xRYblt1moR-2Pe8AVfy6E",
+        "ChIJX8dWwXRu1moRHSXiYwsX2AA",
+        "ChIJ3aBOIEBv1moRmPMZNt2PjMA"
+      ]
+    },
+    {
+      "query_key": "restaurant",
+      "text_query": "restaurant with outdoor seating in Mentone Melbourne",
+      "count": 10,
+      "place_ids": [
+        "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+        "ChIJKff7h0Zt1moRrPqaUROxN0I",
+        "ChIJm69QcRRt1moRoMKbVlM8A_A",
+        "ChIJce2Dnc5t1moRVIi6MxNEcfg",
+        "ChIJI5nWIfVt1moR1nqK_qhGqAU",
+        "ChIJ4YOnCqRt1moRywG4pXsSK1w",
+        "ChIJt-s5w49t1moRg151sBNwD-A",
+        "ChIJ0QBlrbVt1moR2VEIiQq8g-4",
+        "ChIJb7crm1Bs1moRyetA-DJ76VQ",
+        "ChIJNZQspRZt1moRfinjuHKUAAI"
+      ]
+    },
+    {
+      "query_key": "park",
+      "text_query": "dog park in Mentone Melbourne",
+      "count": 3,
+      "place_ids": [
+        "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+        "ChIJobmV2HNt1moRk2rQ5pM4qdE",
+        "ChIJ02m7nYtt1moRmAoFn8LBdkY"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ChIJ-6GjOttt1moRZl5A1D6hDM4",
+      "formattedAddress": "68 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9885091,
+        "longitude": 145.05964989999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14847419362754715238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "CHAIN OF FOOLS",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJce2Dnc5t1moRVIi6MxNEcfg",
+      "formattedAddress": "4 & 5 Granary Ln, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.981407399999995,
+        "longitude": 145.0633699
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17902164843037362260&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.trulyscrumptiouscafe.com.au/",
+      "displayName": {
+        "text": "Truly Scrumptious",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJi7OzEsdt1moRbL88o0bJScs",
+      "formattedAddress": "73 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.988749299999995,
+        "longitude": 145.0603299
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=14648460568222809964&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Sanctum",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJKff7h0Zt1moRrPqaUROxN0I",
+      "formattedAddress": "125 Mentone Parade, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.983070999999995,
+        "longitude": 145.064665
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=4771477026753936044&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://instagram.com/whitebricksmentone?igshid=YmMyMTA2M2Y=",
+      "displayName": {
+        "text": "white bricks",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ4YOnCqRt1moRywG4pXsSK1w",
+      "formattedAddress": "133 Mentone Parade, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9827112,
+        "longitude": 145.0647271
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6641422397758505419&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://busyboycafe.com.au/",
+      "displayName": {
+        "text": "Busy Boy",
+        "languageCode": "en"
+      },
+      "primaryType": "coffee_shop"
+    },
+    {
+      "id": "ChIJ4d06TKNt1moRj80dowvF4IM",
+      "formattedAddress": "100 Latrobe St, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9748916,
+        "longitude": 145.06441909999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=9502811867523698063&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.applehead.com.au/",
+      "displayName": {
+        "text": "Applehead Deli",
+        "languageCode": "en"
+      },
+      "primaryType": "sandwich_shop"
+    },
+    {
+      "id": "ChIJ63vymZhv1moRj2p4F9ChtsE",
+      "formattedAddress": "1/16 Charlton Ave, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.9628064,
+        "longitude": 145.0409721
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13958522010200468111&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "FABRICA",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJZ2xRYblt1moR-2Pe8AVfy6E",
+      "formattedAddress": "79 Parkers Rd, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -37.9942997,
+        "longitude": 145.0765451
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=11658516539499242491&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://parkerscafe.com.au/",
+      "displayName": {
+        "text": "Parkers Cafe",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJX8dWwXRu1moRHSXiYwsX2AA",
+      "formattedAddress": "Beach Foreshore, Beach Rd, 3194/151 Bay Trail, Parkdale VIC 3195, Australia",
+      "location": {
+        "latitude": -38.0000333,
+        "longitude": 145.0754333
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=60823932657345821&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.parkdalebeachcafe.com.au/",
+      "displayName": {
+        "text": "Parkdale Beach Cafe & Kiosk",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJ3aBOIEBv1moRmPMZNt2PjMA",
+      "formattedAddress": "38 E Concourse, Beaumaris VIC 3193, Australia",
+      "location": {
+        "latitude": -37.9858431,
+        "longitude": 145.03489
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=13874622732279870360&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://2littlemonkeys.com.au/",
+      "displayName": {
+        "text": "Two Little Monkeys",
+        "languageCode": "en"
+      },
+      "primaryType": "cafe"
+    },
+    {
+      "id": "ChIJm69QcRRt1moRoMKbVlM8A_A",
+      "formattedAddress": "48 Como Parade W, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9827188,
+        "longitude": 145.0650718
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17294733322665837216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://zerocucina.com.au/",
+      "displayName": {
+        "text": "Zero cucina Italiana Mentone",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJI5nWIfVt1moR1nqK_qhGqAU",
+      "formattedAddress": "50 Como Parade W, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9828574,
+        "longitude": 145.0651775
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=407653457915968214&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.justitalymentone.com/",
+      "displayName": {
+        "text": "Just Italy Mentone",
+        "languageCode": "en"
+      },
+      "primaryType": "italian_restaurant"
+    },
+    {
+      "id": "ChIJt-s5w49t1moRg151sBNwD-A",
+      "formattedAddress": "34 Como Parade W, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9820783,
+        "longitude": 145.0645324
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=16145246419013688963&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.sunnysidesliced.com.au/",
+      "displayName": {
+        "text": "Sunnyside Sliced - Mentone",
+        "languageCode": "en"
+      },
+      "primaryType": "pizza_restaurant"
+    },
+    {
+      "id": "ChIJ0QBlrbVt1moR2VEIiQq8g-4",
+      "formattedAddress": "39A Hinkler Rd, Mordialloc VIC 3195, Australia",
+      "location": {
+        "latitude": -37.990559499999996,
+        "longitude": 145.0984225
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=17186787356410663385&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.milhousecanteen.com/",
+      "displayName": {
+        "text": "Milhouse Canteen",
+        "languageCode": "en"
+      },
+      "primaryType": "meal_takeaway"
+    },
+    {
+      "id": "ChIJb7crm1Bs1moRyetA-DJ76VQ",
+      "formattedAddress": "1 Grange Rd, Cheltenham VIC 3192, Australia",
+      "location": {
+        "latitude": -37.976041099999996,
+        "longitude": 145.0859347
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=6118557027603114953&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://nrmotoco.com/",
+      "displayName": {
+        "text": "Naked Racer",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJNZQspRZt1moRfinjuHKUAAI",
+      "formattedAddress": "63 Florence St, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9826845,
+        "longitude": 145.06466709999998
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=144278408524933502&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://busyburger.com.au/",
+      "displayName": {
+        "text": "Busy Burgers",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant"
+    },
+    {
+      "id": "ChIJ4W9NtDNt1moRMD5fe5qzNQc",
+      "formattedAddress": "Reg Marlow Reserve, 133 Warrigal Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9764438,
+        "longitude": 145.0721879
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=519518808107335216&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "displayName": {
+        "text": "Reg Marlow Reserve Fenced Dog Park",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJobmV2HNt1moRk2rQ5pM4qdE",
+      "formattedAddress": "64 Beach Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.9874185,
+        "longitude": 145.055502
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=15107668632874805907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "http://www.kingston.vic.gov.au/",
+      "displayName": {
+        "text": "Mentone Beach Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    },
+    {
+      "id": "ChIJ02m7nYtt1moRmAoFn8LBdkY",
+      "formattedAddress": "11 Southern Rd, Mentone VIC 3194, Australia",
+      "location": {
+        "latitude": -37.981097399999996,
+        "longitude": 145.0869402
+      },
+      "googleMapsUri": "https://maps.google.com/?cid=5077458671542536856&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "websiteUri": "https://www.melbourneplaygrounds.com.au/southern-road-reserve-dog-off-leash-area-mentone",
+      "displayName": {
+        "text": "Southern Road Reserve Dog Off Leash Area",
+        "languageCode": "en"
+      },
+      "primaryType": "dog_park"
+    }
+  ],
+  "summary": {
+    "queryCount": 3,
+    "rawPlaceCount": 23,
+    "uniquePlaceCount": 19
+  }
+}
