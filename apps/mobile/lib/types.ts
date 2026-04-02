@@ -10,6 +10,8 @@ export type VerificationSourceType =
 
 export type ReportStatus = 'pending' | 'approved' | 'rejected';
 
+export type TrustLevel = 'verified' | 'inferred' | 'needs_verification';
+
 export type ApiError = {
   code: string;
   message: string;
@@ -26,6 +28,7 @@ export type PlaceSummary = {
   dogPolicyStatus: DogPolicyStatus;
   confidenceScore: number | null;
   verifiedAt: string | null;
+  policyTrustLevel: TrustLevel;
   summary: string;
 };
 
@@ -42,6 +45,7 @@ export type PetRules = {
   verificationSourceType: VerificationSourceType | null;
   verificationSourceUrl: string | null;
   verifiedAt: string | null;
+  policyTrustLevel: TrustLevel;
 };
 
 export type PlaceDetail = {
@@ -55,6 +59,7 @@ export type PlaceDetail = {
   dogPolicyStatus: DogPolicyStatus;
   confidenceScore: number | null;
   verifiedAt: string | null;
+  policyTrustLevel: TrustLevel;
   summary: string;
   websiteUrl: string | null;
   petRules: PetRules;

@@ -8,6 +8,7 @@ import type {
   PlaceSummary,
   ReportSubmissionInput,
   ReportSubmissionResult,
+  TrustLevel,
 } from '@/lib/types';
 
 type FastApiValidationDetail = {
@@ -51,6 +52,7 @@ type ApiSearchItem = {
   dogPolicyStatus: DogPolicyStatus;
   confidenceScore: number | null;
   verifiedAt: string | null;
+  policyTrustLevel: TrustLevel;
 };
 
 type ApiSearchResponse = {
@@ -243,6 +245,7 @@ function adaptSearchItem(item: ApiSearchItem): PlaceSummary {
     dogPolicyStatus: item.dogPolicyStatus,
     confidenceScore: item.confidenceScore,
     verifiedAt: item.verifiedAt,
+    policyTrustLevel: item.policyTrustLevel,
     summary: buildPolicySummary({
       dogPolicyStatus: item.dogPolicyStatus,
       notes: null,
@@ -259,6 +262,7 @@ function adaptPlaceDetail(item: ApiPlaceDetail): PlaceDetail {
     confidenceScore: item.petRules.confidenceScore ?? item.confidenceScore,
     dogPolicyStatus: item.petRules.dogPolicyStatus ?? item.dogPolicyStatus,
     verifiedAt: item.petRules.verifiedAt ?? item.verifiedAt,
+    policyTrustLevel: item.petRules.policyTrustLevel ?? item.policyTrustLevel,
   };
 
   return {
@@ -272,6 +276,7 @@ function adaptPlaceDetail(item: ApiPlaceDetail): PlaceDetail {
     dogPolicyStatus: item.dogPolicyStatus,
     confidenceScore: item.confidenceScore,
     verifiedAt: item.verifiedAt,
+    policyTrustLevel: item.policyTrustLevel,
     summary: buildPolicySummary(petRules),
     websiteUrl: item.websiteUrl,
     petRules,
@@ -287,4 +292,3 @@ function normalizeCategory(value: string | null) {
     .map((part) => part[0]?.toUpperCase() + part.slice(1))
     .join(' ');
 }
-

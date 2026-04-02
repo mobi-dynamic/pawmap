@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import { getTrustLabel, type TrustLevel } from '@/lib/policy-presentations';
+import { getTrustLabel } from '@/lib/policy-presentations';
+import type { TrustLevel } from '@/lib/types';
 
 const TRUST_COLORS: Record<TrustLevel, { background: string; text: string }> = {
   verified: { background: '#DBEAFE', text: '#1D4ED8' },

@@ -1,6 +1,4 @@
-import type { DogPolicyStatus, VerificationSourceType } from '@/lib/types';
-
-export type TrustLevel = 'verified' | 'inferred' | 'needs_verification';
+import type { DogPolicyStatus, TrustLevel, VerificationSourceType } from '@/lib/types';
 
 const VERIFIED_SOURCES = new Set<VerificationSourceType>(['official_website', 'direct_contact', 'onsite_signage']);
 const INFERRED_SOURCES = new Set<VerificationSourceType>(['user_report', 'third_party_listing', 'other']);
@@ -38,8 +36,13 @@ export function getTrustLevel(input: {
   verifiedAt?: string | null;
   verificationSourceType?: VerificationSourceType | null;
   confidenceScore?: number | null;
+  policyTrustLevel?: TrustLevel | null;
 }): TrustLevel {
-  const { dogPolicyStatus, verifiedAt, verificationSourceType, confidenceScore } = input;
+  const { dogPolicyStatus, verifiedAt, verificationSourceType, confidenceScore, policyTrustLevel } = input;
+
+  if (policyTrustLevel) {
+    return policyTrustLevel;
+  }
 
   if (dogPolicyStatus === 'unknown') {
     return 'needs_verification';

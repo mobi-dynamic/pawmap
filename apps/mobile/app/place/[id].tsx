@@ -87,6 +87,7 @@ export default function PlaceDetailScreen() {
       verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
       verificationSourceType: place.petRules.verificationSourceType,
       confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
+      policyTrustLevel: place.petRules.policyTrustLevel ?? place.policyTrustLevel,
     });
   }, [place]);
 

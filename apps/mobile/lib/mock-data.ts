@@ -12,6 +12,7 @@ export const samplePlaces: PlaceSummary[] = [
     dogPolicyStatus: 'restricted',
     confidenceScore: 68,
     verifiedAt: '2026-03-10T09:00:00Z',
+    policyTrustLevel: 'verified',
     summary: 'Dogs seem allowed in the outdoor seating zone only.',
   },
   {
@@ -25,6 +26,7 @@ export const samplePlaces: PlaceSummary[] = [
     dogPolicyStatus: 'allowed',
     confidenceScore: 74,
     verifiedAt: '2026-03-09T09:00:00Z',
+    policyTrustLevel: 'inferred',
     summary: 'Strong early signal for a dog-friendly stop near the beach.',
   },
 ];

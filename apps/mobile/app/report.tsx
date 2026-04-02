@@ -124,6 +124,16 @@ export default function ReportScreen() {
     void loadPlace();
   }, [loadPlace]);
 
+  const trustLevel = place
+    ? getTrustLevel({
+        dogPolicyStatus: place.petRules.dogPolicyStatus,
+        verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
+        verificationSourceType: place.petRules.verificationSourceType,
+        confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
+        policyTrustLevel: place.petRules.policyTrustLevel ?? place.policyTrustLevel,
+      })
+    : 'needs_verification';
+
   async function handleSubmit() {
     const nextValidation = getReportValidationMessage(payload);
     if (nextValidation) {
@@ -167,16 +177,7 @@ export default function ReportScreen() {
           <View style={[styles.card, styles.summaryCard]}>
             <View style={styles.summaryBadgeRow}>
               <StatusPill status={place.petRules.dogPolicyStatus} />
-              <TrustPill
-                level={
-                  getTrustLevel({
-                    dogPolicyStatus: place.petRules.dogPolicyStatus,
-                    verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
-                    verificationSourceType: place.petRules.verificationSourceType,
-                    confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
-                  })
-                }
-              />
+              <TrustPill level={trustLevel} />
             </View>
             <Text style={styles.title}>{place.name}</Text>
             <Text style={styles.subtitle}>
@@ -184,16 +185,7 @@ export default function ReportScreen() {
             </Text>
             <Text style={styles.summaryHeadline}>{getPolicyHeadline(place.petRules.dogPolicyStatus)}</Text>
             <Text style={styles.body}>{place.summary}</Text>
-            <Text style={styles.helperText}>
-              {getTrustShortNote(
-                getTrustLevel({
-                  dogPolicyStatus: place.petRules.dogPolicyStatus,
-                  verifiedAt: place.petRules.verifiedAt ?? place.verifiedAt,
-                  verificationSourceType: place.petRules.verificationSourceType,
-                  confidenceScore: place.petRules.confidenceScore ?? place.confidenceScore,
-                }),
-              )}
-            </Text>
+            <Text style={styles.helperText}>{getTrustShortNote(trustLevel)}</Text>
             <View style={styles.currentPolicyList}>
               <PolicyRow label="Indoor access" value={formatAllowance(place.petRules.indoorAllowed)} />
               <PolicyRow label="Outdoor access" value={formatAllowance(place.petRules.outdoorAllowed)} />
