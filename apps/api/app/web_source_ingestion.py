@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from hashlib import sha1
 from html.parser import HTMLParser
+from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 from uuid import UUID, uuid5
@@ -13,6 +16,7 @@ from uuid import UUID, uuid5
 from .models import PolicyTrustLevel
 
 PAWMAP_SOURCE_NAMESPACE = UUID("9d9b4f8c-7c9c-4d9a-8e8b-4fb6ab55f3c1")
+WEB_SOURCE_CACHE_DIR = Path(__file__).resolve().parent.parent / "data" / "web_sources"
 
 
 @dataclass(frozen=True)
@@ -81,6 +85,10 @@ class _PageTextExtractor(HTMLParser):
 
 
 def fetch_page(url: str, timeout: int = 20) -> tuple[str, str | None]:
+    cached = load_cached_page(url)
+    if cached is not None:
+        return cached
+
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -93,12 +101,42 @@ def fetch_page(url: str, timeout: int = 20) -> tuple[str, str | None]:
         "Upgrade-Insecure-Requests": "1",
     }
     request = Request(url, headers=headers)
-    with urlopen(request, timeout=timeout) as response:
-        html = response.read().decode("utf-8", errors="ignore")
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            html = response.read().decode("utf-8", errors="ignore")
+    except HTTPError:
+        cached = load_cached_page(url)
+        if cached is not None:
+            return cached
+        raise
+    except Exception:
+        cached = load_cached_page(url)
+        if cached is not None:
+            return cached
+        raise
 
     parser = _PageTextExtractor()
     parser.feed(html)
-    return parser.text, parser.title
+    text, title = parser.text, parser.title
+    write_cached_page(url, text=text, title=title)
+    return text, title
+
+
+def load_cached_page(url: str) -> tuple[str, str | None] | None:
+    cache_path = WEB_SOURCE_CACHE_DIR / f"{sha1(url.encode('utf-8')).hexdigest()}.json"
+    if not cache_path.exists():
+        return None
+    payload = json.loads(cache_path.read_text())
+    text = payload.get("text", "")
+    title = payload.get("title")
+    return text, title
+
+
+def write_cached_page(url: str, *, text: str, title: str | None) -> None:
+    WEB_SOURCE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_path = WEB_SOURCE_CACHE_DIR / f"{sha1(url.encode('utf-8')).hexdigest()}.json"
+    payload = {"title": title, "text": text}
+    cache_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
 
 
 def extract_web_source_record(url: str, *, raw_text: str | None = None, title: str | None = None) -> WebSourceRecord:
@@ -131,6 +169,10 @@ def extract_web_source_record(url: str, *, raw_text: str | None = None, title: s
 
 def detect_source_type(url: str) -> str:
     hostname = urlparse(url).hostname or ""
+    if urlparse(url).path.lower().endswith(".pdf"):
+        if hostname.endswith(".gov.au"):
+            return "municipal_pdf"
+        return "pdf"
     if hostname.endswith(".gov.au"):
         return "municipal_webpage"
     return "webpage"

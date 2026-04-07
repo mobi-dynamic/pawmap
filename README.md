@@ -1,6 +1,6 @@
 # PawMap
 
-PawMap is a mobile-first app for dog owners to search places on a map and quickly understand pet rules before they go.
+PawMap is a mobile-first app for dog owners to search places quickly and understand pet rules before they go.
 
 ## Product goal
 
@@ -10,8 +10,8 @@ Answer one question fast:
 
 ## MVP focus
 
-- Search places by name or location with Google Maps / Google Places
-- View a place on the map
+- Search places by name or location with Google Places
+- View a place detail screen on mobile
 - Show dog policy status: allowed, restricted, not allowed, unknown
 - Show structured rules: indoor/outdoor, leash, size limits, notes
 - Display verification source and last checked time
@@ -26,11 +26,10 @@ Answer one question fast:
 - Merge only after review is completed
 - Keep scope tight for MVP
 
-## Initial repo structure
+## Repo structure
 
 - `apps/api` — FastAPI backend scaffold and SQL migrations
-- `apps/mobile` — Expo + React Native mobile app shell (primary user product)
-- `apps/web` — Next.js MVP shell for internal/admin/demo/fallback
+- `apps/mobile` — Expo + React Native mobile app shell
 - `packages/contracts` — shared enums and example payloads; source of truth for contract decisions
 - `docs/` — PRD, architecture, API contract, data model, ADRs
 - `tasks/` — task logs, backlog, release checklist
@@ -43,73 +42,18 @@ Answer one question fast:
 - `docs/api-contract.md` — initial HTTP contract for MVP endpoints
 - `docs/data-model.md` — canonical relational schema baseline
 - `docs/adr-001-repo-and-workflow.md` — repo/process decisions
-- `docs/deployment-netlify-render-neon.md` — recommended free-tier deployment baseline
 
 ## Planned stack
 
-- Frontend: Next.js + TypeScript + Tailwind
+- Mobile frontend: Expo + React Native
 - Backend: FastAPI
 - Database: PostgreSQL
 - Maps/places: Google Maps Platform / Google Places
-- Hosting: Netlify + Render + Neon (recommended free-tier baseline)
+- Mobile distribution: Expo/EAS once the shell is stable
 
-## Local MVP stack quick start
+## Local development
 
-### One command with Docker Compose
-
-This is the easiest way to run the current MVP as a coherent `web + api + postgres` stack.
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-Then open:
-
-- Web: <http://127.0.0.1:3000>
-- API docs: <http://127.0.0.1:8000/docs>
-- API health: <http://127.0.0.1:8000/health>
-
-What the stack does for you:
-
-- starts Postgres
-- bootstraps API migrations safely on startup
-- waits for the API health endpoint before starting the web app
-- seeds one stable local-dev place
-- points the web app at the API automatically inside Compose
-
-To stop it:
-
-```bash
-docker compose down
-```
-
-To reset the local database too:
-
-```bash
-docker compose down -v
-```
-
-## Mobile quick start
-
-```bash
-cd apps/mobile
-cp .env.example .env
-npm install
-npm run dev
-```
-
-The first mobile shell currently covers the initial navigation spine only:
-
-- search shell
-- place detail shell
-- report draft shell
-
-See `apps/mobile/README.md` for details.
-
-## API quick start
-
-### In-memory mode
+### API
 
 ```bash
 cd apps/api
@@ -121,28 +65,7 @@ uvicorn app.main:app --reload
 
 Then open <http://127.0.0.1:8000/docs>.
 
-Run the backend verification suite with:
-
-```bash
-cd apps/api
-source .venv/bin/activate
-pytest
-```
-
-## CI baseline
-
-GitHub Actions now runs a minimal monorepo CI baseline on pull requests and pushes to `main`:
-
-- `apps/api`: install dev dependencies and run `pytest -q`
-- `apps/web`: run `npm ci`, `npm test`, `npm run typecheck`, and `npm run build`
-
-This baseline intentionally skips lint as a required gate for now because linting is not consistently configured across the repo yet. Branch protection / required-status rules still need to be configured in GitHub settings.
-
-Note: if a PR shows a failing `Vercel` status, that status comes from the external GitHub ↔ Vercel integration, not from repo workflows under `.github/workflows/`. See `docs/deployment-netlify-render-neon.md` for the current deployment baseline and the recommended fix path.
-
-### PostgreSQL-backed local dev
-
-Run the API against a local Postgres instance:
+### API against local Postgres
 
 ```bash
 cd apps/api
@@ -156,18 +79,26 @@ uvicorn app.main:app --reload
 
 `python -m app.db bootstrap` applies SQL migrations and seeds one stable sample place so the API works immediately on a fresh database.
 
+### Mobile
+
+```bash
+cd apps/mobile
+cp .env.example .env
+npm install
+npm run dev
+```
+
+See `apps/mobile/README.md` for details.
+
+## CI baseline
+
+GitHub Actions now runs a minimal monorepo CI baseline on pull requests and pushes to `main`:
+
+- `apps/api`: install dev dependencies and run `pytest -q`
+- `apps/mobile`: run `npm install` and `npm run typecheck`
+
+This baseline intentionally skips lint as a required gate for now because linting is not consistently configured across the repo yet. Branch protection / required-status rules still need to be configured in GitHub settings.
+
 ## Status
 
-Project bootstrap complete enough to start the first backend slice.
-
-## Deployment baseline
-
-Recommended deployment split for the MVP:
-
-- Web: Netlify
-- API: Render Blueprint (`render.yaml`)
-- Database: Render Postgres with automatic `DATABASE_URL` injection into the API service
-
-If you prefer Neon instead, you can still point the same API service at a Neon connection string manually.
-
-See `docs/deployment-netlify-render-neon.md` for the concrete baseline.
+Project bootstrap complete enough to continue the API + mobile MVP.

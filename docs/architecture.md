@@ -6,7 +6,6 @@ PawMap should ship as a **mobile-first modular monolith in a monorepo**:
 
 - `apps/mobile` — React Native + Expo (primary user product)
 - `apps/api` — FastAPI
-- `apps/web` — Next.js + TypeScript + Tailwind (internal/admin/demo/fallback)
 - `packages/contracts` — shared API contracts and example payloads
 - PostgreSQL — application data and cached place snapshots
 
@@ -15,15 +14,13 @@ Optimize for **speed to first usable mobile MVP**, not flexibility for hypotheti
 ## 2. Recommended stack
 
 - Primary frontend: React Native + Expo
-- Secondary/internal frontend: Next.js + TypeScript + Tailwind CSS
 - Backend API: FastAPI
 - Database: PostgreSQL
 - Geospatial: plain lat/lng first; add PostGIS only if nearby/map queries become limiting
 - Auth: keep full end-user account flows out of MVP, but require authenticated identity for `POST /reports`
 - Hosting:
   - Render for `apps/api`
-  - Neon-managed PostgreSQL for data storage
-  - web hosting is optional/secondary because `apps/web` is no longer the flagship surface
+  - Expo/EAS for mobile distribution once the shell is stable
 - Place provider: Google Places for MVP, wrapped behind an API provider adapter
 
 ## 3. System overview
@@ -44,9 +41,6 @@ Optimize for **speed to first usable mobile MVP**, not flexibility for hypotheti
    |-- pet_rules
    |-- user_reports
    |-- admin_users (optional/minimal)
-
-[Next.js Web App]
-  -> internal/admin/demo/fallback only
 ```
 
 ## 4. Architectural principles
@@ -55,7 +49,6 @@ Optimize for **speed to first usable mobile MVP**, not flexibility for hypotheti
 - Clients never call the place provider directly
 - Use internal place IDs as canonical IDs
 - Keep implementation modular, but deploy as one API with one primary mobile client
-- Keep the web app as a secondary internal/admin/demo surface
 - Avoid microservices, background workers, and extra infrastructure in MVP
 
 ## 5. Core domains
@@ -79,13 +72,6 @@ Responsibilities:
 - location permission handling
 - deep linking and mobile-first navigation
 
-### `apps/web`
-Responsibilities:
-- internal/admin workflows
-- moderation support
-- QA/demo fallback surface
-- contract verification against the API
-
 ### `apps/api`
 Responsibilities:
 - provider integration
@@ -104,12 +90,6 @@ apps/
     components/
     lib/
     assets/
-
-  web/
-    app/
-    components/
-    lib/
-    public/
 
   api/
     app/
@@ -217,7 +197,6 @@ Contract source of truth lives in `packages/contracts/`, with docs and mocks exp
 Canonical identity rules:
 - internal `place.id` is the app-level API ID
 - external identity is stored as `provider + provider_place_id`
-- web detail routes may use a human-readable slug, but slug is not the canonical API identity
 - do not use provider IDs as the public domain model
 
 ## 11. Deployment baseline
@@ -228,11 +207,6 @@ Canonical identity rules:
 - Required env:
   - mobile API base URL
 
-### Web
-- `apps/web` is optional/secondary and can remain on Netlify only if useful for admin/demo access
-- Required env:
-  - `PAWMAP_API_BASE_URL`
-
 ### API
 - Deploy `apps/api` to Render
 - Required env:
@@ -242,7 +216,7 @@ Canonical identity rules:
   - allowed origins when cross-origin controls are added
 
 ### Database
-- Neon-managed PostgreSQL
+- PostgreSQL
 - plain Postgres first
 - DB migrations from day one
 

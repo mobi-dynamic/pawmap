@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from hashlib import sha1
+
 from app.models import PolicyTrustLevel
+import app.web_source_ingestion as web_source_ingestion
 from app.web_source_ingestion import build_pawmap_record, extract_facts, extract_web_source_record
 
 
@@ -44,3 +47,36 @@ def test_extract_web_source_record_builds_a_pawmap_payload() -> None:
     assert result.trust == "verified"
     assert result.jurisdiction == "Kingston City Council"
     assert result.pawMapRecord["source"]["url"].startswith("https://www.kingston.vic.gov.au")
+
+
+def test_extract_web_source_record_uses_cached_page_before_network(monkeypatch, tmp_path) -> None:
+    url = "https://www.kingston.vic.gov.au/services/pets/dog-ownership"
+    cache_dir = tmp_path / "web_sources"
+    cache_dir.mkdir()
+    cache_path = cache_dir / f"{sha1(url.encode('utf-8')).hexdigest()}.json"
+    cache_path.write_text(
+        '{"title":"Dog ownership - City of Kingston","text":"Dogs must stay on a leash in all public spaces except for designated off leash areas."}'
+    )
+
+    monkeypatch.setattr(web_source_ingestion, "WEB_SOURCE_CACHE_DIR", cache_dir)
+
+    def fail_if_called(*_, **__):
+        raise AssertionError("network should not be hit when a cached snapshot exists")
+
+    monkeypatch.setattr(web_source_ingestion, "urlopen", fail_if_called)
+
+    result = extract_web_source_record(url)
+
+    assert result.sourceTitle == "Dog ownership - City of Kingston"
+    assert result.trust == "verified"
+    assert result.rawText.startswith("Dogs must stay on a leash")
+
+
+def test_extract_web_source_record_marks_pdf_sources() -> None:
+    result = extract_web_source_record(
+        "https://www.kingston.vic.gov.au/files/sharedassets/public/v/2/hptrim/compliance-amenity-enquiries-complaints-local-laws-general/kingston-off-leash-areas-2024.pdf",
+        raw_text="Kingston off leash areas map",
+        title="Kingston off leash areas 2024",
+    )
+
+    assert result.sourceType == "municipal_pdf"

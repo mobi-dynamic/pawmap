@@ -37,12 +37,12 @@ jobs:
       - name: Run API tests
         run: pytest -q
 
-  web:
-    name: Web test, typecheck, and build
+  mobile:
+    name: Mobile typecheck
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/web
+        working-directory: apps/mobile
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -52,16 +52,10 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: apps/web/package-lock.json
+          cache-dependency-path: apps/mobile/package-lock.json
 
-      - name: Install web dependencies
+      - name: Install mobile dependencies
         run: npm ci
 
-      - name: Run web tests
-        run: npm test
-
-      - name: Run web typecheck
+      - name: Run mobile typecheck
         run: npm run typecheck
-
-      - name: Build web app
-        run: npm run build

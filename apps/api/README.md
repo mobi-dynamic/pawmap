@@ -27,10 +27,11 @@ docker compose up --build
 
 Then open:
 
-- Web: <http://127.0.0.1:3000>
 - API docs: <http://127.0.0.1:8000/docs>
 
 The API container runs `python -m app.db bootstrap` on startup, exposes a Compose healthcheck on `/health`, and migrations are tracked in `schema_migrations` so repeated starts stay safe.
+
+The compose file in this repo only brings up API + Postgres now; mobile runs separately.
 
 ### In-memory fallback
 
@@ -70,6 +71,7 @@ The bootstrap helper keeps local setup intentionally small:
 - `python -m app.db ingest-google apps/api/data/google/melbourne-fitzroy-sample.json --geography-slug melbourne-fitzroy` normalizes a geography-scoped Google payload file and upserts canonical `places` + `place_provider_refs` rows
 - `python -m app.db collect-google --geography-slug melbourne-fitzroy --fixture-dir apps/api/data/google/collection-fixtures --out-file /tmp/melbourne-fitzroy.json` builds a bounded launch-geography Google candidate snapshot without requiring live API credentials
 - `python -m app.db collect-google --geography-slug melbourne-fitzroy --ingest` uses live Google Places search when `GOOGLE_PLACES_API_KEY` (or `GOOGLE_MAPS_API_KEY`) is set, writes a collected snapshot, and immediately feeds it into the canonical ingest path
+- Web source snapshots are cache-first: once a Kingston page/PDF snapshot is checked into `apps/api/data/web_sources/`, the helper reuses that local snapshot instead of re-fetching on startup
 
 Seeded local-dev identifiers:
 

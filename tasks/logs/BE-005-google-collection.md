@@ -22,6 +22,8 @@ Add the smallest reviewable Google collection slice for PawMap launch geography 
 - 2026-03-15: Added `collect-google` CLI flow in `app.db` to write reusable JSON snapshots and optionally pass them straight into BE-004 canonical ingest.
 - 2026-03-15: Added checked-in Melbourne/Fitzroy collection fixtures under `apps/api/data/google/collection-fixtures/`.
 - 2026-03-15: Added tests covering fixture-driven collection, cross-query dedupe, and snapshot reuse through the existing ingestion loader.
+- 2026-04-03: Solved the Kingston 403 blocker for web source ingestion by adding a cached-page fallback in `app.web_source_ingestion` and checking in a Kingston snapshot so the verified dog-ownership source can still be ingested when the live site blocks `urllib`.
+- 2026-04-05: Switched web source ingestion to cache-first loading, so the checked-in Kingston snapshot is reused instead of re-fetching live HTML on startup; PDF URLs are now recognized as a distinct source type.
 
 ## Key decisions
 
