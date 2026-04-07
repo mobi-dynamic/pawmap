@@ -14,6 +14,7 @@ Optimize for **speed to first usable mobile MVP**, not flexibility for hypotheti
 ## 2. Recommended stack
 
 - Primary frontend: React Native + Expo
+- Browser surface: Expo Web + Vercel
 - Backend API: FastAPI
 - Database: PostgreSQL
 - Geospatial: plain lat/lng first; add PostGIS only if nearby/map queries become limiting
@@ -71,6 +72,7 @@ Responsibilities:
 - report submission
 - location permission handling
 - deep linking and mobile-first navigation
+- Expo Web browser preview / web deployment target
 
 ### `apps/api`
 Responsibilities:
@@ -206,6 +208,12 @@ Canonical identity rules:
 - Distribution path to be defined around Expo/EAS once the shell is in place
 - Required env:
   - mobile API base URL
+
+### Web
+- Browser surface comes from `apps/mobile` via Expo Web
+- Deploy web exports to Vercel from the same app package
+- Required env:
+  - web API base URL
 
 ### API
 - Deploy `apps/api` to Render

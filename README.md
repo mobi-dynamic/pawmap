@@ -2,6 +2,8 @@
 
 PawMap is a mobile-first app for dog owners to search places quickly and understand pet rules before they go.
 
+The repo now uses **Expo Web** for the browser surface and **Vercel** for web hosting when needed. The main product remains mobile.
+
 ## Product goal
 
 Answer one question fast:
@@ -46,6 +48,7 @@ Answer one question fast:
 ## Planned stack
 
 - Mobile frontend: Expo + React Native
+- Web surface: Expo Web on Vercel
 - Backend: FastAPI
 - Database: PostgreSQL
 - Maps/places: Google Maps Platform / Google Places
@@ -89,6 +92,15 @@ npm run dev
 ```
 
 See `apps/mobile/README.md` for details.
+
+### Web preview
+
+```bash
+cd apps/mobile
+npm run web
+```
+
+For Vercel, use the `apps/mobile` project with `build:web` and `dist` as the output directory.
 
 ## CI baseline
 

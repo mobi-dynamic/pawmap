@@ -11,22 +11,16 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import MapView, { Marker, type MapMarker, type Region } from 'react-native-maps';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { StatusPill } from '@/components/status-pill';
+import { PlaceMap } from '@/components/place-map';
 import { TrustPill } from '@/components/trust-pill';
 import { searchPlaces } from '@/lib/api';
 import { getTrustLevel, getTrustShortNote } from '@/lib/policy-presentations';
 import type { PlaceSummary } from '@/lib/types';
 
 const INITIAL_QUERY = 'park';
-const DEFAULT_REGION: Region = {
-  latitude: -37.8136,
-  longitude: 144.9631,
-  latitudeDelta: 0.12,
-  longitudeDelta: 0.12,
-};
 
 type ViewMode = 'list' | 'map';
 
@@ -34,14 +28,11 @@ export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { height: windowHeight } = useWindowDimensions();
-  const mapRef = useRef<MapView | null>(null);
-  const markerRefs = useRef<Record<string, MapMarker | null>>({});
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [results, setResults] = useState<PlaceSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
-  const [isMapReady, setIsMapReady] = useState(false);
   const [activeQuery, setActiveQuery] = useState(INITIAL_QUERY);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
 
@@ -88,48 +79,12 @@ export default function HomeScreen() {
     (place: PlaceSummary, nextViewMode: ViewMode = 'map') => {
       setSelectedPlaceId(place.id);
       setViewMode(nextViewMode);
-
-      if (!isMapReady || !mapRef.current) {
-        return;
-      }
-
-      markerRefs.current[place.id]?.showCallout();
-      mapRef.current.animateCamera(
-        {
-          center: {
-            latitude: place.lat,
-            longitude: place.lng,
-          },
-          zoom: 14,
-        },
-        { duration: 280 },
-      );
     },
-    [isMapReady],
+    [],
   );
-
-  useEffect(() => {
-    if (!isMapReady || !mapRef.current) {
-      return;
-    }
-
-    if (results.length === 0) {
-      mapRef.current.animateToRegion(DEFAULT_REGION, 300);
-      return;
-    }
-
-    mapRef.current.fitToCoordinates(
-      results.map((place) => ({ latitude: place.lat, longitude: place.lng })),
-      {
-        animated: true,
-        edgePadding: { top: 132, right: 44, bottom: 196, left: 44 },
-      },
-    );
-  }, [isMapReady, results]);
 
   const heroHeight = Math.max(windowHeight - insets.top - 220, 360);
   const isSearchDisabled = isLoading;
-  const loadingMessage = results.length > 0 ? 'Refreshing…' : 'Loading…';
   const hasQuery = query.trim().length > 0;
 
   const clearSearch = useCallback(() => {
@@ -299,54 +254,15 @@ export default function HomeScreen() {
       ) : (
         <View style={styles.mapScreen}>
           <View style={[styles.mapPanel, isMapMode ? styles.mapPanelFullBleed : null]}>
-            <View style={[styles.heroMap, isMapMode ? styles.heroMapFullBleed : null, { minHeight: heroHeight }]}> 
-              <MapView
-                initialRegion={DEFAULT_REGION}
-                mapPadding={{ top: 0, right: 0, bottom: 0, left: 0 }}
-                onMapReady={() => setIsMapReady(true)}
-                ref={mapRef}
-                rotateEnabled={false}
-                showsCompass={false}
-                showsIndoorLevelPicker={false}
-                showsPointsOfInterest={false}
-                style={styles.mapSurface}
-              >
-                {results.map((place) => {
-                  const isSelected = place.id === selectedPlace?.id;
-
-                  return (
-                    <Marker
-                      coordinate={{ latitude: place.lat, longitude: place.lng }}
-                      key={place.id}
-                      onPress={() => focusPlaceOnMap(place, 'map')}
-                      ref={(marker) => {
-                        markerRefs.current[place.id] = marker;
-                      }}
-                      tracksViewChanges={false}
-                    >
-                      <View style={[styles.mapMarker, isSelected ? styles.mapMarkerSelected : null]}>
-                        <Text style={styles.mapMarkerEmoji}>{statusEmoji(place.dogPolicyStatus)}</Text>
-                      </View>
-                    </Marker>
-                  );
-                })}
-              </MapView>
-
-              {isLoading ? <View pointerEvents="none" style={styles.mapLoadingVeil} /> : null}
-
-              {isLoading ? (
-                <View pointerEvents="none" style={styles.mapMessageOverlay}>
-                  <ActivityIndicator color="#2563EB" />
-                  <Text style={styles.mapMessageTitle}>Loading map</Text>
-                </View>
-              ) : null}
-
-              {!isLoading && !error && results.length === 0 ? (
-                <View pointerEvents="none" style={styles.mapMessageOverlay}>
-                  <Text style={styles.mapMessageTitle}>No search results at the moment</Text>
-                  <Text style={styles.mapMessageText}>Try a broader suburb, a nearby landmark, or a simpler query.</Text>
-                </View>
-              ) : null}
+            <View style={[styles.mapFrame, isMapMode ? styles.mapFrameFullBleed : null, { minHeight: heroHeight }]}> 
+              <PlaceMap
+                heroHeight={heroHeight}
+                isLoading={isLoading}
+                onMapReady={() => undefined}
+                onSelectPlace={(place) => focusPlaceOnMap(place, 'map')}
+                results={results}
+                selectedPlaceId={selectedPlace?.id ?? null}
+              />
 
               {error ? (
                 <View pointerEvents="none" style={styles.mapMessageOverlay}>
@@ -391,20 +307,6 @@ export default function HomeScreen() {
   );
 }
 
-function statusEmoji(status: PlaceSummary['dogPolicyStatus']) {
-  switch (status) {
-    case 'allowed':
-      return '🐶';
-    case 'restricted':
-      return '🦮';
-    case 'not_allowed':
-      return '🚫';
-    case 'unknown':
-    default:
-      return '❓';
-  }
-}
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -433,19 +335,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 10,
   },
-  heroMap: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#E2E8F0',
-    borderRadius: 24,
-    borderWidth: 1,
-    flex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  heroMapFullBleed: {
-    borderRadius: 0,
-    borderWidth: 0,
-  },
   mapScreen: {
     flex: 1,
     backgroundColor: '#F3F4F6',
@@ -463,8 +352,18 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
   },
-  mapSurface: {
-    ...StyleSheet.absoluteFillObject,
+  mapFrame: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#E2E8F0',
+    borderRadius: 24,
+    borderWidth: 1,
+    flex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  mapFrameFullBleed: {
+    borderRadius: 0,
+    borderWidth: 0,
   },
   searchRow: {
     flexDirection: 'row',
@@ -598,24 +497,6 @@ const styles = StyleSheet.create({
   viewToggleTextActive: {
     color: '#FFFFFF',
   },
-  heroTopRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  mapWatermark: {
-    backgroundColor: 'rgba(17,24,39,0.62)',
-    borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-  },
-  mapWatermarkText: {
-    color: 'rgba(255,255,255,0.92)',
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.4,
-    textTransform: 'uppercase',
-  },
   emptyStateCard: {
     backgroundColor: 'rgba(255,255,255,0.96)',
     borderColor: 'rgba(226,232,240,0.95)',
@@ -633,32 +514,6 @@ const styles = StyleSheet.create({
     color: '#475569',
     fontSize: 14,
     lineHeight: 20,
-  },
-  mapMarker: {
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderColor: '#BFDBFE',
-    borderRadius: 999,
-    borderWidth: 2,
-    height: 44,
-    justifyContent: 'center',
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.16,
-    shadowRadius: 16,
-    width: 44,
-  },
-  mapMarkerSelected: {
-    borderColor: '#2563EB',
-    transform: [{ scale: 1.12 }],
-  },
-  mapMarkerEmoji: {
-    fontSize: 17,
-  },
-  mapLoadingVeil: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    zIndex: 1,
   },
   mapMessageOverlay: {
     alignItems: 'center',
